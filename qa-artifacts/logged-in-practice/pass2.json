@@ -1,0 +1,298 @@
+{
+  "startedAt": "2026-11-19T10:53:24.795Z",
+  "routes": {
+    "/practice": {
+      "finalUrl": "http://localhost:3000/practice",
+      "bounce": null,
+      "h1": "Choose your mode",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "1",
+        "Sumba",
+        "Build your quiz Curriculum, topics, difficulty — step by step, then generate.",
+        "Quiz me on anything Off the syllabus? Type a topic, paste notes, or upload a PDF"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba PRACTICE Choose your mode AI quizzes, national exam prep, and class work — each with its own flow. Build your quiz Curriculum, topics, difficulty — step by step, then generate. Quiz me on anything Off the syllabus? Type a topic, paste notes, or upload a PDF — we'll work out what to cover. Recall Flashcards on a smart schedule — review what you missed from quizzes. OPEN RECALL Exam prep Cambridge Checkpoint papers, plus the national exams where they are sat. OPEN EXAM PREP Class assignment Open the work your teacher posted in your classrooms. OPEN CLASSES",
+      "screenshot": "clear-practice.png",
+      "bottom": null
+    },
+    "/exam-prep": {
+      "finalUrl": "http://localhost:3000/exam-prep",
+      "bounce": null,
+      "h1": "Exam prep",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "1",
+        "Sumba",
+        "Cambridge Checkpoint Primary and Lower Secondary practice papers"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba Practice PRACTICE Exam prep Sit a real paper under real conditions — Cambridge Checkpoint, and your national exams. STEP 1 Choose your exam Cambridge Checkpoint Primary and Lower Secondary practice papers",
+      "screenshot": "clear-exam-prep.png",
+      "bottom": null
+    },
+    "/progress": {
+      "finalUrl": "http://localhost:3000/progress",
+      "bounce": null,
+      "h1": "Your results",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "7",
+        "Sumba"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": true,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card 123 Total tests 27% AVERAGE Across all subjects 48 Subjects tracked D Latest grade GOING WELL Cambridge Primary Science 5 1 test 100% Completing the square 1 test 90% Literary Devices in Literature 1 test 90% Literature in english 1 test 89% NEEDS WORK Get taught these before you test them again. Cambridge IGCSE and O Level History Study and Revision Guide, Second Study this 57% Physics Study this 54% Cambridge Primary Mathematics 6 Study this 50% Cambridge International AS and A Level English Language Coursebook Study this 48% RECENT RESULTS All (6) Cambridge IGCSE™ Chemistry Workbook with Digital Access (1) Cambridge International AS _ A Level Economics Fourth edition Coursebook ",
+      "screenshot": "clear-progress.png",
+      "bottom": "clear-progress-bottom.png"
+    },
+    "/report-card": {
+      "finalUrl": "http://localhost:3000/report-card",
+      "bounce": null,
+      "h1": "Report Card",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "7",
+        "Sumba",
+        "All",
+        "None",
+        "Nov 16 – Nov 22, 2026 1 test avg 0%",
+        "Cambridge International AS _ A Level Economics Fourth edition Coursebook D Tue, ",
+        "Nov 9 – Nov 15, 2026 1 test avg 6%",
+        "Cambridge Lower Secondary Science 8 Learners Book D Tue, Nov 10 6%",
+        "Nov 2 – Nov 8, 2026 13 tests avg 22%",
+        "MATH S5 SB Core D Sun, Nov 8 17%",
+        "Cambridge International AS and A Level Biology Coursebook D Sat, Nov 7 25%",
+        "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed D Sat, Nov 7 0%",
+        "Cambridge IGCSE™ Chemistry Workbook with Digital Access D Sat, Nov 7 0%",
+        "Cambridge International AS and A Level Biology Coursebook D Sat, Nov 7 0%"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": true,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba GENERATOR Report Card Select assessments below to include in your official report card. ASSESSMENTS123 / 123 SELECTED All None Nov 16 – Nov 22, 2026 1 test avg 0% Cambridge International AS _ A Level Economics Fourth edition Coursebook D Tue, Nov 17 0% Nov 9 – Nov 15, 2026 1 test avg 6% Cambridge Lower Secondary Science 8 Learners Book D Tue, Nov 10 6% Nov 2 – Nov 8, 2026 13 tests avg 22% MATH S5 SB Core D Sun, Nov 8 17% Cambridge International AS and A Level Biology Coursebook D Sat, Nov 7 25% Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed D Sat, Nov 7 0% Cambridge IGCSE™ Chemistry Workbook with Digital Access D Sat, Nov 7 0% Cambridge International AS and A Level Biology Coursebook D Sat, Nov 7 0% Cambridge International AS and A Level Biology Coursebook D Sat, Nov ",
+      "screenshot": "clear-report-card.png",
+      "bottom": "clear-report-card-bottom.png"
+    },
+    "/reports": {
+      "finalUrl": "http://localhost:3000/reports",
+      "bounce": null,
+      "h1": "",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "1",
+        "Sumba"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba This page is for teachers. If you spotted a problem with a question, use the report control on the question itself.",
+      "screenshot": "clear-reports.png",
+      "bottom": null
+    },
+    "/recall": {
+      "finalUrl": "http://localhost:3000/recall",
+      "bounce": null,
+      "h1": "Spaced repetition",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "7",
+        "Sumba"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba Practice RECALL Spaced repetition Cards come back just before you would forget them, and they build themselves from the questions you get wrong. DUE TODAY — 0 cards in your library Take a quiz and the ones you miss land here Just before you forget Cards return on a schedule built around when memory fades, not a fixed timetable. Built from your mistakes Every question you get wrong becomes a card here automatically. Different job to a quiz A quiz finds out what you know. This is what stops you losing it again. YOUR DECKS",
+      "screenshot": "clear-recall.png",
+      "bottom": null
+    },
+    "/recall/review": {
+      "finalUrl": "http://localhost:3000/recall/review",
+      "bounce": null,
+      "h1": "",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "1",
+        "Sumba",
+        "CAMBRIDGE-IGCSE-BIOLOGY-MARRY-JONES-4TH-ED QUESTION Which characteristic is uniq",
+        "Reveal answer"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba Recall 1 / 30 CAMBRIDGE-IGCSE-BIOLOGY-MARRY-JONES-4TH-ED QUESTION Which characteristic is unique to living organisms and distinguishes them from non-living things? Tap card to reveal answer CAMBRIDGE-IGCSE-BIOLOGY-MARRY-JONES-4TH-ED ANSWER Ability to respond to stimuli This question tests the ability to differentiate between characteristics of living organisms. While growth, movement, and reproduction are common to many living organisms, the ability to respond to stimuli is a fundamental characteristic that distinguishes living organisms from non-living things. All living organisms can respond to their environment in some way. Reveal answer",
+      "screenshot": "clear-recall-review.png",
+      "bottom": null
+    },
+    "/settings": {
+      "finalUrl": "http://localhost:3000/settings",
+      "bounce": null,
+      "h1": "Profile & security",
+      "dialogs": [],
+      "clipped": [],
+      "brokenImages": [],
+      "buttons": [
+        "Toggle theme",
+        "1",
+        "Sumba",
+        "Change photo",
+        "Remove"
+      ],
+      "horizontalScroll": false,
+      "mainCanScroll": true,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "body": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba SETTINGS Profile & security Update your profile and password. Your student ID stays your primary identifier. PROFILE PHOTO Your photo Upload a new image or remove it to use the default. Change photo Remove Saved to your account — it follows you to any device you sign in on. PROFILE DETAILS Update your profile Your name, class and subjects. These decide what the dashboard and quiz builder show you first. EMAIL ADDRESS Required for payment receipts and subscription checkout. Your student ID still works for login. FULL NAME COUNTRY 🌍 International / Other 🇳🇬 Nigeria 🇰🇪 Kenya 🇬🇭 Ghana 🇺🇬 Uganda 🇷🇼 Rwanda 🇿🇦 South Africa 🇹🇿 Tanzania 🇪🇹 Ethiopia 🇨🇲 Cameroon 🇸🇳 Senegal 🇿🇲 Zambia 🇿🇼 Zimbabwe Rwanda REB national curriculum & Cambridge · Card or MoM",
+      "screenshot": "clear-settings.png",
+      "bottom": "clear-settings-bottom.png"
+    }
+  },
+  "nav": [
+    {
+      "from": "/practice",
+      "control": "Open Recall",
+      "text": "Recall Flashcards on a smart schedule — review what you missed from quizzes. OPE",
+      "expected": "/recall",
+      "actual": "/recall",
+      "pass": true
+    },
+    {
+      "from": "/practice",
+      "control": "Open exam prep",
+      "text": "Exam prep Cambridge Checkpoint papers, plus the national exams where they are sa",
+      "expected": "/exam-prep",
+      "actual": "/exam-prep",
+      "pass": true
+    },
+    {
+      "from": "/practice",
+      "control": "Open classes",
+      "text": "Class assignment Open the work your teacher posted in your classrooms. OPEN CLAS",
+      "expected": "/classrooms",
+      "actual": "/classrooms",
+      "pass": true
+    },
+    {
+      "from": "/practice",
+      "control": "Sidebar Progress",
+      "text": "Progress",
+      "expected": "/progress",
+      "actual": "/progress",
+      "pass": true
+    },
+    {
+      "from": "/exam-prep",
+      "control": "Back to Practice",
+      "text": "Practice",
+      "expected": "/practice",
+      "actual": "/practice",
+      "pass": true
+    },
+    {
+      "from": "/progress",
+      "control": "Build report card",
+      "text": "Build report card",
+      "expected": "/report-card",
+      "actual": "/report-card",
+      "pass": true
+    },
+    {
+      "from": "/progress",
+      "control": "Start practicing",
+      "text": "Start practicing",
+      "expected": "/practice",
+      "actual": "/practice",
+      "pass": true
+    },
+    {
+      "from": "/report-card",
+      "control": "Sidebar Practice",
+      "text": "Practice",
+      "expected": "/practice",
+      "actual": "/report-card",
+      "pass": false
+    },
+    {
+      "from": "/reports",
+      "control": "Sidebar Progress",
+      "text": "Progress",
+      "expected": "/progress",
+      "actual": "/reports",
+      "pass": false
+    },
+    {
+      "from": "/recall",
+      "control": "Back to Practice",
+      "text": "Practice",
+      "expected": "/practice",
+      "actual": "/practice",
+      "pass": true
+    },
+    {
+      "from": "/recall/review",
+      "control": "Back to Recall",
+      "text": "Recall",
+      "expected": "/recall",
+      "actual": "/recall/review",
+      "pass": true
+    },
+    {
+      "from": "/settings",
+      "control": "Sidebar Practice",
+      "text": "Practice",
+      "expected": "/practice",
+      "actual": "/practice",
+      "pass": true
+    },
+    {
+      "from": "/settings",
+      "control": "Show me around again",
+      "text": "Show me around again",
+      "expected": "/dashboard",
+      "actual": "/dashboard",
+      "pass": true
+    }
+  ],
+  "skip": {
+    "skipButtonsBefore": 0,
+    "clicks": 0,
+    "left": 0,
+    "dialogsAfter": 0
+  },
+  "_err": 0,
+  "finishedAt": "2026-11-19T10:58:09.165Z"
+}

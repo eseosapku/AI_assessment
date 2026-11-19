@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "คุณได้เปิดเว็บไซต์ใน HP Sure Click Secure Browser"
+   },
+   "blockedLinkPageTitle": {
+      "message": "เว็บไซต์นี้อาจโฮสต์ภัยคุกคามที่อาจเกิดขึ้น:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "คุณได้เปิดไฟล์ PDF ใน HP Sure Click Secure Browser"
+   },
+   "blockedPDFPageTitle": {
+      "message": "ไฟล์ PDF จากเว็บไซต์นี้อาจโฮสต์ภัยคุกคามที่อาจเกิดขึ้น:"
+   },
+   "blockedPageContinue": {
+      "message": "ดำเนินการต่อในเบราว์เซอร์นี้"
+   },
+   "blockedPageContinueV2": {
+      "message": "ดำเนินการต่อใน {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "เรียนรู้เพิ่มเติม"
+   },
+   "blockedPageRemember": {
+      "message": "จดจำการตัดสินใจของฉันสำหรับเว็บไซต์นี้"
+   },
+   "blockedPageSecure": {
+      "message": "เปิดใน HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser ช่วยปกป้องพีซีของคุณจากเว็บไซต์และไฟล์ที่ติดมัลแวร์ แรนซัมแวร์ หรือไวรัส"
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "HP Wolf Security ตรวจพบเว็บไซต์ที่ไม่น่าเชื่อถือ"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "HP Wolf Security ตรวจพบเว็บไซต์ที่ไม่สามารถระบุได้"
+   },
+   "contextMenuOpenSecure": {
+      "message": "เปิดใน Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "อายุของไซต์นี้ ({DOMAIN_AGE_DAYS} วัน) ต่ำกว่าเกณฑ์ขั้นต่ำที่กำหนดไว้"
+   },
+   "extDescription": {
+      "message": "ท่องอินเทอร์เน็ตอย่างปลอดภัยด้วย HP Wolf Security"
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "th"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "เว็บไซต์ถูกเปิดใน HP Sure Click Secure Browser"
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "ไฟล์ PDF ได้เปิดใน HP Sure Click Secure Browser แล้ว"
+   },
+   "launchedPageCloseTab": {
+      "message": "ปิดแท็บ"
+   },
+   "launchedPageGoBack": {
+      "message": "ย้อนกลับ"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "รายการนี้ว่างเปล่าในขณะนี้"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "เว็บไซต์ที่อนุญาตให้ป้อนข้อมูลประจำตัว:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "เปิดใช้งานการบันทึกเหตุการณ์"
+   },
+   "optionsPageNoOptions": {
+      "message": "คุณไม่มีตัวเลือกใดๆ ในการกำหนดค่า"
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection ได้ตรวจพบการใช้แบรนด์ที่เชื่อถือได้บนโดเมนหรือเว็บไซต์ที่ไม่เกี่ยวข้อง ซึ่งอาจจะเป็นเว็บไซต์ฟิชชิ่งที่พยายามจะขโมยข้อมูลประจำตัวของคุณ"
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection ได้บล็อกไซต์ใหม่ที่มีอายุต่ำกว่าเกณฑ์อายุขั้นต่ำที่กำหนดไว้"
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection ได้ตรวจพบการใช้แบรนด์ {BRAND} ที่เชื่อถือได้บนโดเมนหรือเว็บไซต์ที่ไม่เกี่ยวข้อง ซึ่งอาจจะเป็นเว็บไซต์ฟิชชิ่งที่พยายามจะขโมยข้อมูลประจำตัวของคุณ"
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection ได้บล็อกเว็บไซต์ฟิชชิงที่รู้จัก"
+   },
+   "overlayBlacklist_Title": {
+      "message": "คำเตือน: การโจรกรรมข้อมูลประจำตัวถูกปิดกั้น"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection ได้ปิดกั้นไฟล์ที่อาจเป็นอันตราย"
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection ได้ปิดกั้นเว็บไซต์ที่ส่งข้อมูลประจำตัวทางอินเทอร์เน็ตโดยไม่มีการเข้ารหัส"
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "คำเตือน: หน้าเข้าสู่ระบบที่ไม่ปลอดภัยถูกปิดกั้น"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "คำเตือน: การโจรกรรมข้อมูลประจำตัวที่อาจเกิดขึ้นถูกปิดกั้น"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection ได้ปิดกั้นเว็บไซต์ที่ไม่รู้จักที่อาจกำลังพยายามขโมยข้อมูลประจำตัวของคุณ"
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "คำเตือน: การโจรกรรมข้อมูลประจำตัวที่อาจเกิดขึ้น"
+   },
+   "overlay_AllowInputButton": {
+      "message": "ฉันเชื่อถือเว็บไซต์นี้ ดำเนินการต่อ"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "กลับสู่ความปลอดภัย"
+   },
+   "overlay_BlameAdmin": {
+      "message": "หากคุณเชื่อว่าสิ่งนี้ไม่ถูกต้อง โปรดติดต่อผู้ดูแลระบบ HP Wolf Security ของคุณ"
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "ดำเนินการต่อโดยปิดใช้งานการเข้าสู่ระบบ"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "ล้างเว็บไซต์"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension จดจำว่าเว็บไซต์ใดที่คุณเลือกให้เข้าถึงอย่างปลอดภัยโดยใช้ HP Sure Click Secure Browser และเว็บไซต์ใดที่คุณเลือกเปิดโดยใช้เบราว์เซอร์เริ่มต้น เลือกปุ่มด้านล่างเพื่อล้างการเลือกเหล่านี้"
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension ถูกปิดใช้งาน"
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security เกิดข้อผิดพลาด โปรดรีสตาร์ทเบราว์เซอร์"
+   },
+   "popupHelpLinkText": {
+      "message": "รับข้อมูลเพิ่มเติม"
+   },
+   "popupMissingHelper": {
+      "message": "ส่วนขยายไม่สามารถเชื่อมต่อกับ HP Wolf Security ได้ โปรดตรวจสอบว่ามีการติดตั้งและเรียกใช้งาน HP Wolf Security เวอร์ชันที่เข้ากันได้แล้ว"
+   },
+   "popupNoError": {
+      "message": "คุณได้รับการปกป้องโดย HP Wolf Security"
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "เปิดหน้าต่าง Secure Browser ใหม่"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click ต้องการเริ่มทำงาน"
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click กำลังรอการกำหนดค่าและถูกปิดใช้งาน"
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click ไม่มีสิทธิ์ใช้งานและถูกปิดใช้งาน"
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "ที่อยู่นี้เป็นของหมวดที่บล็อก: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "ที่อยู่นี้เป็นของหมวดที่บล็อก: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "บล็อกโดย HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "ที่อยู่นี้ไม่ปลอดภัย เนื่องจากเหตุผลต่อไปนี้: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "ที่อยู่นี้ไม่ปลอดภัย"
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "ที่อยู่นี้ไม่ปลอดภัย เนื่องจากเหตุผลต่อไปนี้: {STATUSMSG}"
+   }
+}

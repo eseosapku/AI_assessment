@@ -1,0 +1,103 @@
+{
+  "classrooms": {
+    "path": "/classrooms",
+    "navTop": 755,
+    "spinning": false,
+    "names": [
+      {
+        "t": "Skip to main content",
+        "top": -80,
+        "bottom": -40,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "7",
+        "top": 32,
+        "bottom": 74,
+        "clipped": true,
+        "underNav": false
+      },
+      {
+        "t": "CLASSES",
+        "top": 94,
+        "bottom": 112,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "Your classrooms",
+        "top": 120,
+        "bottom": 168,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "Assignments, deadlines, and teacher posts — one place for each class y",
+        "top": 176,
+        "bottom": 216,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "No classes yet",
+        "top": 441,
+        "bottom": 469,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "When your teacher adds you, your classrooms will show up here.",
+        "top": 477,
+        "bottom": 517,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "Home",
+        "top": 764,
+        "bottom": 836,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "Practice",
+        "top": 764,
+        "bottom": 836,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "LearnSpace",
+        "top": 764,
+        "bottom": 836,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "Gap Maps",
+        "top": 764,
+        "bottom": 836,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "Progress",
+        "top": 764,
+        "bottom": 836,
+        "clipped": false,
+        "underNav": false
+      },
+      {
+        "t": "Classes",
+        "top": 764,
+        "bottom": 836,
+        "clipped": false,
+        "underNav": false
+      }
+    ],
+    "sample": "Skip to main content Welcome back, Sumba 7 CLASSES Your classrooms Assignments, deadlines, and teacher posts — one place for each class you're in. No classes yet When your teacher adds you, your classrooms will show up here. Home Practice LearnSpace Gap Maps Progress Classes"
+  },
+  "practiceTour": false,
+  "fatal": "page.evaluate: TypeError: Cannot read properties of null (reading 'getBoundingClientRect')\n    at eval (eval at evaluate (:311:30), <anonymous>:3:24)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at C:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\follow.mjs:81:29"
+}

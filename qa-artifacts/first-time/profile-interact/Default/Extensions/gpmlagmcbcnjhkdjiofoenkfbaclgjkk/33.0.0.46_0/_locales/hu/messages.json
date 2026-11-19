@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "A webhelyet a(z) HP Sure Click Secure Browser böngészőben nyitotta meg."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Lehetséges, hogy ezen a webhelyen fenyegetések találhatók:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "A PDF-fájlt a(z) HP Sure Click Secure Browser böngészőben nyitotta meg."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Lehetséges, hogy az erről a webhelyről származó PDF-fájlban fenyegetések találhatók:"
+   },
+   "blockedPageContinue": {
+      "message": "Folytatás ezzel a böngészővel"
+   },
+   "blockedPageContinueV2": {
+      "message": "Folytatás a(z) {THIS_BROWSER} böngészővel"
+   },
+   "blockedPageHelpLink": {
+      "message": "További információ"
+   },
+   "blockedPageRemember": {
+      "message": "Jegyezze meg a döntésemet ezen a webhelyen"
+   },
+   "blockedPageSecure": {
+      "message": "Megnyitás a következőben: HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "A(z) HP Sure Click Secure Browser megvédi számítógépét a kártevőket, zsarolóprogramot és vírust tartalmazó webhelyektől és fájloktól."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "A(z) HP Wolf Security nem megbízható webhelyet észlelt"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "A(z) HP Wolf Security azonosítatlan webhelyet észlelt"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Megnyitás a Secure Browserben"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "A webhely a beállított korlátnál újabb ({DOMAIN_AGE_DAYS} nap)."
+   },
+   "extDescription": {
+      "message": "A(z) HP Wolf Security gondoskodik a biztonságos böngészésről."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "hu"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "A webhely a(z) HP Sure Click Secure Browser böngészőben lett megnyitva."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "A PDF-fájl a(z) HP Sure Click Secure Browser böngészőben lett megnyitva."
+   },
+   "launchedPageCloseTab": {
+      "message": "Lap bezárása"
+   },
+   "launchedPageGoBack": {
+      "message": "Visszalépés"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "A lista jelenleg üres"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Webhelyek, ahol a hitelesítő adatok megadása engedélyezett:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Naplózás engedélyezése"
+   },
+   "optionsPageNoOptions": {
+      "message": "Nincs konfigurálási lehetőség."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "A HP AI Credential Protection egy megbízható márka használatát észlelte egy nem kapcsolódó tartományban vagy weboldalon. Előfordulhat, hogy ez egy adathalász oldal, mely megpróbálja ellopni a bejelentkezési adatait."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "A(z) HP Credential Protection letiltott egy, a beállított korlátnál újabb webhelyet."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "A(z) HP Credential Protection a(z) {BRAND} megbízható márka használatát észlelte egy nem kapcsolódó tartományban vagy weboldalon. Előfordulhat, hogy ez egy adathalász oldal, mely megpróbálja ellopni a bejelentkezési adatait."
+   },
+   "overlayBlacklist_Description": {
+      "message": "A(z) HP Credential Protection letiltott egy ismert adathalász webhelyet."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Figyelmeztetés: Hitelesítő adatok ellopása megakadályozva"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "A(z) HP Credential Protection letiltott egy potenciálisan rosszindulatú fájlt."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "A(z) HP Credential Protection letiltott egy webhelyet, amely titkosítás nélkül próbált hitelesítési adatokat továbbítani az interneten."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Figyelmeztetés: Veszélyes bejelentkezési oldal letiltva"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Figyelmeztetés: Hitelesítő adatok potenciális ellopása megakadályozva"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "A(z) HP Credential Protection letiltott egy ismeretlen webhelyet, amely megpróbálhatta ellopni az Ön hitelesítő adatait."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Figyelmeztetés: Hitelesítő adatok potenciális ellopása"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Ez a webhely megbízható, folytatás"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Vissza a biztonságos környezetbe"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Ha úgy gondolja, hogy hiba történt, lépjen kapcsolatba HP Wolf Security-rendszergazdájával."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Folytatás a bejelentkezés letiltásával"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Webhelyek törlése"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "A(z) HP Wolf Security Extension megjegyzi, hogy mely webhelyeket használta biztonságosan, a(z) HP Sure Click Secure Browser böngészővel, és mely webhelyeket nyitotta meg az alapértelmezett böngészővel. A döntései törléséhez kattintson az alábbi gombra."
+   },
+   "popupDisabled": {
+      "message": "A(z) HP Wolf Security Extension ki van kapcsolva."
+   },
+   "popupGenericError": {
+      "message": "A(z) HP Wolf Security hibába ütközött. Indítsa újra a böngészőt."
+   },
+   "popupHelpLinkText": {
+      "message": "További információk"
+   },
+   "popupMissingHelper": {
+      "message": "A bővítmény nem tud csatlakozni a következőhöz: HP Wolf Security. Győződjön meg arról, hogy a(z) HP Wolf Security egy kompatibilis verziója telepítve van és fut."
+   },
+   "popupNoError": {
+      "message": "A(z) HP Wolf Security gondoskodik a védelméről."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Új Secure Browser-ablak megnyitása"
+   },
+   "popupSureClickInitRequired": {
+      "message": "A(z) HP Sure Click terméket inicializálni kell."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "A(z) HP Sure Click konfigurálásra vár, így le lett tiltva."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "A(z) HP Sure Click terméknek nincs licence, így le lett tiltva."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Ez a cím blokkolt kategóriákhoz tartozik: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Ez a cím blokkolt kategóriához tartozik: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "A következő által blokkolva: HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Ez a cím a következő okokból nem biztonságos: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Ez a cím nem biztonságos."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Ez a cím a következő okból nem biztonságos: {STATUSMSG}"
+   }
+}

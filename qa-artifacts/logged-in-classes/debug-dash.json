@@ -1,0 +1,62 @@
+{
+  "nets": [
+    "200 http://localhost:3000/api/referrals/status?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/referrals/status?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/user/onboarding",
+    "200 http://localhost:3000/api/subscription/status?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/next-step?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/next-step?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/studylab/persona?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/studylab/persona?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/referrals/status?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/user/onboarding",
+    "200 http://localhost:3000/api/subscription/status?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/referrals/status?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/next-step?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/next-step?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/studylab/persona?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/studylab/persona?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/dashboard/student?user_id=a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "200 http://localhost:3000/api/classrooms?student_id=a14a382f-07f4-4c48-88d2-7d89d4c71606&student_email=b.sumba%40alustudent.com"
+  ],
+  "facts": {
+    "id": "a14a382f-07f4-4c48-88d2-7d89d4c71606",
+    "keys": [
+      "id",
+      "name",
+      "email",
+      "studentId",
+      "class",
+      "subjects",
+      "role",
+      "country",
+      "educationLevel",
+      "universityCourse",
+      "universityYear",
+      "avatarUrl",
+      "gender",
+      "profileComplete",
+      "authProvider"
+    ],
+    "hrefs": [
+      "#main-content",
+      "/dashboard",
+      "/dashboard",
+      "/practice",
+      "/studylab",
+      "/studylab/gap-map",
+      "/progress",
+      "/classrooms",
+      "/settings",
+      "/progress",
+      "/dashboard",
+      "/practice",
+      "/studylab",
+      "/studylab/gap-map",
+      "/progress",
+      "/classrooms"
+    ],
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n7\nSumba\nYOUR CURRICULUM, YOUR PACE\nBuild an assessment and find your gaps\nCreate assessment\n\n1 quiz this week · 0% avg · plenty to work on — one at a time\n\nYour recent quizzes\n\nOpen one to see every question and why each answer was marked the way it was.\n\nAll progress\n\nNothing to review yet\n\nFinished quizzes land here, so you can go back over the questions you got wrong.\n\nTake your first quiz\nSumba\nNo quizzes yet\nWorth going over\n\nTopics you've been getting wrong. Tap one to get a lesson built on it.\n\nLaptop and Portable Devices Cleaning Procedures\n\nFinal Computer Science With Stamp · 0%\n\nStudy\n\nArray of elements in data structure\n\nFinal Computer Science With Stamp · 0%\n\nStudy\n\nComputer Network Concept and Technology\n\nFinal Computer Science With Stamp · 0%\n\nStudy\n\nDifferent area where database can be applied\n\nFinal Computer Science With Stamp · 0%\n\nStudy",
+    "nextErr": "portal"
+  }
+}

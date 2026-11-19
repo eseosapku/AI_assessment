@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "您已開啟 HP Sure Click Secure Browser 中的網站。"
+   },
+   "blockedLinkPageTitle": {
+      "message": "此網站可能存在潛在威脅:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "您已開啟 HP Sure Click Secure Browser 中的 PDF 檔案。"
+   },
+   "blockedPDFPageTitle": {
+      "message": "來自此網站的 PDF 檔案可能存在潛在威脅:"
+   },
+   "blockedPageContinue": {
+      "message": "在此瀏覽器中繼續"
+   },
+   "blockedPageContinueV2": {
+      "message": "在 {THIS_BROWSER} 中繼續"
+   },
+   "blockedPageHelpLink": {
+      "message": "深入瞭解"
+   },
+   "blockedPageRemember": {
+      "message": "記住我針對此網站做出的決定"
+   },
+   "blockedPageSecure": {
+      "message": "在 HP Sure Click Secure Browser 中開啟"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser 可協助保護電腦，免於遭受已感染惡意軟體、勒索軟體或病毒的網站及檔案的侵害。"
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "HP Wolf Security 已偵測到未受信任的網站"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "HP Wolf Security 已偵測到無法辨識的網站"
+   },
+   "contextMenuOpenSecure": {
+      "message": "在 Secure Browser 中開啟"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "此網站的年齡 ({DOMAIN_AGE_DAYS} days) 低於所配置的最低值。"
+   },
+   "extDescription": {
+      "message": "透過 HP Wolf Security 進行安全網際網路瀏覽。"
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "zh-TW"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "已在 HP Sure Click Secure Browser 內開啟網站。"
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "已在 HP Sure Click Secure Browser 內開啟 PDF 檔案。"
+   },
+   "launchedPageCloseTab": {
+      "message": "關閉索引標籤"
+   },
+   "launchedPageGoBack": {
+      "message": "返回"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "此清單目前空白"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "允許認證項目的網站:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "啟用記錄"
+   },
+   "optionsPageNoOptions": {
+      "message": "您沒有任何可設定的選項。"
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection 已偵測到可信任品牌被用在不相關的網域或網站上。這可能是一個試圖竊取您的認證的網路釣魚網站。"
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection 已封鎖了低於所配置的最低年齡臨界值的新網站。"
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection 已偵測到可信任品牌 {BRAND} 被用在不相關的網域或網站上。這可能是一個試圖竊取您的認證的網路釣魚網站。"
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection 已封鎖已知的網路釣魚網站。"
+   },
+   "overlayBlacklist_Title": {
+      "message": "警告: 已遏止認證竊取"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection 已封鎖潛在的惡意檔案。"
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection 已禁止網站在未經加密的情況下透過網際網路傳送認證。"
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "警告: 已封鎖不安全的登入網頁"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "警告: 已遏止潛在的認證竊取"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection 已封鎖可能試圖竊取認證的不明網站。"
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "警告: 潛在的認證竊取"
+   },
+   "overlay_AllowInputButton": {
+      "message": "我信任此網站，請繼續"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "返回到安全狀態"
+   },
+   "overlay_BlameAdmin": {
+      "message": "若您確信這並不正確，請聯絡 HP Wolf Security 管理員。"
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "在停用登入的情況下繼續"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "清除網站"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension 會記住您選擇使用 HP Sure Click Secure Browser 進行安全存取的網站，以及您選擇使用預設瀏覽器開啟的網站。選取下方按鈕以清除這些選項。"
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension 已停用。"
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security 發生錯誤。請重新啟動瀏覽器。"
+   },
+   "popupHelpLinkText": {
+      "message": "取得更多資訊"
+   },
+   "popupMissingHelper": {
+      "message": "擴充功能無法與 HP Wolf Security 連線。請確認是否已安裝並正在執行相容的 HP Wolf Security 版本。"
+   },
+   "popupNoError": {
+      "message": "您目前已受到 HP Wolf Security 保護。"
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "開啟新的 Secure Browser 視窗"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click 需要初始化。"
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click 現正等候組態並已經停用。"
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click 未獲授權並已經停用。"
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "此位址屬於多個已封鎖的類別： {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "此位址屬於一個已封鎖的類別： {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "已遭到 HP Wolf URL Filtering 封鎖"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "此位址不安全，原因如下: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "此位址不安全。"
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "此位址不安全，原因如下: {STATUSMSG}"
+   }
+}

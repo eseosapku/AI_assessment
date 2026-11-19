@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ArrowRight, Calendar, RotateCcw, Sparkles } from 'lucide-react'
 import { subjectArt } from '@/lib/studio/subjectArt'
-import { subjectLabelText } from '@/lib/subject-label'
+import { quizDisplayTitle } from '@/lib/quiz-display-title'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
 
 interface Assessment {
@@ -105,7 +105,7 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
       />
       {/* Gradient header (colored by grade) with topic + subject art */}
       <div className="relative flex h-[68px] items-center px-4 text-white" style={{ background: cfg.grad }}>
-        <span className="rounded-full bg-white/25 px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide backdrop-blur-sm">
+        <span className="max-w-[calc(100%-68px)] truncate rounded-full bg-white/25 px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide backdrop-blur-sm">
           {assessment.topic || 'Assessment'}
         </span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -118,7 +118,7 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
       </div>
 
       <div className="p-4">
-        <h3 className="line-clamp-2 min-h-[2.4em] text-[14.5px] font-extrabold leading-snug text-ss-ink">{subjectLabelText(assessment.subject)}</h3>
+        <h3 className="line-clamp-2 min-h-[2.4em] text-[14.5px] font-extrabold leading-snug text-ss-ink">{quizDisplayTitle(assessment.subject)}</h3>
         {/* An attempt ended by the proctor still shows its score, but has to
             say why that score is not in the average — otherwise the number
             and the average silently disagree. */}

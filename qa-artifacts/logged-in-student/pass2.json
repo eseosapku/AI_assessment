@@ -1,0 +1,98 @@
+[
+  {
+    "requested": "/dashboard",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--dashboard.png",
+    "earlyFile": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--dashboard-while-empty.png",
+    "href": "http://localhost:3000/dashboard",
+    "dialogs": [],
+    "portal": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LIC",
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\nYOUR CURRICULUM, YOUR PACE\nBuild an assessment and find your gaps\nCreate assessment\nYour recent quizzes\n\nOpen one to see every question and why each answer was marked the way it was.\n\nAll progress\n\nNothing to review yet\n\nFinished quizzes land here, so you can go back over the questions you got wrong.\n\nTake your first quiz\nSumba\nNo quizzes yet",
+    "console": [],
+    "network": [],
+    "waitedMs": 1041
+  },
+  {
+    "requested": "/recall",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--recall.png",
+    "earlyFile": null,
+    "href": "http://localhost:3000/recall",
+    "dialogs": [],
+    "portal": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LIC",
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\nPractice\n\nRECALL\n\nSpaced repetition\n\nCards come back just before you would forget them, and they build themselves from the questions you get wrong.\n\nDUE TODAY\n\n—\n\n0 cards in your library\n\nTake a quiz and the ones you miss land here\n\nJust before you forget\n\nCards return on a schedule built around when memory fades, not a fixed timetable.\n\nBuilt from your mistakes\n\nEvery question you get wrong becomes a card here automatically.\n\nDifferent job to a quiz\n\nA quiz finds out what you know. This is what stops you losing it again.\n\nYOUR DECKS",
+    "console": [],
+    "network": [],
+    "waitedMs": 1657
+  },
+  {
+    "requested": "/progress",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--progress.png",
+    "earlyFile": null,
+    "href": "http://localhost:3000/progress",
+    "dialogs": [],
+    "portal": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LIC",
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\n\nPROGRESS\n\nYour results\n\nEvery test, subject and grade in one place.\n\nBuild report card\n—\nTotal tests\n—\nAVERAGE\nAcross all subjects\n—\nSubjects tracked\n—\nLatest grade\n\nRECENT RESULTS\n\nNo results yet\n\nStart practicing",
+    "console": [],
+    "network": [],
+    "waitedMs": 870
+  },
+  {
+    "requested": "/report-card",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--report-card.png",
+    "earlyFile": null,
+    "href": "http://localhost:3000/report-card",
+    "dialogs": [],
+    "portal": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LIC",
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\n\nGENERATOR\n\nReport Card\n\nSelect assessments below to include in your official report card.\n\nLoading assessments…",
+    "console": [],
+    "network": [],
+    "waitedMs": 1582
+  },
+  {
+    "requested": "/studylab",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--studylab.png",
+    "earlyFile": null,
+    "href": "http://localhost:3000/studylab",
+    "dialogs": [],
+    "portal": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LIC",
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\nWhat do you want to learn?\nBuild my lesson\nHomework help\n\nThe narrower the better: “why leaves are green” gets you an answer, “photosynthesis” a tour. Kana shows you around in your first lesson.",
+    "console": [],
+    "network": [],
+    "waitedMs": 1695
+  },
+  {
+    "requested": "/studylab/gap-map",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--studylab-gap-map.png",
+    "earlyFile": null,
+    "href": "http://localhost:3000/studylab/gap-map",
+    "dialogs": [],
+    "portal": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LIC",
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba",
+    "console": [],
+    "network": [],
+    "waitedMs": 7270
+  },
+  {
+    "requested": "/settings",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--settings.png",
+    "earlyFile": null,
+    "href": "http://localhost:3000/settings",
+    "dialogs": [],
+    "portal": "",
+    "text": "",
+    "console": [],
+    "network": [],
+    "waitedMs": 20746
+  },
+  {
+    "requested": "/classrooms",
+    "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/pass2--classrooms.png",
+    "earlyFile": null,
+    "href": "http://localhost:3000/classrooms",
+    "dialogs": [],
+    "portal": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LIC",
+    "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\n\nCLASSES\n\nYour classrooms\n\nAssignments, deadlines, and teacher posts — one place for each class you're in.",
+    "console": [],
+    "network": [],
+    "waitedMs": 18826
+  }
+]

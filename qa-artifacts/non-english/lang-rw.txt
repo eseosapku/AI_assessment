@@ -1,0 +1,13 @@
+﻿URL=http://localhost:3000/
+htmlLang=en nav=rw langs=rw
+h1=Stuck on something? We'll build you a way through it.
+buttons=Toggle theme | Sign in | Get started | Get started free | Try StudyLab free | Set up a classroom | Start learning free | Get started free
+URL=http://localhost:3000/signup
+htmlLang=en nav=rw langs=rw
+h1=Start studying 
+smarter today.
+buttons=Toggle theme | Student | Teacher | School | University | Create Student Account
+URL=http://localhost:3000/forgot-password
+htmlLang=en nav=rw langs=rw
+h1=Forgot password?
+buttons=Toggle theme | Send verification code

@@ -20,7 +20,13 @@ export async function GET(
       SELECT r.*,
              a.subject AS assessment_subject,
              a.difficulty AS assessment_difficulty,
-             a.questions_data AS assessment_questions_data
+             a.questions_data AS assessment_questions_data,
+             (SELECT assigned.title
+                FROM assignment_results ar
+                JOIN assignments assigned ON assigned.id = ar.assignment_id
+               WHERE ar.result_id = r.id
+               ORDER BY ar.completed_at DESC NULLS LAST
+               LIMIT 1) AS assignment_title
       FROM results r
       LEFT JOIN assessments a ON a.id = r.assessment_id
       WHERE r.id = $1

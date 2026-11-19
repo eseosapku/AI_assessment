@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Atidarėte svetainę HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Šioje svetainėje gali būti potencialių grėsmių:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "PDF failą atidarėte HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Svetainėje esančiame PDF faile gali būti potencialių grėsmių:"
+   },
+   "blockedPageContinue": {
+      "message": "Tęsti šioje naršyklėje"
+   },
+   "blockedPageContinueV2": {
+      "message": "Tęsti {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Sužinoti daugiau"
+   },
+   "blockedPageRemember": {
+      "message": "Įsiminti mano sprendimą dėl šios svetainės"
+   },
+   "blockedPageSecure": {
+      "message": "Atidaryti HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser padeda apsaugoti kompiuterį nuo kenkėjiškomis programomis, išpirkos reikalaujančiomis programomis ar virusais užkrėstų svetainių ir failų."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "HP Wolf Security aptikta nepatikima svetainė"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "HP Wolf Security aptikta neatpažinta svetainė"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Atidaryti „Secure Browser“ naršyklėje"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Šios svetainės amžiaus cenzas ({DOMAIN_AGE_DAYS} dienų) nesiekia nustatyto minimumo."
+   },
+   "extDescription": {
+      "message": "Saugus naršymas internete naudojant HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "lt"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Svetainė buvo atidaryta HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "PDF failas buvo atidarytas HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Uždaryti kortelę"
+   },
+   "launchedPageGoBack": {
+      "message": "Atgal"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Sąrašas šiuo metu tuščias"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Svetainės, į kurias leidžiama įvesti prisijungimo duomenis:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Įjungti įrašymą"
+   },
+   "optionsPageNoOptions": {
+      "message": "Neturite jokių konfigūravimo parinkčių."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "„HP AI Credential Protection“ nustatė, kad nesusijusiame domene ar interneto svetainėje naudojamas patikimas prekės ženklas. Tai gali būti sukčiavimo svetainė, bandanti pavogti jūsų prisijungimo duomenis."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection užblokavo naują svetainę, kuri neatitinka sukonfigūruotos minimalios amžiaus ribos."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection nustatė, kad nesusijusiame domene ar interneto svetainėje naudojamas patikimas prekės ženklas {BRAND}. Tai gali būti sukčiavimo svetainė, bandanti pavogti jūsų prisijungimo duomenis."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection užblokavo žinomą sukčiavimo svetainę."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Įspėjimas. Užblokuota prisijungimo duomenų vagystė"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection užblokavo potencialiai kenkėjišką failą."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection užblokavo svetainę, internetu siunčiančią prsisijungimo duomenis be šifravimo."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Įspėjimas. Užblokuotas nesaugus prisijungimo puslapis"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Įspėjimas. Užblokuota potenciali prsisijungimo duomenų vagystė"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection užblokavo nežinomą svetainę, kuri gali bandyti pavogti jūsų prisijungimo duomenis."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Įspėjimas. Potenciali prisijungimo duomenų vagystė"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Pasitikiu šia svetaine, tęsti"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Atgal į saugą"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Jei manote, kad tai neteisinga, kreipkitės į HP Wolf Security administratorių."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Tęsti su išjungtu prisijungimu"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Saugios svetainės"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension įsimena, kurias svetaines pasirinkote saugiai atverti naudodami HP Sure Click Secure Browser ir kurias svetaines pasirinkote atverti naudodami numatytąją naršyklę. Norėdami ištrinti šiuos pasirinkimus, spauskite toliau esantį mygtuką."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension yra išjungtas."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security susidūrė su klaida. Paleiskite naršyklę iš naujo."
+   },
+   "popupHelpLinkText": {
+      "message": "Gauti daugiau informacijos"
+   },
+   "popupMissingHelper": {
+      "message": "Plėtinys negali prisijungti prie HP Wolf Security. Patikrinkite, ar įdiegta ir veikia suderinama HP Wolf Security versija."
+   },
+   "popupNoError": {
+      "message": "Jus saugo HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Atidaryti naują „Secure Browser“ naršyklės langą"
+   },
+   "popupSureClickInitRequired": {
+      "message": "Reikia inicijuoti HP Sure Click."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click laukia konfigūravimo ir yra išjungtas."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click yra nelicencijuotas ir išjungtas."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Šis adresas priklauso užblokuotoms kategorijoms: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Šis adresas priklauso užblokuotai kategorijai: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Užblokuota HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Šis adresas nesaugus dėl šių priežasčių: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Šis adresas nesaugus."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Šis adresas nesaugus dėl šios priežasties: {STATUSMSG}"
+   }
+}

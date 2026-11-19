@@ -57,7 +57,7 @@ function ModeCard({ mode, onModal }: { mode: Mode; onModal: () => void }) {
   const Icon = mode.icon
   const inner = (
     <div className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-ss-line bg-ss-panel text-left transition-all hover:-translate-y-1 hover:shadow-ss-panel">
-      <div className="relative h-28 overflow-hidden" style={{ background: mode.gradient }}>
+      <div className="relative h-20 overflow-hidden sm:h-28" style={{ background: mode.gradient }}>
         {mode.art ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={mode.art} alt="" aria-hidden className="absolute right-3 top-1/2 h-[94%] -translate-y-1/2 object-contain drop-shadow-lg" />
@@ -68,10 +68,10 @@ function ModeCard({ mode, onModal }: { mode: Mode; onModal: () => void }) {
           <Icon className="h-[18px] w-[18px]" strokeWidth={1.9} />
         </div>
       </div>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
         <h2 className="text-[18px] font-extrabold text-ss-ink">{mode.title}</h2>
-        <p className="mt-1.5 flex-1 text-[13.5px] font-semibold text-ss-slate">{mode.blurb}</p>
-        <span className="mt-4 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-wider text-ss-accent">
+        <p className="mt-1.5 line-clamp-2 flex-1 text-[13.5px] font-semibold text-ss-slate">{mode.blurb}</p>
+        <span className="mt-3 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-wider text-ss-accent sm:mt-4">
           {mode.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </span>
       </div>
@@ -105,7 +105,7 @@ export default function PracticeHub() {
 
   return (
     <div>
-      <header className="mb-7 max-w-2xl">
+      <header className="mb-5 max-w-2xl sm:mb-7">
         <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-ss-accent">Practice</p>
         <h1 className="mt-2 text-[32px] font-extrabold tracking-tight text-ss-ink">
           Choose your <span className="text-ss-accent">mode</span>
@@ -118,7 +118,7 @@ export default function PracticeHub() {
         type="button"
         onClick={() => openForm('curriculum')}
         data-tour="practice-build"
-        className="group relative mb-5 flex w-full items-center gap-5 overflow-hidden rounded-[24px] p-7 text-left text-white"
+        className="group relative mb-4 flex w-full items-center gap-4 overflow-hidden rounded-[24px] p-5 text-left text-white sm:mb-5 sm:gap-5 sm:p-7"
         style={{ background: 'linear-gradient(115deg,#0C74B4,#0E94D6 52%,#2ACBF2)' }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -140,7 +140,7 @@ export default function PracticeHub() {
         type="button"
         onClick={() => openForm('custom')}
         data-tour="practice-custom"
-        className="group mb-5 flex w-full items-center gap-4 rounded-[20px] border border-dashed border-ss-line bg-[color:var(--ss-accent)]/5 p-5 text-left transition-colors hover:border-ss-accent hover:bg-[color:var(--ss-accent)]/10"
+        className="group mb-4 flex w-full items-center gap-3 rounded-[20px] border border-dashed border-ss-line bg-[color:var(--ss-accent)]/5 p-4 text-left transition-colors hover:border-ss-accent hover:bg-[color:var(--ss-accent)]/10 sm:mb-5 sm:gap-4 sm:p-5"
       >
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[color:var(--ss-accent)]/15 text-ss-accent">
           <Wand2 className="h-5 w-5" />

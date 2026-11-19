@@ -59,6 +59,7 @@ export function useStudentDashboard(user: DashboardUser | null) {
       setStats({ total: 0, avgScore: 0 })
       setSubjectAverages([])
       setDailyUsed(0)
+      await refreshClassrooms()
       setLoading(false)
       return
     }
@@ -74,9 +75,9 @@ export function useStudentDashboard(user: DashboardUser | null) {
         setDailyUsed(json.data?.dailyUsed ?? 0)
       }
     } finally {
+      await refreshClassrooms()
       setLoading(false)
     }
-    await refreshClassrooms()
   }, [user, refreshClassrooms])
 
   useEffect(() => {

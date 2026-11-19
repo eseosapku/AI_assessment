@@ -19,8 +19,8 @@ const ALL = [...FINDS, ...NEXTS]
 const nameOf = (c: LifeConfig) => JSON.stringify(c)
 /** The names of the stages a card can ask for, which nothing may say before marking. */
 const NAMES: Record<string, RegExp[]> = {
-  caterpillar: [/caterpillar/i, /larva/i], chrysalis: [/chrysalis/i, /pupa/i, /cocoon/i], tadpole: [/tadpole/i], froglet: [/froglet/i],
-  germination: [/germinat/i], seedling: [/seedling/i], adult: [/adult/i], seeds: [/seed head/i], dispersal: [/dispersal/i],
+  caterpillar: [/caterpillar/i, /\blarva/i], chrysalis: [/chrysalis/i, /\bpupa/i, /cocoon/i], tadpole: [/tadpole/i], froglet: [/froglet/i],
+  germination: [/germinat/i], seedling: [/seedling/i], adult: [/\badult/i], seeds: [/seed head/i], dispersal: [/dispersal/i],
 }
 const stageAt = (life: (typeof LIVES)[number], i: number) => LIFE[life].moments[i].stage
 const render = (config: LifeConfig, state: LifeState, marked: 'idle' | 'right' | 'wrong' | 'shown' = 'idle', reduced = true) =>

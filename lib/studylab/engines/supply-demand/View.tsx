@@ -331,7 +331,9 @@ function ControlScene({ config, state, setState, marked, locked }: Props) {
   const task = config.task as ControlTask
   const level = controlPrice(task)
   const base = equilibrium(0, 0)
-  const price = readPrice(state?.price) ?? base.price
+  // Start the control on the price named by the question. Starting it at the
+  // equilibrium made a $4 prompt visibly claim that its line was at $6.
+  const price = readPrice(state?.price) ?? level
   const answer = state?.answer === 'shortage' || state?.answer === 'surplus' || state?.answer === 'none' ? state.answer : null
   const size = typeof state?.size === 'number' && Number.isInteger(state.size) ? clamp(state.size, 0, VIEW.max) : 0
   const grid = useGridPointer()

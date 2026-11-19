@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "פתחת את האתר ב-HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "אתר זה יכול לארח איומים פוטנציאליים‎:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "פתחת את קובץ ה-‎ PDFב-HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "קובץ ה-‎ PDFמאתר זה יכול לארח איומים פוטנציאליים‎:"
+   },
+   "blockedPageContinue": {
+      "message": "המשך בדפדפן זה"
+   },
+   "blockedPageContinueV2": {
+      "message": "המשך ב-‎{THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "מידע נוסף"
+   },
+   "blockedPageRemember": {
+      "message": "זכור את ההחלטה שלי עבור האתר הזה"
+   },
+   "blockedPageSecure": {
+      "message": "פתח ב-HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser עוזר להגן על המחשב שלך מפני אתרים וקבצים נגועים בתוכנות זדוניות, תוכנות כופר או וירוסים‎."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "אתר לא אמין זוהה על ידיHP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "אתר לא מזוהה זוהה על ידיHP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "פתח ב-Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "הגיל של אתר זה ({DOMAIN_AGE_DAYS} ימים) נמוך מהמינימום שהוגדר."
+   },
+   "extDescription": {
+      "message": "גלישה בטוחה באינטרנט עםHP Wolf Security ‎."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "he"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "האתר נפתח ב-HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "קובץ ה-‎ PDFנפתח ב-HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "סגור כרטיסייה"
+   },
+   "launchedPageGoBack": {
+      "message": "חזור"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "רשימה זו ריקה כעת"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "אתרים שבהם מותרת הזנת אישורים‎:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "אפשר רישום ביומן"
+   },
+   "optionsPageNoOptions": {
+      "message": "אין לך אפשרויות להגדיר‎."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "התכונה 'הגנת אישורים באמצעות AI' של HP זיהתה שימוש במותג מהימן בדומיין או באתר אינטרנט שאינם קשורים. ייתכן שזה אתר דיוג שמנסה לגנוב את האישורים שלך."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection חסם אתר חדש שנמצא מתחת לסף הגיל המינימלי שהוגדר."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection זיהה שימוש במותג מהימן {BRAND} בדומיין או באתר שאינם קשורים. ייתכן שזה אתר דיוג שמנסה לגנוב את האישורים שלך."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection חסם אתר דיוג ידוע"
+   },
+   "overlayBlacklist_Title": {
+      "message": "אזהרה: גניבת אישורים נחסמה"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection חסם קובץ שעלול להיות זדוני‎."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection חסם אתר השולח אישורים דרך האינטרנט ללא הצפנה‎."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "אזהרה: דף התחברות לא מאובטח נחסם"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "אזהרה: גניבת אישורים פוטנציאלית נחסמה"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "‎ HP Credential Protectionחסם אתר לא ידוע שעלול לנסות לגנוב את האישורים שלך‎."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "אזהרה: גניבת אישורים אפשרית"
+   },
+   "overlay_AllowInputButton": {
+      "message": "אני נותן אמון באתר הזה, המשך"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "חזרה למקום בטוח"
+   },
+   "overlay_BlameAdmin": {
+      "message": "אם אתה סבור שזה שגוי, צור קשר עם מנהל המערכת שלך ב-HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "המשך כשהכניסה מושבתת"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "אתרים נקיים"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension זוכר לאילו אתרים בחרת לגשת בבטחה באמצעות‎ HP Sure Click Secure Browser ואילו אתרים בחרת לפתוח באמצעות דפדפן ברירת המחדל‎. בחר בלחצן למטה כדי לנקות אפשרויות אלה‎."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension מושבת‎."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security נתקל בשגיאה‎. הפעל מחדש את הדפדפן."
+   },
+   "popupHelpLinkText": {
+      "message": "קבל מידע נוסף"
+   },
+   "popupMissingHelper": {
+      "message": "התוסף לא יכול להתחבר ל-HP Wolf Security. בדוק שגרסה תואמת של‎ HP Wolf Security ‎הותקנה ופועלת‎."
+   },
+   "popupNoError": {
+      "message": "אתה מוגן על ידיHP Wolf Security ‎."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "פתח חלון Secure Browser חדש"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click דורש אתחול‎."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click ממתין להגדרה והושבת‎."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click אינו מורשה והושבת‎."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "כתובת זו שייכת לקטגוריות חסומות: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "כתובת זו שייכת לקטגוריה חסומה: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "נחסם ע\"י HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "כתובת זו אינה בטוחה מהסיבות הבאות: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "כתובת זו אינה בטוחה."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "כתובת זו אינה בטוחה מהסיבה הבאה: {STATUSMSG}"
+   }
+}

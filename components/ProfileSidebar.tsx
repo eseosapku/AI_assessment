@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { X, BookOpen, LogOut, Settings, Sparkles } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import { useEffect, useState } from 'react'
 import { useSubscription } from './SubscriptionProvider'
 import Avatar from './studio/Avatar'
 import { useDialogBehavior } from '@/components/ui/Modal'
@@ -19,6 +20,22 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
   const { ref, dialogProps } = useDialogBehavior({ open: isOpen, onClose, labelledBy: 'profile-sidebar-title' })
   const { user, logout } = useAuth()
   const { snapshot, openPaywall } = useSubscription()
+  const [classNames, setClassNames] = useState<string[]>([])
+
+  useEffect(() => {
+    if (!isOpen || (!user?.id && !user?.email)) return
+    let cancelled = false
+    const params = new URLSearchParams()
+    if (/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(user.id ?? '')) params.set('student_id', user.id)
+    if (user.email) params.set('student_email', user.email)
+    fetch(`/api/classrooms?${params.toString()}`)
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((json) => {
+        if (!cancelled) setClassNames((json.data ?? []).map((room: { name?: string }) => room.name).filter(Boolean))
+      })
+      .catch(() => { if (!cancelled) setClassNames([]) })
+    return () => { cancelled = true }
+  }, [isOpen, user?.email, user?.id])
 
   if (!user) return null
 
@@ -32,7 +49,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm z-40"
+            className="fixed inset-0 z-[89] bg-black bg-opacity-20 backdrop-blur-sm"
           />
 
           {/* Sidebar */}
@@ -43,7 +60,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             ref={ref}
             {...dialogProps}
-            className="fixed right-0 top-0 bottom-0 w-full sm:w-96 glass dark:glass-dark z-50 p-6 sm:p-8 overflow-y-auto"
+            className="fixed bottom-0 right-0 top-0 z-[90] w-full overflow-y-auto p-6 glass dark:glass-dark sm:w-96 sm:p-8"
           >
             <div className="flex justify-between items-center mb-6 sm:mb-8">
               <h2 id="profile-sidebar-title" className="text-xl sm:text-2xl font-semibold">Profile</h2>
@@ -68,7 +85,11 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
               <div className="text-center">
                 <h3 className="text-lg sm:text-xl font-semibold mb-1">{user.name}</h3>
                 <p className="text-apple-dark-gray text-xs sm:text-sm">ID: {user.studentId || '—'}</p>
-                <p className="text-apple-dark-gray text-xs sm:text-sm mt-1">{user.class}</p>
+                <p className="mt-1 text-xs text-apple-dark-gray sm:text-sm">
+                  {classNames.length > 0
+                    ? `Classes: ${classNames.join(' · ')}`
+                    : String(user.class ?? '').replace(/([A-Za-z])(\d)/g, '$1 $2')}
+                </p>
               </div>
 
               {/* Enrolled Subjects */}

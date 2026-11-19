@@ -1,0 +1,384 @@
+{
+  "host": "http://localhost:3000",
+  "startedAt": "2026-11-19T10:41:55.932Z",
+  "phases": {
+    "login": {
+      "result": "settled",
+      "href": "http://localhost:3000/dashboard",
+      "path": "/dashboard",
+      "title": "",
+      "signedIn": true,
+      "email": "b.sumba@alustudent.com",
+      "role": "student",
+      "spinners": [],
+      "dialogs": [],
+      "hasSignInButton": false,
+      "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet",
+      "screenshot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\01-after-login.png"
+    },
+    "refreshSamples": [
+      {
+        "atMs": 422,
+        "href": "http://localhost:3000/",
+        "path": "/",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [
+          {
+            "w": 53,
+            "h": 53,
+            "shown": true,
+            "cls": "h-12 w-12 animate-spin rounded-full border-2 border-brand-blue border-t-transparent"
+          }
+        ],
+        "dialogs": [],
+        "hasSignInButton": false,
+        "text": ""
+      },
+      {
+        "atMs": 1542,
+        "href": "http://localhost:3000/",
+        "path": "/",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [
+          {
+            "w": 67,
+            "h": 67,
+            "shown": true,
+            "cls": "h-12 w-12 animate-spin rounded-full border-2 border-brand-blue border-t-transparent"
+          }
+        ],
+        "dialogs": [],
+        "hasSignInButton": false,
+        "text": ""
+      },
+      {
+        "atMs": 4161,
+        "href": "http://localhost:3000/",
+        "path": "/",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [
+          {
+            "w": 66,
+            "h": 66,
+            "shown": true,
+            "cls": "h-12 w-12 animate-spin rounded-full border-2 border-brand-blue border-t-transparent"
+          }
+        ],
+        "dialogs": [],
+        "hasSignInButton": false,
+        "text": ""
+      },
+      {
+        "atMs": 8190,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question. Takes about a minute t"
+      },
+      {
+        "atMs": 12240,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question. Takes about a minute t"
+      }
+    ],
+    "refreshLanding": {
+      "reloadErrors": [],
+      "final": {
+        "atMs": 12240,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question. Takes about a minute t"
+      },
+      "spinnerNeverEnded": false,
+      "loggedOut": false,
+      "screenshot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\02-after-refresh.png"
+    },
+    "backForward": {
+      "pageA": {
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment DO THIS NEXTCheck that it stuck Prove you've got Reaction between water and sodium metal You studied this and haven't been tested on it since. A short quiz is how you find out whether it stuck. Take the retake About 5 min Test › Study › Prove Prove you've got Reaction between water and sodium metal. Step 3 of 3 in the study cycle: test, study, prove. Not now 1 quiz this week · 0% avg · plenty to work on — one at a time From your classes Work your teachers have set. Open one to see what"
+      },
+      "pageBDuring": {
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment DO THIS NEXTCheck that it stuck Prove you've got Reaction between water and sodium metal You studied this and haven't been tested on it since. A short quiz is how you find out whether it stuck. Take the retake About 5 min Test › Study › Prove Prove you've got Reaction between water and sodium metal. Step 3 of 3 in the study cycle: test, study, prove. Not now 1 quiz this week · 0% avg · plenty to work on — one at a time From your classes Work your teachers have set. Open one to see what"
+      },
+      "navErrors": [
+        "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('a[href=\"/dashboard\"]').first()\n    - locator resolved to <a href=\"/dashboard\" class=\"flex items-center gap-2.5 px-2 py-1 tex",
+        "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('a[href=\"/progress\"]').first()\n    - locator resolved to <a href=\"/progress\" data-tour=\"/progress\" class=\"flex items-center g"
+      ],
+      "final": {
+        "atMs": 12061,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment 1 quiz this week · 0% avg · plenty to work on — one at a time Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet Worth going over Topics you've been getting wrong. Tap one to get a lesson built on it. Laptop and Portable Devices Cleaning Procedures Final Computer Science With Stamp · "
+      },
+      "spinnerNeverEnded": false,
+      "loggedOut": false,
+      "screenshot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\03-after-back-forward.png"
+    },
+    "backForwardSamples": [
+      {
+        "atMs": 414,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [
+          {
+            "w": 67,
+            "h": 67,
+            "shown": true,
+            "cls": "h-12 w-12 animate-spin rounded-full border-2 border-brand-blue border-t-transparent"
+          }
+        ],
+        "dialogs": [],
+        "hasSignInButton": false,
+        "text": ""
+      },
+      {
+        "atMs": 1536,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [
+          {
+            "w": 68,
+            "h": 68,
+            "shown": true,
+            "cls": "h-12 w-12 animate-spin rounded-full border-2 border-brand-blue border-t-transparent"
+          }
+        ],
+        "dialogs": [],
+        "hasSignInButton": false,
+        "text": ""
+      },
+      {
+        "atMs": 4042,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question. Takes about a minute t"
+      },
+      {
+        "atMs": 8052,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment 1 quiz this week · 0% avg · plenty to work on — one at a time Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet Worth going over Topics you've been getting wrong. Tap one to get a lesson built on it. Laptop and Portable Devices Cleaning Procedures Final Computer Science With Stamp · "
+      },
+      {
+        "atMs": 12061,
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment 1 quiz this week · 0% avg · plenty to work on — one at a time Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet Worth going over Topics you've been getting wrong. Tap one to get a lesson built on it. Laptop and Portable Devices Cleaning Procedures Final Computer Science With Stamp · "
+      }
+    ],
+    "doubleClick": {
+      "choice": {
+        "kind": "hero",
+        "text": "Create assessment",
+        "disabled": false,
+        "tour": "hero-cta",
+        "blocked": false
+      },
+      "genderPrompt": false,
+      "clickError": "locator.dblclick: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('[data-tour=\"hero-cta\"]')\n    - locator resolved to <button type=\"button\" data-tour=\"hero-cta\" class=\"mt-5 inline-flex items-center gap-2.5 rounded-full bg-[#13202",
+      "clicks": [],
+      "writes": [],
+      "duplicateWrites": [],
+      "after": {
+        "href": "http://localhost:3000/dashboard",
+        "path": "/dashboard",
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "signedIn": true,
+        "email": "b.sumba@alustudent.com",
+        "role": "student",
+        "spinners": [],
+        "dialogs": [
+          "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came "
+        ],
+        "hasSignInButton": false,
+        "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment 1 quiz this week · 0% avg · plenty to work on — one at a time Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet Worth going over Topics you've been getting wrong. Tap one to get a lesson built on it. Laptop and Portable Devices Cleaning Procedures Final Computer Science With Stamp · "
+      },
+      "screenshot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\04-after-double-click.png",
+      "loggedOut": false,
+      "spinnerNeverEnded": false
+    }
+  },
+  "finishedAt": "2026-11-19T10:43:50.296Z",
+  "pageErrors": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "writes": [
+    {
+      "t": 1795084925770,
+      "phase": "login",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "redacted": true,
+      "bytes": 64,
+      "status": 200
+    },
+    {
+      "t": 1795084930016,
+      "phase": "login",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    },
+    {
+      "t": 1795084930055,
+      "phase": "login",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    },
+    {
+      "t": 1795084938175,
+      "phase": "refresh-landing",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    },
+    {
+      "t": 1795084938176,
+      "phase": "refresh-landing",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    },
+    {
+      "t": 1795085010036,
+      "phase": "back-forward",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    }
+  ]
+}

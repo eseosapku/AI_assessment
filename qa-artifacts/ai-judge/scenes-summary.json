@@ -1,0 +1,21 @@
+{
+  "total": 333,
+  "groups": {
+    "Physics": 41,
+    "Chemistry": 10,
+    "Biology": 16,
+    "Mathematics": 54,
+    "Computing": 17,
+    "Geography": 19,
+    "History and arguing": 4,
+    "Economics and business": 11,
+    "Science skills": 3,
+    "Arts": 7,
+    "Others": 151
+  },
+  "overflow": 0,
+  "clipped": 2,
+  "short": 0,
+  "long": 0,
+  "flagged": 2
+}

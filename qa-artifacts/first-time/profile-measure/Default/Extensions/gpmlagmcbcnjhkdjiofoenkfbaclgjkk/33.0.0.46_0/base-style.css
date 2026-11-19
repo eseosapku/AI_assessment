@@ -1,0 +1,11 @@
+@import "font.css";
+
+:root {
+    --font-family: "HP Simplified Light", "Helvetica", Arial, sans-serif;
+    --font-base: 14px;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-base);
+}

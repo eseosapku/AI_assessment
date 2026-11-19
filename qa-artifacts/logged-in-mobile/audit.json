@@ -1,0 +1,852 @@
+{
+  "pages": {
+    "dashboard": {
+      "href": "http://localhost:3000/dashboard",
+      "path": "/dashboard",
+      "vw": 390,
+      "vh": 844,
+      "signedIn": true,
+      "nav": {
+        "top": 755,
+        "h": 89,
+        "bottom": 844
+      },
+      "labels": [
+        {
+          "text": "Home",
+          "link": {
+            "x": 8,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 69
+          },
+          "textBox": {
+            "x": 21,
+            "y": 811,
+            "w": 35,
+            "h": 15,
+            "right": 56,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Practice",
+          "link": {
+            "x": 69,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 130
+          },
+          "textBox": {
+            "x": 75,
+            "y": 811,
+            "w": 49,
+            "h": 15,
+            "right": 124,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "LearnSpace",
+          "link": {
+            "x": 130,
+            "y": 764,
+            "w": 70,
+            "h": 72,
+            "right": 200
+          },
+          "textBox": {
+            "x": 130,
+            "y": 811,
+            "w": 70,
+            "h": 15,
+            "right": 200,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Gap Maps",
+          "link": {
+            "x": 200,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 260
+          },
+          "textBox": {
+            "x": 201,
+            "y": 811,
+            "w": 59,
+            "h": 15,
+            "right": 259,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Progress",
+          "link": {
+            "x": 260,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 321
+          },
+          "textBox": {
+            "x": 265,
+            "y": 811,
+            "w": 52,
+            "h": 15,
+            "right": 317,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Classes",
+          "link": {
+            "x": 321,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 382
+          },
+          "textBox": {
+            "x": 329,
+            "y": 811,
+            "w": 45,
+            "h": 15,
+            "right": 374,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        }
+      ],
+      "overflowScroll": [
+        {
+          "tag": "html",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "html",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "body",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "main",
+          "scrollWidth": 366,
+          "clientWidth": 366,
+          "overflowX": false
+        }
+      ],
+      "bleed": [],
+      "covered": [],
+      "cutOff": [
+        {
+          "tag": "button",
+          "text": "1",
+          "w": 42,
+          "h": 42,
+          "scrollW": 46,
+          "clientW": 42,
+          "scrollH": 42,
+          "clientH": 42,
+          "ellipsis": false,
+          "clamp": "none",
+          "cls": "relative grid h-[42px] w-[42px] place-items-center rounded-[13px] bg-s"
+        }
+      ],
+      "dialogs": [
+        {
+          "label": "tour-title",
+          "text": "MAKE A QUIZ 1 / 1 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question. Takes about a minute to build. Skip the tour Got it",
+          "top": 363,
+          "left": 30,
+          "right": 378,
+          "bottom": 682,
+          "w": 348,
+          "h": 319,
+          "offscreen": false,
+          "buttons": [
+            {
+              "text": "Skip the tour",
+              "w": 80,
+              "h": 20,
+              "top": 633,
+              "left": 51,
+              "right": 131,
+              "bottom": 653,
+              "inView": true,
+              "hittable": true,
+              "hit": "Skip the tour"
+            },
+            {
+              "text": "Got it",
+              "w": 67,
+              "h": 36,
+              "top": 625,
+              "left": 290,
+              "right": 357,
+              "bottom": 661,
+              "inView": true,
+              "hittable": true,
+              "hit": "Got it"
+            }
+          ]
+        }
+      ],
+      "small": [
+        {
+          "tag": "button",
+          "text": "Toggle theme",
+          "w": 38,
+          "h": 38,
+          "top": 34,
+          "left": 182,
+          "hittable": false
+        },
+        {
+          "tag": "a",
+          "text": "All progress",
+          "w": 90,
+          "h": 24,
+          "top": 577,
+          "left": 268,
+          "hittable": false
+        },
+        {
+          "tag": "button",
+          "text": "Skip the tour",
+          "w": 80,
+          "h": 20,
+          "top": 633,
+          "left": 51,
+          "hittable": true
+        },
+        {
+          "tag": "button",
+          "text": "Got it",
+          "w": 67,
+          "h": 36,
+          "top": 625,
+          "left": 290,
+          "hittable": true
+        }
+      ],
+      "signOut": [],
+      "textSample": "Skip to main content Welcome back, Sumba 1 YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet Home Practice Lea",
+      "atEnd": {
+        "scroll": {
+          "scrolled": true,
+          "scrollTop": 523,
+          "scrollHeight": 1261,
+          "clientHeight": 738
+        },
+        "covered": [],
+        "signOut": [],
+        "bleed": [],
+        "cutOff": [
+          {
+            "tag": "button",
+            "text": "1",
+            "w": 42,
+            "h": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "scrollH": 42,
+            "clientH": 42,
+            "ellipsis": false,
+            "clamp": "none",
+            "cls": "relative grid h-[42px] w-[42px] place-items-center rounded-[13px] bg-s"
+          }
+        ]
+      }
+    },
+    "practice": {
+      "href": "http://localhost:3000/practice",
+      "path": "/practice",
+      "vw": 390,
+      "vh": 844,
+      "signedIn": true,
+      "nav": {
+        "top": 755,
+        "h": 89,
+        "bottom": 844
+      },
+      "labels": [
+        {
+          "text": "Home",
+          "link": {
+            "x": 8,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 69
+          },
+          "textBox": {
+            "x": 21,
+            "y": 811,
+            "w": 35,
+            "h": 15,
+            "right": 56,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Practice",
+          "link": {
+            "x": 69,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 130
+          },
+          "textBox": {
+            "x": 75,
+            "y": 811,
+            "w": 49,
+            "h": 15,
+            "right": 124,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "LearnSpace",
+          "link": {
+            "x": 130,
+            "y": 764,
+            "w": 70,
+            "h": 72,
+            "right": 200
+          },
+          "textBox": {
+            "x": 130,
+            "y": 811,
+            "w": 70,
+            "h": 15,
+            "right": 200,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Gap Maps",
+          "link": {
+            "x": 200,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 260
+          },
+          "textBox": {
+            "x": 201,
+            "y": 811,
+            "w": 59,
+            "h": 15,
+            "right": 259,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Progress",
+          "link": {
+            "x": 260,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 321
+          },
+          "textBox": {
+            "x": 265,
+            "y": 811,
+            "w": 52,
+            "h": 15,
+            "right": 317,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Classes",
+          "link": {
+            "x": 321,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 382
+          },
+          "textBox": {
+            "x": 329,
+            "y": 811,
+            "w": 45,
+            "h": 15,
+            "right": 374,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        }
+      ],
+      "overflowScroll": [
+        {
+          "tag": "html",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "html",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "body",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "main",
+          "scrollWidth": 366,
+          "clientWidth": 366,
+          "overflowX": false
+        }
+      ],
+      "bleed": [],
+      "covered": [],
+      "cutOff": [
+        {
+          "tag": "button",
+          "text": "1",
+          "w": 42,
+          "h": 42,
+          "scrollW": 46,
+          "clientW": 42,
+          "scrollH": 42,
+          "clientH": 42,
+          "ellipsis": false,
+          "clamp": "none",
+          "cls": "relative grid h-[42px] w-[42px] place-items-center rounded-[13px] bg-s"
+        }
+      ],
+      "dialogs": [
+        {
+          "label": "tour-title",
+          "text": "FROM YOUR SYLLABUS 1 / 3 Built from your actual textbook Walk through curriculum, subject, topic and difficulty, and the questions are written from the book your school uses — not from the internet. Pick several topics to mix them, or drill one subtopic on its own. Every question",
+          "top": 468,
+          "left": 30,
+          "right": 378,
+          "bottom": 809,
+          "w": 348,
+          "h": 341,
+          "offscreen": false,
+          "buttons": [
+            {
+              "text": "Skip the tour",
+              "w": 80,
+              "h": 20,
+              "top": 760,
+              "left": 51,
+              "right": 131,
+              "bottom": 780,
+              "inView": true,
+              "hittable": true,
+              "hit": "Skip the tour"
+            },
+            {
+              "text": "Next",
+              "w": 63,
+              "h": 36,
+              "top": 752,
+              "left": 295,
+              "right": 357,
+              "bottom": 788,
+              "inView": true,
+              "hittable": true,
+              "hit": "Next"
+            }
+          ]
+        }
+      ],
+      "small": [
+        {
+          "tag": "button",
+          "text": "Toggle theme",
+          "w": 38,
+          "h": 38,
+          "top": 34,
+          "left": 182,
+          "hittable": false
+        },
+        {
+          "tag": "button",
+          "text": "Skip the tour",
+          "w": 80,
+          "h": 20,
+          "top": 760,
+          "left": 51,
+          "hittable": true
+        },
+        {
+          "tag": "button",
+          "text": "Next",
+          "w": 63,
+          "h": 36,
+          "top": 752,
+          "left": 295,
+          "hittable": true
+        }
+      ],
+      "signOut": [],
+      "textSample": "Skip to main content Welcome back, Sumba 1 PRACTICE Choose your mode AI quizzes, national exam prep, and class work — each with its own flow. Build your quiz Curriculum, topics, difficulty — step by step, then generate. Quiz me on anything Off the syllabus? Type a topic, paste notes, or upload a PDF — we'll work out what to cover. Recall Flashcards on a smart schedule — review what you missed from",
+      "atEnd": {
+        "scroll": {
+          "scrolled": true,
+          "scrollTop": 723,
+          "scrollHeight": 1461,
+          "clientHeight": 738
+        },
+        "covered": [],
+        "signOut": [],
+        "bleed": [],
+        "cutOff": [
+          {
+            "tag": "button",
+            "text": "1",
+            "w": 42,
+            "h": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "scrollH": 42,
+            "clientH": 42,
+            "ellipsis": false,
+            "clamp": "none",
+            "cls": "relative grid h-[42px] w-[42px] place-items-center rounded-[13px] bg-s"
+          }
+        ]
+      }
+    },
+    "studylab": {
+      "href": "http://localhost:3000/studylab",
+      "path": "/studylab",
+      "vw": 390,
+      "vh": 844,
+      "signedIn": true,
+      "nav": {
+        "top": 755,
+        "h": 89,
+        "bottom": 844
+      },
+      "labels": [
+        {
+          "text": "Home",
+          "link": {
+            "x": 8,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 69
+          },
+          "textBox": {
+            "x": 21,
+            "y": 811,
+            "w": 35,
+            "h": 15,
+            "right": 56,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Practice",
+          "link": {
+            "x": 69,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 130
+          },
+          "textBox": {
+            "x": 75,
+            "y": 811,
+            "w": 49,
+            "h": 15,
+            "right": 124,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "LearnSpace",
+          "link": {
+            "x": 130,
+            "y": 764,
+            "w": 70,
+            "h": 72,
+            "right": 200
+          },
+          "textBox": {
+            "x": 130,
+            "y": 811,
+            "w": 70,
+            "h": 15,
+            "right": 200,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Gap Maps",
+          "link": {
+            "x": 200,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 260
+          },
+          "textBox": {
+            "x": 201,
+            "y": 811,
+            "w": 59,
+            "h": 15,
+            "right": 259,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Progress",
+          "link": {
+            "x": 260,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 321
+          },
+          "textBox": {
+            "x": 265,
+            "y": 811,
+            "w": 52,
+            "h": 15,
+            "right": 317,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        },
+        {
+          "text": "Classes",
+          "link": {
+            "x": 321,
+            "y": 764,
+            "w": 61,
+            "h": 72,
+            "right": 382
+          },
+          "textBox": {
+            "x": 329,
+            "y": 811,
+            "w": 45,
+            "h": 15,
+            "right": 374,
+            "bottom": 826
+          },
+          "textWiderThanLink": false,
+          "textOutsideLink": false
+        }
+      ],
+      "overflowScroll": [
+        {
+          "tag": "html",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "html",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "body",
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "overflowX": false
+        },
+        {
+          "tag": "main",
+          "scrollWidth": 366,
+          "clientWidth": 366,
+          "overflowX": false
+        }
+      ],
+      "bleed": [],
+      "covered": [],
+      "cutOff": [
+        {
+          "tag": "button",
+          "text": "6",
+          "w": 42,
+          "h": 42,
+          "scrollW": 46,
+          "clientW": 42,
+          "scrollH": 42,
+          "clientH": 42,
+          "ellipsis": false,
+          "clamp": "none",
+          "cls": "relative grid h-[42px] w-[42px] place-items-center rounded-[13px] bg-s"
+        }
+      ],
+      "dialogs": [
+        {
+          "label": "tour-title",
+          "text": "START A LESSON 1 / 2 Name what confused you The narrower the better. \"Photosynthesis\" gets you a tour of the topic; \"why leaves are green\" gets you an answer. The tutor lays out explanations, diagrams and worked examples, then quizzes you at checkpoints to see if it landed. Ready",
+          "top": 338,
+          "left": 30,
+          "right": 378,
+          "bottom": 700,
+          "w": 348,
+          "h": 363,
+          "offscreen": false,
+          "buttons": [
+            {
+              "text": "Skip the tour",
+              "w": 80,
+              "h": 20,
+              "top": 652,
+              "left": 51,
+              "right": 131,
+              "bottom": 671,
+              "inView": true,
+              "hittable": true,
+              "hit": "Skip the tour"
+            },
+            {
+              "text": "Next",
+              "w": 63,
+              "h": 36,
+              "top": 644,
+              "left": 295,
+              "right": 357,
+              "bottom": 679,
+              "inView": true,
+              "hittable": true,
+              "hit": "Next"
+            }
+          ]
+        }
+      ],
+      "small": [
+        {
+          "tag": "button",
+          "text": "Toggle theme",
+          "w": 38,
+          "h": 38,
+          "top": 34,
+          "left": 182,
+          "hittable": false
+        },
+        {
+          "tag": "button",
+          "text": "Skip the tour",
+          "w": 80,
+          "h": 20,
+          "top": 652,
+          "left": 51,
+          "hittable": true
+        },
+        {
+          "tag": "button",
+          "text": "Next",
+          "w": 63,
+          "h": 36,
+          "top": 644,
+          "left": 295,
+          "hittable": true
+        }
+      ],
+      "signOut": [],
+      "textSample": "Skip to main content Welcome back, Sumba 6 What do you want to learn? Build my lesson Homework help The narrower the better: “why leaves are green” gets you an answer, “photosynthesis” a tour. Kana shows you around in your first lesson. START A LESSON 1 / 2 Name what confused you The narrower the better. \"Photosynthesis\" gets you a tour of the topic; \"why leaves are green\" gets you an answer. The ",
+      "atEnd": {
+        "scroll": {
+          "scrolled": true,
+          "scrollTop": 0,
+          "scrollHeight": 738,
+          "clientHeight": 738
+        },
+        "covered": [],
+        "signOut": [],
+        "bleed": [],
+        "cutOff": [
+          {
+            "tag": "button",
+            "text": "6",
+            "w": 42,
+            "h": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "scrollH": 42,
+            "clientH": 42,
+            "ellipsis": false,
+            "clamp": "none",
+            "cls": "relative grid h-[42px] w-[42px] place-items-center rounded-[13px] bg-s"
+          }
+        ]
+      }
+    }
+  },
+  "dismiss": {},
+  "signOut": null,
+  "shots": {
+    "dashboard": {
+      "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\dashboard.png",
+      "w": 390,
+      "h": 844
+    },
+    "practice": {
+      "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\practice.png",
+      "w": 390,
+      "h": 844
+    },
+    "studylab": {
+      "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\studylab.png",
+      "w": 390,
+      "h": 844
+    }
+  },
+  "fatal": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:3000/classrooms\", waiting until \"domcontentloaded\"\n\n    at C:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\run.mjs:359:16"
+}

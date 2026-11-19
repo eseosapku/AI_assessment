@@ -1,0 +1,7 @@
+﻿STATUS=401
+REASON=Unauthorized
+CONTENT_TYPE=application/json
+BODY_LENGTH=31
+BODY_BEGIN
+{"error":"Invalid credentials"}
+BODY_END

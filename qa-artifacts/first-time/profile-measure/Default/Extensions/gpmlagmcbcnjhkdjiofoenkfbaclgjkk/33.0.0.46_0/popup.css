@@ -1,0 +1,78 @@
+@import "base-style.css";
+
+body {
+    background-color: rgb(255, 255, 255);
+    color: rgb(48, 57, 66);
+    font-size: 100%;
+    line-height: 1.5;
+    margin: 0;
+}
+
+h1 {
+    font-size: 1.125rem;
+    font-weight: normal;
+    line-height: 1.4rem;
+    margin: 0;
+    user-select: none;
+}
+
+p {
+    font-size: 0.875rem;
+}
+
+button {
+    font-family: inherit;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+a {
+    color: rgb(0, 120, 214);
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+
+a:hover {
+    border-bottom: 1px solid rgb(0, 120, 214);
+}
+
+.brand-logo {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 1.5rem 1.5rem;
+    border-bottom: 1px solid #d8d8d8;
+    padding: 0 0 1rem 1.8rem;
+    white-space: nowrap;
+}
+
+.bordered {
+    border-bottom: 1px solid #d8d8d8;
+    border-top: 1px solid #d8d8d8;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+
+.content-wrapper {
+    padding: 1rem 1.2rem;
+}
+
+.content {
+    max-width: 320px;
+}
+
+.tall {
+    min-height: 105px;
+}
+
+.small-vertical-margins {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.do-not-display {
+    display: none;
+}
+
+.not-visible {
+    visibility: hidden;
+}

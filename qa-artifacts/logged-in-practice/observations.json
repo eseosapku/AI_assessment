@@ -1,0 +1,667 @@
+{
+  "host": "http://localhost:3000",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "startedAt": "2026-11-19T10:46:43.656Z",
+  "login": {
+    "status": 200,
+    "role": "student",
+    "profileComplete": true,
+    "genderPromptExpected": false,
+    "country": "RW"
+  },
+  "routes": {
+    "/practice": {
+      "requested": "/practice",
+      "finalUrl": "http://localhost:3000/practice",
+      "bounce": null,
+      "h1": "Choose your mode",
+      "signedIn": true,
+      "role": "student",
+      "appError": false,
+      "horizontalScroll": false,
+      "dialogs": [
+        "FROM YOUR SYLLABUS 1 / 3 Built from your actual textbook Walk through curriculum, subject, topic and difficulty, and the questions are written from the book your school uses — not from the internet. P",
+        "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as "
+      ],
+      "genderBlocked": false,
+      "clippedTop": [
+        {
+          "tag": "BUTTON",
+          "text": "Build your quiz Curriculum, topics, difficulty — step by step, then generate.",
+          "clipsX": false,
+          "clipsY": true,
+          "sw": 1096,
+          "cw": 1096,
+          "sh": 122,
+          "ch": 112,
+          "x": 296,
+          "y": 240,
+          "w": 1096,
+          "h": 112
+        }
+      ],
+      "clippedBottom": [],
+      "overflowersTop": [],
+      "overflowersBottom": [],
+      "brokenImages": [],
+      "links": [
+        {
+          "text": "StudySquare",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Home",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Practice",
+          "href": "/practice"
+        },
+        {
+          "text": "LearnSpace",
+          "href": "/studylab"
+        },
+        {
+          "text": "Gap Maps",
+          "href": "/studylab/gap-map"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress"
+        },
+        {
+          "text": "Classes",
+          "href": "/classrooms"
+        },
+        {
+          "text": "Settings",
+          "href": "/settings"
+        },
+        {
+          "text": "Recall Flashcards on a smart schedule — review what you missed from quizzes. OPEN RECALL",
+          "href": "/recall"
+        },
+        {
+          "text": "Exam prep Cambridge Checkpoint papers, plus the national exams where they are sat. OPEN EX",
+          "href": "/exam-prep"
+        },
+        {
+          "text": "Class assignment Open the work your teacher posted in your classrooms. OPEN CLASSES",
+          "href": "/classrooms"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle theme",
+          "type": "",
+          "disabled": false
+        },
+        {
+          "text": "1",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Sumba",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Build your quiz Curriculum, topics, difficulty — step by step, then generate.",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Quiz me on anything Off the syllabus? Type a topic, paste notes, or upload a PDF — we'll w",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        }
+      ],
+      "bottomButtons": [],
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedNet": [],
+      "writes": [
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": null
+        }
+      ],
+      "bodyText": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba PRACTICE Choose your mode AI quizzes, national exam prep, and class work — each with its own flow. Build your quiz Curriculum, topics, difficulty — step by step, then generate. Quiz me on anything Off the syllabus? Type a topic, paste notes, or upload a PDF — we'll work out what to cover. Recall Flashcards on a smart schedule — review what you missed from quizzes. OPEN RECALL Exam prep Cambridge Checkpoint papers, plus the national exams where they are sat. OPEN EXAM PREP Class assignment Open the work your teacher posted in your classrooms. OPEN CLASSES FROM YOUR SYL",
+      "bottomText": null,
+      "screenshots": [
+        "01-practice.png"
+      ]
+    },
+    "/exam-prep": {
+      "requested": "/exam-prep",
+      "finalUrl": "http://localhost:3000/exam-prep",
+      "bounce": null,
+      "h1": "Exam prep",
+      "signedIn": true,
+      "role": "student",
+      "appError": false,
+      "horizontalScroll": false,
+      "dialogs": [
+        "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as "
+      ],
+      "genderBlocked": false,
+      "clippedTop": [],
+      "clippedBottom": [],
+      "overflowersTop": [],
+      "overflowersBottom": [],
+      "brokenImages": [],
+      "links": [
+        {
+          "text": "StudySquare",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Home",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Practice",
+          "href": "/practice"
+        },
+        {
+          "text": "LearnSpace",
+          "href": "/studylab"
+        },
+        {
+          "text": "Gap Maps",
+          "href": "/studylab/gap-map"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress"
+        },
+        {
+          "text": "Classes",
+          "href": "/classrooms"
+        },
+        {
+          "text": "Settings",
+          "href": "/settings"
+        },
+        {
+          "text": "Practice",
+          "href": "/practice"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle theme",
+          "type": "",
+          "disabled": false
+        },
+        {
+          "text": "1",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Sumba",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Cambridge Checkpoint Primary and Lower Secondary practice papers",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        }
+      ],
+      "bottomButtons": [],
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedNet": [],
+      "writes": [
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": null
+        }
+      ],
+      "bodyText": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba Practice PRACTICE Exam prep Sit a real paper under real conditions — Cambridge Checkpoint, and your national exams. STEP 1 Choose your exam Cambridge Checkpoint Primary and Lower Secondary practice papers WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you. Skip the tour Next",
+      "bottomText": null,
+      "screenshots": [
+        "02-exam-prep.png"
+      ]
+    },
+    "/progress": {
+      "requested": "/progress",
+      "finalUrl": "http://localhost:3000/progress",
+      "bounce": null,
+      "h1": "Your results",
+      "signedIn": true,
+      "role": "student",
+      "appError": false,
+      "horizontalScroll": false,
+      "dialogs": [
+        "WHERE YOU STAND 1 / 2 Your average, and which way it is going Across every quiz you have finished. One bad quiz moves this less than you would think, so judge it over a few weeks rather than after a s",
+        "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as "
+      ],
+      "genderBlocked": false,
+      "clippedTop": [],
+      "clippedBottom": [],
+      "overflowersTop": [],
+      "overflowersBottom": [],
+      "brokenImages": [],
+      "links": [
+        {
+          "text": "StudySquare",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Home",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Practice",
+          "href": "/practice"
+        },
+        {
+          "text": "LearnSpace",
+          "href": "/studylab"
+        },
+        {
+          "text": "Gap Maps",
+          "href": "/studylab/gap-map"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress"
+        },
+        {
+          "text": "Classes",
+          "href": "/classrooms"
+        },
+        {
+          "text": "Settings",
+          "href": "/settings"
+        },
+        {
+          "text": "Build report card",
+          "href": "/report-card"
+        },
+        {
+          "text": "Start practicing",
+          "href": "/practice"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle theme",
+          "type": "",
+          "disabled": false
+        },
+        {
+          "text": "1",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Sumba",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        }
+      ],
+      "bottomButtons": [],
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedNet": [],
+      "writes": [
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": null
+        }
+      ],
+      "bodyText": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card — Total tests — AVERAGE Across all subjects — Subjects tracked — Latest grade RECENT RESULTS No results yet Start practicing WHERE YOU STAND 1 / 2 Your average, and which way it is going Across every quiz you have finished. One bad quiz moves this less than you would think, so judge it over a few weeks rather than after a single result. Skip the tour Next WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explan",
+      "bottomText": null,
+      "screenshots": [
+        "03-progress.png"
+      ]
+    },
+    "/report-card": {
+      "requested": "/report-card",
+      "finalUrl": "http://localhost:3000/report-card",
+      "bounce": null,
+      "h1": "",
+      "signedIn": true,
+      "role": "student",
+      "appError": false,
+      "horizontalScroll": false,
+      "dialogs": [],
+      "genderBlocked": false,
+      "clippedTop": [],
+      "clippedBottom": [],
+      "overflowersTop": [],
+      "overflowersBottom": [],
+      "brokenImages": [],
+      "links": [],
+      "buttons": [],
+      "bottomButtons": [],
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedNet": [],
+      "writes": [
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": null
+        }
+      ],
+      "bodyText": "",
+      "bottomText": null,
+      "screenshots": [
+        "04-report-card.png"
+      ]
+    },
+    "/reports": {
+      "requested": "/reports",
+      "finalUrl": "http://localhost:3000/reports",
+      "bounce": null,
+      "h1": "",
+      "signedIn": true,
+      "role": "student",
+      "appError": false,
+      "horizontalScroll": false,
+      "dialogs": [
+        "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as "
+      ],
+      "genderBlocked": false,
+      "clippedTop": [],
+      "clippedBottom": [],
+      "overflowersTop": [],
+      "overflowersBottom": [],
+      "brokenImages": [],
+      "links": [
+        {
+          "text": "StudySquare",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Home",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Practice",
+          "href": "/practice"
+        },
+        {
+          "text": "LearnSpace",
+          "href": "/studylab"
+        },
+        {
+          "text": "Gap Maps",
+          "href": "/studylab/gap-map"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress"
+        },
+        {
+          "text": "Classes",
+          "href": "/classrooms"
+        },
+        {
+          "text": "Settings",
+          "href": "/settings"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle theme",
+          "type": "",
+          "disabled": false
+        },
+        {
+          "text": "1",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Sumba",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        }
+      ],
+      "bottomButtons": [],
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedNet": [],
+      "writes": [
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": 200
+        }
+      ],
+      "bodyText": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba This page is for teachers. If you spotted a problem with a question, use the report control on the question itself. WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you. Skip the tour Next",
+      "bottomText": null,
+      "screenshots": [
+        "05-reports.png"
+      ]
+    },
+    "/recall": {
+      "requested": "/recall",
+      "finalUrl": "http://localhost:3000/recall",
+      "bounce": null,
+      "h1": "Spaced repetition",
+      "signedIn": true,
+      "role": "student",
+      "appError": false,
+      "horizontalScroll": false,
+      "dialogs": [
+        "TODAY 1 / 3 Only what you are about to forget Cards come back just before you would lose them, so a short daily session beats a long one at the weekend. If nothing is due, you are done — that is the s",
+        "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as "
+      ],
+      "genderBlocked": false,
+      "clippedTop": [],
+      "clippedBottom": [],
+      "overflowersTop": [],
+      "overflowersBottom": [],
+      "brokenImages": [],
+      "links": [
+        {
+          "text": "StudySquare",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Home",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Practice",
+          "href": "/practice"
+        },
+        {
+          "text": "LearnSpace",
+          "href": "/studylab"
+        },
+        {
+          "text": "Gap Maps",
+          "href": "/studylab/gap-map"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress"
+        },
+        {
+          "text": "Classes",
+          "href": "/classrooms"
+        },
+        {
+          "text": "Settings",
+          "href": "/settings"
+        },
+        {
+          "text": "Practice",
+          "href": "/practice"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle theme",
+          "type": "",
+          "disabled": false
+        },
+        {
+          "text": "6",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Sumba",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Skip the tour",
+          "type": "button",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "type": "button",
+          "disabled": false
+        }
+      ],
+      "bottomButtons": [],
+      "mainCanScroll": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedNet": [],
+      "writes": [
+        {
+          "method": "POST",
+          "path": "/api/recall/backfill",
+          "status": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/recall/backfill",
+          "status": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/recall/backfill",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/user/onboarding",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/recall/backfill",
+          "status": 200
+        }
+      ],
+      "bodyText": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 6 Sumba Practice RECALL Spaced repetition Cards come back just before you would forget them, and they build themselves from the questions you get wrong. DUE TODAY — 0 cards in your library Take a quiz and the ones you miss land here Just before you forget Cards return on a schedule built around when memory fades, not a fixed timetable. Built from your mistakes Every question you get wrong becomes a card here automatically. Different job to a quiz A quiz finds out what you know. This is what stops you losing it again. YOUR DECKS TODAY 1 / 3 Only what you are about to forget Ca",
+      "bottomText": null,
+      "screenshots": [
+        "06-recall.png"
+      ]
+    }
+  },
+  "nav": [],
+  "unintendedWrites": [],
+  "finishedAt": "2026-11-19T10:50:12.284Z"
+}

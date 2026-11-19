@@ -1,14 +1,18 @@
 'use client'
 
 import { useState, type ReactNode } from 'react'
+import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 import ProfileSidebar from '@/components/ProfileSidebar'
 import ProductTour from './ProductTour'
 import { SideNav, MobileNav } from './SideNav'
 import { TopBar } from './TopBar'
+import { showHomeTour } from '@/lib/product-tour'
+import { closeNotifications } from '@/lib/studio/menu-events'
 
 export default function AppShell({ children, rail }: { children: ReactNode; rail?: ReactNode }) {
   const { user } = useAuth()
+  const pathname = usePathname()
   const [profileOpen, setProfileOpen] = useState(false)
   const firstName = user?.name?.split(' ')[0] ?? 'You'
 
@@ -39,7 +43,7 @@ export default function AppShell({ children, rail }: { children: ReactNode; rail
             siblings here, which is what makes both landmarks real. */}
         <div className="flex min-w-0 flex-col overflow-hidden">
           <div className="shrink-0 px-5 pt-5 sm:px-6 sm:pt-6">
-            <TopBar firstName={firstName} onProfile={() => setProfileOpen(true)} />
+            <TopBar firstName={firstName} onProfile={() => { closeNotifications(); setProfileOpen(true) }} />
           </div>
           <main id="main-content" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto px-5 pb-24 outline-none sm:px-6 sm:pb-8 lg:pb-6">{children}</main>
         </div>
@@ -49,7 +53,7 @@ export default function AppShell({ children, rail }: { children: ReactNode; rail
       <ProfileSidebar isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
       {/* Runs once, and only inside the signed-in shell where the sidebar it
           points at actually exists. */}
-      <ProductTour />
+      {showHomeTour(pathname) && <ProductTour />}
     </div>
   )
 }

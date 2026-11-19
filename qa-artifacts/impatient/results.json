@@ -1,0 +1,376 @@
+{
+  "host": "http://localhost:3000",
+  "startedAt": "2026-11-19T10:02:37.831Z",
+  "phases": {
+    "homeBurst": [
+      {
+        "n": 1,
+        "url": "http://localhost:3000/",
+        "ms": 245,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 10765,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": false,
+        "hasStudySquare": true,
+        "realPage": false
+      },
+      {
+        "n": 2,
+        "url": "http://localhost:3000/",
+        "ms": 79,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 10765,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": false,
+        "hasStudySquare": true,
+        "realPage": false
+      },
+      {
+        "n": 3,
+        "url": "http://localhost:3000/",
+        "ms": 85,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 10765,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": false,
+        "hasStudySquare": true,
+        "realPage": false
+      },
+      {
+        "n": 4,
+        "url": "http://localhost:3000/",
+        "ms": 70,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 10765,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": false,
+        "hasStudySquare": true,
+        "realPage": false
+      },
+      {
+        "n": 5,
+        "url": "http://localhost:3000/",
+        "ms": 77,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 10765,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": false,
+        "hasStudySquare": true,
+        "realPage": false
+      }
+    ],
+    "homeScreenshot": {
+      "name": "home-last",
+      "userDataDir": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\impatient\\user-data-home-last",
+      "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\impatient\\home-last.png",
+      "pngBytes": 675406,
+      "navStatus": 200,
+      "navUrl": "http://localhost:3000/",
+      "navError": null,
+      "screenshotError": null,
+      "crashed": false,
+      "pageErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "dom": {
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "url": "http://localhost:3000/",
+        "textLength": 3812,
+        "hasCreateAccount": false,
+        "hasName": false,
+        "hasEmail": false,
+        "hasStudentId": false,
+        "hasPassword": false,
+        "hasConfirm": false,
+        "hasClass": false,
+        "hasCountry": false,
+        "hasGender": false,
+        "hasSubmit": false,
+        "submitText": "",
+        "hasStudent": false,
+        "hasTeacher": false,
+        "hasBackHome": false,
+        "hasAppError": false,
+        "overlayText": "",
+        "snippet": "StudySquare Features LearnSpace Exam prep Pricing Sign in Get started AI TUTOR · CURRICULUM-ALIGNED Stuck on something? We'll build you a way through it. Practice any topic, get unstuck with an AI tutor that draws you the whole lesson on a living canvas, and lock it into memory f"
+      }
+    },
+    "backForward": [
+      {
+        "url": "http://localhost:3000/signup",
+        "ms": 6438,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 34734,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": true,
+        "hasStudySquare": true,
+        "realPage": false
+      },
+      {
+        "url": "http://localhost:3000/",
+        "ms": 160,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 10765,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": false,
+        "hasStudySquare": true,
+        "realPage": false
+      },
+      {
+        "url": "http://localhost:3000/signup",
+        "ms": 135,
+        "location": null,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "bytes": 34734,
+        "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+        "isHtml": true,
+        "markers": [
+          "This page could not be found"
+        ],
+        "hasCreateAccount": true,
+        "hasStudySquare": true,
+        "realPage": false
+      }
+    ],
+    "loginRedirects": [
+      {
+        "chain": [
+          {
+            "hop": 0,
+            "repeated": false,
+            "url": "http://localhost:3000/login",
+            "ms": 5914,
+            "location": "/",
+            "status": 307,
+            "contentType": "text/html; charset=utf-8",
+            "bytes": 12221,
+            "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+            "isHtml": true,
+            "markers": [
+              "This page could not be found",
+              "__next_error__"
+            ],
+            "hasCreateAccount": false,
+            "hasStudySquare": true,
+            "realPage": false
+          },
+          {
+            "hop": 1,
+            "repeated": false,
+            "url": "http://localhost:3000/",
+            "ms": 173,
+            "location": null,
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "bytes": 10765,
+            "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+            "isHtml": true,
+            "markers": [
+              "This page could not be found"
+            ],
+            "hasCreateAccount": false,
+            "hasStudySquare": true,
+            "realPage": false
+          }
+        ],
+        "stoppedBecauseRedirectCap": false,
+        "repeatedUrl": false
+      },
+      {
+        "chain": [
+          {
+            "hop": 0,
+            "repeated": false,
+            "url": "http://localhost:3000/login",
+            "ms": 115,
+            "location": "/",
+            "status": 307,
+            "contentType": "text/html; charset=utf-8",
+            "bytes": 12221,
+            "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+            "isHtml": true,
+            "markers": [
+              "This page could not be found",
+              "__next_error__"
+            ],
+            "hasCreateAccount": false,
+            "hasStudySquare": true,
+            "realPage": false
+          },
+          {
+            "hop": 1,
+            "repeated": false,
+            "url": "http://localhost:3000/",
+            "ms": 71,
+            "location": null,
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "bytes": 10765,
+            "title": "StudySquare — AI study &amp; assessments | A Brain Ink product",
+            "isHtml": true,
+            "markers": [
+              "This page could not be found"
+            ],
+            "hasCreateAccount": false,
+            "hasStudySquare": true,
+            "realPage": false
+          }
+        ],
+        "stoppedBecauseRedirectCap": false,
+        "repeatedUrl": false
+      }
+    ],
+    "parallelFailedLogin": [
+      {
+        "started": "2026-11-19T10:03:00.920Z",
+        "finished": "2026-11-19T10:03:04.911Z",
+        "ms": 3992,
+        "status": 401,
+        "location": null,
+        "contentType": "application/json",
+        "setCookie": false,
+        "bytes": 31,
+        "json": true,
+        "keys": [
+          "error"
+        ],
+        "error": "Invalid credentials",
+        "hasUserObject": false
+      },
+      {
+        "started": "2026-11-19T10:03:00.923Z",
+        "finished": "2026-11-19T10:03:04.916Z",
+        "ms": 3993,
+        "status": 401,
+        "location": null,
+        "contentType": "application/json",
+        "setCookie": false,
+        "bytes": 31,
+        "json": true,
+        "keys": [
+          "error"
+        ],
+        "error": "Invalid credentials",
+        "hasUserObject": false
+      }
+    ],
+    "signupScreenshots": [
+      {
+        "name": "signup-a",
+        "userDataDir": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\impatient\\user-data-signup-a",
+        "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\impatient\\signup-a.png",
+        "pngBytes": 204991,
+        "navStatus": 200,
+        "navUrl": "http://localhost:3000/signup",
+        "navError": null,
+        "screenshotError": null,
+        "crashed": false,
+        "pageErrors": [],
+        "consoleErrors": [],
+        "dom": {
+          "title": "StudySquare — AI study & assessments | A Brain Ink product",
+          "url": "http://localhost:3000/signup",
+          "textLength": 1131,
+          "hasCreateAccount": true,
+          "hasName": true,
+          "hasEmail": true,
+          "hasStudentId": true,
+          "hasPassword": true,
+          "hasConfirm": true,
+          "hasClass": true,
+          "hasCountry": true,
+          "hasGender": true,
+          "hasSubmit": true,
+          "submitText": "Create Student Account",
+          "hasStudent": true,
+          "hasTeacher": true,
+          "hasBackHome": true,
+          "hasAppError": false,
+          "overlayText": "",
+          "snippet": "StudySquare StudySquare studio Start studying smarter today. Your first assessments are free — quizzes, interactive sets, and instant AI feedback for students and teachers. Assess Study Improve Classroom ready A PRODUCT OF ← Back to home Create your account Start your AI-powered "
+        }
+      },
+      {
+        "name": "signup-b",
+        "userDataDir": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\impatient\\user-data-signup-b",
+        "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\impatient\\signup-b.png",
+        "pngBytes": 206884,
+        "navStatus": 200,
+        "navUrl": "http://localhost:3000/signup",
+        "navError": null,
+        "screenshotError": null,
+        "crashed": false,
+        "pageErrors": [],
+        "consoleErrors": [],
+        "dom": {
+          "title": "StudySquare — AI study & assessments | A Brain Ink product",
+          "url": "http://localhost:3000/signup",
+          "textLength": 1131,
+          "hasCreateAccount": true,
+          "hasName": true,
+          "hasEmail": true,
+          "hasStudentId": true,
+          "hasPassword": true,
+          "hasConfirm": true,
+          "hasClass": true,
+          "hasCountry": true,
+          "hasGender": true,
+          "hasSubmit": true,
+          "submitText": "Create Student Account",
+          "hasStudent": true,
+          "hasTeacher": true,
+          "hasBackHome": true,
+          "hasAppError": false,
+          "overlayText": "",
+          "snippet": "StudySquare StudySquare studio Start studying smarter today. Your first assessments are free — quizzes, interactive sets, and instant AI feedback for students and teachers. Assess Study Improve Classroom ready A PRODUCT OF ← Back to home Create your account Start your AI-powered "
+        }
+      }
+    ]
+  },
+  "finishedAt": "2026-11-19T10:03:20.518Z",
+  "ok": true
+}

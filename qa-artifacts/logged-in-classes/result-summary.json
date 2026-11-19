@@ -1,0 +1,162 @@
+{
+  "status": 200,
+  "error": null,
+  "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+  "resultSubject": null,
+  "score": 0,
+  "percentage": "0.00",
+  "questionCount": 10,
+  "flagged": [],
+  "questions": [
+    {
+      "i": 1,
+      "type": "mcq",
+      "marks": null,
+      "correct": 2,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Which vitamin is crucial for the formation of bones and teeth and can be obtained from fortified milk and sunlight?",
+      "options": [
+        "Vitamin A",
+        "Vitamin C",
+        "Vitamin D",
+        "Vitamin K"
+      ]
+    },
+    {
+      "i": 2,
+      "type": "mcq",
+      "marks": null,
+      "correct": 3,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Which process in human digestion involves the mechanical breakdown of food into smaller pieces?",
+      "options": [
+        "Absorption",
+        "Assimilation",
+        "Egestion",
+        "Mechanical digestion"
+      ]
+    },
+    {
+      "i": 3,
+      "type": "mcq",
+      "marks": null,
+      "correct": 0,
+      "optionCount": 4,
+      "flags": [],
+      "question": "What is the primary function of amylase in the digestive system?",
+      "options": [
+        "Break down starch into sugars",
+        "Break down proteins into amino acids",
+        "Break down fats into fatty acids and glycerol",
+        "Break down cellulose in plant cell walls"
+      ]
+    },
+    {
+      "i": 4,
+      "type": "mcq",
+      "marks": null,
+      "correct": 1,
+      "optionCount": 4,
+      "flags": [],
+      "question": "At what pH does amylase work most efficiently in the human digestive system?",
+      "options": [
+        "pH 2",
+        "pH 7",
+        "pH 10",
+        "pH 12"
+      ]
+    },
+    {
+      "i": 5,
+      "type": "mcq",
+      "marks": null,
+      "correct": 0,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Which of the following is a deficiency disease caused by a lack of vitamin C?",
+      "options": [
+        "Scurvy",
+        "Anaemia",
+        "Kwashiorkor",
+        "Rickets"
+      ]
+    },
+    {
+      "i": 6,
+      "type": "mcq",
+      "marks": null,
+      "correct": 0,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Look at the diagram. Which labelled part makes bile, which helps to emulsify fats?",
+      "options": [
+        "J",
+        "D",
+        "C",
+        "F"
+      ]
+    },
+    {
+      "i": 7,
+      "type": "mcq",
+      "marks": null,
+      "correct": 1,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Which part of the human digestive system is primarily responsible for the absorption of nutrients?",
+      "options": [
+        "Stomach",
+        "Small intestine",
+        "Large intestine",
+        "Esophagus"
+      ]
+    },
+    {
+      "i": 8,
+      "type": "mcq",
+      "marks": null,
+      "correct": 2,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Which enzyme is responsible for breaking down hydrogen peroxide in cells?",
+      "options": [
+        "Lipase",
+        "Amylase",
+        "Catalase",
+        "Protease"
+      ]
+    },
+    {
+      "i": 9,
+      "type": "mcq",
+      "marks": null,
+      "correct": 3,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Which of the following is a function of the incisors in the human mouth?",
+      "options": [
+        "Chewing food",
+        "Grinding food",
+        "Tearing food",
+        "Cutting food"
+      ]
+    },
+    {
+      "i": 10,
+      "type": "mcq",
+      "marks": null,
+      "correct": 1,
+      "optionCount": 4,
+      "flags": [],
+      "question": "Which term refers to the specific molecule that an enzyme acts upon?",
+      "options": [
+        "Catalyst",
+        "Substrate",
+        "Product",
+        "Active site"
+      ]
+    }
+  ]
+}

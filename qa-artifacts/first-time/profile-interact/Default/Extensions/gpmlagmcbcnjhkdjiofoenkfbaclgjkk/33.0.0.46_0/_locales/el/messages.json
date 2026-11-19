@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Έχετε ανοίξει αυτόν τον ιστότοπο στο HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Αυτός ο ιστότοπος θα μπορούσε να φιλοξενεί πιθανές απειλές:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Έχετε ανοίξει το αρχείο PDF στο HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Το αρχείο PDF από αυτόν τον ιστότοπο θα μπορούσε να φιλοξενεί πιθανές απειλές:"
+   },
+   "blockedPageContinue": {
+      "message": "Συνέχεια σε αυτό το πρόγραμμα περιήγησης"
+   },
+   "blockedPageContinueV2": {
+      "message": "Συνέχεια στο {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Μάθετε περισσότερα"
+   },
+   "blockedPageRemember": {
+      "message": "Να θυμάσαι την απόφασή μου για αυτόν τον ιστότοπο"
+   },
+   "blockedPageSecure": {
+      "message": "Άνοιγμα στο HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "Το HP Sure Click Secure Browser βοηθά στην προστασία του υπολογιστή σας από ιστοσελίδες και αρχεία που έχουν μολυνθεί από λογισμικό κακόβουλης λειτουργίας, ransomware ή ιούς."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Εντοπίστηκε μη αξιόπιστος ιστότοπος από το HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Εντοπίστηκε ακαθόριστος ιστότοπος από το HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Άνοιγμα σε Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Η ηλικία αυτής της σελίδας ({DOMAIN_AGE_DAYS} days) είναι κάτω από το καθορισμένο κατώτατο όριο."
+   },
+   "extDescription": {
+      "message": "Ασφαλής περιήγηση στο internet με το HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "el"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Αυτός ο ιστότοπος έχει ανοιχτεί στο HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "Αυτό ο αρχείο PDF έχει ανοιχτεί στο HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Κλείσιμο καρτέλας"
+   },
+   "launchedPageGoBack": {
+      "message": "Επιστροφή"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Αυτή η λίστα είναι κενή αυτήν τη στιγμή"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Ιστότοποι όπου επιτρέπεται η εισαγωγή διαπιστευτηρίων:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Να επιτρέπεται η καταγραφή"
+   },
+   "optionsPageNoOptions": {
+      "message": "Δεν έχετε επιλογές προς διαμόρφωση."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "Το HP AI Credential Protection έχει εντοπίσει τη χρήση μιας αξιόπιστης επωνυμίας σε έναν μη σχετικό τομέα ή ιστότοπο. Αυτός θα μπορούσε να είναι ένας ιστότοπος ηλεκτρονικού \"ψαρέματος\" που προσπαθεί να κλέψει τα διαπιστευτήριά σας."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "Το HP Credential Protection έχει αποκλείσει μια νέα σελίδα που είναι κάτω από το καθορισμένο κατώτατο όριο ηλικίας."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "Το HP Credential Protection έχει εντοπίσει τη χρήση μιας αξιόπιστης επωνυμίας {BRAND} σε έναν μη σχετικό τομέα ή ιστότοπο. Αυτός θα μπορούσε να είναι ένας ιστότοπος ηλεκτρονικού \"ψαρέματος\" που προσπαθεί να κλέψει τα διαπιστευτήριά σας."
+   },
+   "overlayBlacklist_Description": {
+      "message": "Το HP Credential Protection έχει αποκλείσει μια γνωστή τοποθεσία ηλεκτρονικού \"ψαρέματος\"."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Προειδοποίηση: Η κλοπή διαπιστευτηρίων αποκλείστηκε"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "Το HP Credential Protection έχει αποκλείσει ένα πιθανώς επιβλαβές αρχείο."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "Το HP Credential Protection έχει αποκλείσει μια τοποθεσία που στέλνει πιστοποιήσεις μέσω Internet χωρίς κρυπτογράφηση."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Προειδοποίηση: Αποκλεισμένη μη ασφαλής σελίδα σύνδεσης"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Προειδοποίηση: Πιθανή κλοπή διαπιστευτηρίων που αποκλείστηκε"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "Το HP Credential Protection έχει αποκλείσει έναν άγνωστο ιστότοπο, ο οποίος θα μπορούσε να προσπαθεί να κλέψει τα διαπιστευτήριά σας."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Προειδοποίηση: Πιθανή κλοπή διαπιστευτηρίων"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Εμπιστεύομαι αυτόν τον ιστότοπο, συνέχεια"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Επιστροφή στην ασφάλεια"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Εάν πιστεύετε ότι αυτό δεν είναι σωστό, επικοινωνήστε με τον διαχειριστή του HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Συνεχίστε με απενεργοποιημένη τη σύνδεση"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Διαγραφή ιστότοπων"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "Το HP Wolf Security Extension θυμάται ποιους ιστότοπους έχετε επιλέξει να έχετε πρόσβαση με ασφάλεια χρησιμοποιώντας το HP Sure Click Secure Browser και ποιους ιστότοπους έχετε επιλέξει να ανοίξετε χρησιμοποιώντας το προεπιλεγμένο πρόγραμμα περιήγησης. Επιλέξτε το παρακάτω κουμπί για να διαγράψετε αυτές τις επιλογές."
+   },
+   "popupDisabled": {
+      "message": "Το HP Wolf Security Extension είναι απενεργοποιημένο."
+   },
+   "popupGenericError": {
+      "message": "Το HP Wolf Security αντιμετώπισε ένα σφάλμα. Επανεκκινήστε το πρόγραμμα περιήγησης."
+   },
+   "popupHelpLinkText": {
+      "message": "Λάβετε περισσότερες πληροφορίες"
+   },
+   "popupMissingHelper": {
+      "message": "Η επέκταση δεν μπορεί αν συνδεθεί με το HP Wolf Security. Βεβαιωθείτε ότι έχει εγκατασταθεί και εκτελείται μια συμβατή έκδοση του HP Wolf Security."
+   },
+   "popupNoError": {
+      "message": "Προστατεύεστε από το HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Άνοιγμα νέου παραθύρου Secure Browser"
+   },
+   "popupSureClickInitRequired": {
+      "message": "Το HP Sure Click απαιτεί αρχικοποίηση."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "Το HP Sure Click αναμένει διαμόρφωση και έχει απενεργοποιηθεί."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "Το HP Sure Click είναι χωρίς άδεια και έχει απενεργοποιηθεί."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Αυτή η διεύθυνση ανήκει σε αποκλεισμένες κατηγορίες: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Αυτή η διεύθυνση ανήκει σε μια αποκλεισμένη κατηγορία: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Αποκλείστηκε από HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Αυτή η διεύθυνση δεν είναι ασφαλής για τους ακόλουθους λόγους: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Αυτή η διεύθυνση δεν είναι ασφαλής."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Αυτή η διεύθυνση δεν είναι ασφαλής για τον ακόλουθο λόγο: {STATUSMSG}"
+   }
+}

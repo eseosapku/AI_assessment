@@ -1,0 +1,38 @@
+{
+  "http://localhost:3000/": {
+    "status": 200,
+    "location": null,
+    "notFoundHits": [
+      "\\\"\\n26:D\\\"$2a\\\"\\n26:D\\\"$29\\\"\\n26:D\\\"$2b\\\"\\n26:[[\\\"$\\\",\\\"title\\\",null,{\\\"children\\\":\\\"404: This page could not be found.\\\"},\\\"$29\\\",\\\"$2c\\\",1],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":{\\\"fontFamily\\\":\\\"system-ui,\\\\\\\"Seg",
+      ":{\\\"fontSize\\\":14,\\\"fontWeight\\\":400,\\\"lineHeight\\\":\\\"49px\\\",\\\"margin\\\":0},\\\"children\\\":\\\"This page could not be found.\\\"},\\\"$29\\\",\\\"$32\\\",1]},\\\"$29\\\",\\\"$31\\\",1]]},\\\"$29\\\",\\\"$2e\\\",1]},\\\"$29\\\",\\\"$2d\\\",1]]\\nb:["
+    ],
+    "nextErrorHits": []
+  },
+  "http://localhost:3000/signup": {
+    "status": 200,
+    "location": null,
+    "notFoundHits": [
+      "\\\"\\n26:D\\\"$2a\\\"\\n26:D\\\"$29\\\"\\n26:D\\\"$2b\\\"\\n26:[[\\\"$\\\",\\\"title\\\",null,{\\\"children\\\":\\\"404: This page could not be found.\\\"},\\\"$29\\\",\\\"$2c\\\",1],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":{\\\"fontFamily\\\":\\\"system-ui,\\\\\\\"Seg",
+      ":{\\\"fontSize\\\":14,\\\"fontWeight\\\":400,\\\"lineHeight\\\":\\\"49px\\\",\\\"margin\\\":0},\\\"children\\\":\\\"This page could not be found.\\\"},\\\"$29\\\",\\\"$32\\\",1]},\\\"$29\\\",\\\"$31\\\",1]]},\\\"$29\\\",\\\"$2e\\\",1]},\\\"$29\\\",\\\"$2d\\\",1]]\\nb:["
+    ],
+    "nextErrorHits": []
+  },
+  "http://localhost:3000/login": {
+    "status": 307,
+    "location": "/",
+    "notFoundHits": [
+      "\\\"\\n26:D\\\"$2a\\\"\\n26:D\\\"$29\\\"\\n26:D\\\"$2b\\\"\\n26:[[\\\"$\\\",\\\"title\\\",null,{\\\"children\\\":\\\"404: This page could not be found.\\\"},\\\"$29\\\",\\\"$2c\\\",1],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":{\\\"fontFamily\\\":\\\"system-ui,\\\\\\\"Seg",
+      ":{\\\"fontSize\\\":14,\\\"fontWeight\\\":400,\\\"lineHeight\\\":\\\"49px\\\",\\\"margin\\\":0},\\\"children\\\":\\\"This page could not be found.\\\"},\\\"$29\\\",\\\"$32\\\",1]},\\\"$29\\\",\\\"$31\\\",1]]},\\\"$29\\\",\\\"$2e\\\",1]},\\\"$29\\\",\\\"$2d\\\",1]]\\nb:["
+    ],
+    "nextErrorHits": [
+      "<!DOCTYPE html><html id=\"__next_error__\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-"
+    ]
+  },
+  "homeFailedResources": [
+    {
+      "status": 404,
+      "url": "http://localhost:3000/art/celebration.png",
+      "type": "image"
+    }
+  ]
+}

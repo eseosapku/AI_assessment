@@ -8,6 +8,7 @@ import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 import { subjectArt } from '@/lib/studio/subjectArt'
 import { useDialogBehavior } from '@/components/ui/Modal'
+import { assignmentBucket, assignmentDisplayTitle } from '@/lib/classroom-assignments'
 
 interface ClassroomInfo {
     id: string
@@ -1138,15 +1139,10 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
         const now = Date.now()
 
         for (const row of assignments) {
-            const deadline = row.assignment.deadline
-            const isExpired = deadline ? new Date(deadline).getTime() < now : false
-            if (row.status === 'completed' || isExpired) {
-                finished.push(row)
-            } else if (row.status === 'started') {
-                open.push(row)
-            } else {
-                upcoming.push(row)
-            }
+            const bucket = assignmentBucket(row.status, row.assignment.deadline, now)
+            if (bucket === 'finished') finished.push(row)
+            else if (bucket === 'open') open.push(row)
+            else upcoming.push(row)
         }
 
         return { upcoming, open, finished }
@@ -1190,8 +1186,8 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={subjectArt(row.assignment.subject)} alt="" aria-hidden className="h-11 w-11 shrink-0 object-contain" />
                                 <div className="min-w-0 flex-1">
-                                    <p className="truncate text-sm font-extrabold text-ss-ink">{row.assignment.title}</p>
-                                    <p className="mt-0.5 truncate text-xs font-semibold text-ss-slate">{row.assignment.subject} · Grade {row.assignment.grade}</p>
+                                    <p className="line-clamp-2 text-sm font-extrabold text-ss-ink">{assignmentDisplayTitle(row.assignment.title, row.assignment.subject)}</p>
+                                    <p className="mt-0.5 line-clamp-2 text-xs font-semibold text-ss-slate">{row.assignment.subject} · Grade {row.assignment.grade}</p>
                                 </div>
                                 {row.assignment.strict_mode && (
                                     <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[color:var(--ss-bad)]/10 px-2 py-0.5 text-[12px] font-bold text-ss-bad">
@@ -1247,15 +1243,15 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <p className="text-[12px] uppercase tracking-widest text-ss-slate">Upcoming</p>
-                    <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.upcoming.length}</p>
+                    <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{isLoadingAssignments ? '—' : grouped.upcoming.length}</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <p className="text-[12px] uppercase tracking-widest text-ss-slate">Open</p>
-                    <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.open.length}</p>
+                    <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{isLoadingAssignments ? '—' : grouped.open.length}</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <p className="text-[12px] uppercase tracking-widest text-ss-slate">Finished</p>
-                    <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.finished.length}</p>
+                    <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{isLoadingAssignments ? '—' : grouped.finished.length}</p>
                 </div>
             </div>
 

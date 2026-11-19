@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Avasit sivuston selaimessa HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Tällä sivustolla voi olla mahdollisia uhkia:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Avasit PDF-tiedoston selaimessa HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Tämän sivuston PDF-tiedostossa voi olla mahdollisia uhkia:"
+   },
+   "blockedPageContinue": {
+      "message": "Jatka tässä selaimessa"
+   },
+   "blockedPageContinueV2": {
+      "message": "Jatka selaimessa {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Lisätietoja"
+   },
+   "blockedPageRemember": {
+      "message": "Muista valintani tällä sivustolla"
+   },
+   "blockedPageSecure": {
+      "message": "Avaa selaimessa HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser auttaa suojaamaan tietokonettasi haittaohjelmista, kiristysohjelmista tai viruksista saastuneilta verkkosivustoilta ja tiedostoilta."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "HP Wolf Security havaitsi epäluotettavan verkkosivuston"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "HP Wolf Security havaitsi tunnistamattoman verkkosivuston"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Avaa Secure Browser -selaimessa"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Tämän sivuston ikä ({DOMAIN_AGE_DAYS} päivää) on alle määritetyn minimin."
+   },
+   "extDescription": {
+      "message": "HP Wolf Security tekee internetin selaamisesta turvallista."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "fi"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Sivusto on avattu selaimessa HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "PDF-tiedosto on avattu selaimessa HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Sulje välilehti"
+   },
+   "launchedPageGoBack": {
+      "message": "Palaa takaisin"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Tämä luettelo on tällä hetkellä tyhjä"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Sivustot, joissa kirjautumistunnusten syöttäminen on sallittua:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Ota lokikirjaaminen käyttöön"
+   },
+   "optionsPageNoOptions": {
+      "message": "Sinulla ei ole määritettäviä asetuksia."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection on havainnut luotetun tuotemerkin käytön vieraalla verkkotunnuksella tai verkkosivustolla. Tämä voi olla tietojenkalastelusivusto, joka yrittää varastaa tunnistetietosi."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection on estänyt uuden sivuston, joka on alle määritetyn minimi-ikärajan."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection on havainnut luotetun tuotemerkin {BRAND} käytön vieraalla verkkotunnuksella tai verkkosivustolla. Tämä voi olla tietojenkalastelusivusto, joka yrittää varastaa tunnistetietosi."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection on estänyt tunnetun tietojenkalastelusivuston."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Varoitus: Kirjautumistunnusten varkaus estetty"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection on estänyt mahdollisesti haitallisen tiedoston."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection on estänyt sivuston, joka lähettää kirjautumistunnuksia internetin välityksellä ilman salausta."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Varoitus: Turvaton kirjautumissivu estetty"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Varoitus: Mahdollinen kirjautumistunnusvarkaus estetty"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection on estänyt tuntemattoman sivuston, joka saattaa yrittää varastaa kirjautumistunnuksiasi."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Varoitus: Mahdollinen kirjautumistunnusvarkaus"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Luotan tähän sivustoon, jatka"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Takaisin turvaan"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Jos uskot tämän olevan virhe, ota yhteyttä tuotepaketin HP Wolf Security järjestelmänvalvojaan."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Jatka ilman kirjautumista"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Tyhjennä sivustot"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension muistaa, mitä sivuja olet valinnut käyttää turvallisesti käyttäen selainta HP Sure Click Secure Browser ja mitkä sivustot olet valinnut avaavasi oletusselaimella. Tyhjennä nämä valinnat alla olevasta painikkeesta."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension on poistettu käytöstä."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security kohtasi virheen. Käynnistä selain uudelleen."
+   },
+   "popupHelpLinkText": {
+      "message": "Lue lisätietoja"
+   },
+   "popupMissingHelper": {
+      "message": "Pääte ei voi muodostaa yhteyttä kohteeseen HP Wolf Security. Tarkista, että yhteensopiva HP Wolf Security-versio on asennettuna ja käynnissä."
+   },
+   "popupNoError": {
+      "message": "HP Wolf Security suojaa sinua."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Avaa uusi Secure Browser -ikkuna"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click vaatii alustuksen."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click odottaa määritystä ja on poistettu käytöstä."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "Tuotetta HP Sure Click ei ole lisensoitu ja on poistettu käytöstä."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Tämä osoite kuuluu estettyihin luokkiin: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Tämä osoite kuuluu estettyyn luokkaan: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Estäjä HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Tämä osoite ei ole turvallinen seuraavista syistä: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Tämä osoite ei ole turvallinen."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Tämä osoite ei ole turvallinen seuraavasta syystä: {STATUSMSG}"
+   }
+}

@@ -8,8 +8,8 @@ export function ProgressRow({ label, pct, trend, art }: { label: string; pct: nu
         // eslint-disable-next-line @next/next/no-img-element
         <img src={art} alt="" aria-hidden className="h-7 w-7 shrink-0 object-contain" />
       )}
-      <span className="w-[140px] shrink-0 truncate text-[13.5px] font-bold text-ss-ink">{label}</span>
-      <span className="h-2 flex-1 overflow-hidden rounded-md bg-ss-chip">
+      <span className="min-w-0 flex-[2] break-words text-[13.5px] font-bold leading-snug text-ss-ink">{label}</span>
+      <span className="h-2 min-w-20 flex-1 overflow-hidden rounded-md bg-ss-chip">
         <i className="block h-full rounded-md bg-gradient-to-r from-ss-accent-bright to-ss-accent" style={{ width: `${p}%` }} />
       </span>
       <span className="w-10 text-right text-[13px] font-extrabold tabular-nums text-ss-ink">{p}%</span>

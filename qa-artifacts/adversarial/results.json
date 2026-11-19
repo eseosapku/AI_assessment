@@ -1,0 +1,310 @@
+{
+  "origin": "http://localhost:3000",
+  "ranAt": "2026-11-19T10:03:56.698Z",
+  "login": [
+    {
+      "case": "1 empty body",
+      "status": 400,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 248,
+      "bodyLength": 57,
+      "preview": "{\"error\":\"Email or student ID and password are required\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    },
+    {
+      "case": "2 empty strings",
+      "status": 400,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 33,
+      "bodyLength": 57,
+      "preview": "{\"error\":\"Email or student ID and password are required\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    },
+    {
+      "case": "3 identifier 20000 a",
+      "status": 401,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 491,
+      "bodyLength": 31,
+      "preview": "{\"error\":\"Invalid credentials\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    },
+    {
+      "case": "4 script identifier",
+      "status": 401,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 240,
+      "bodyLength": 31,
+      "preview": "{\"error\":\"Invalid credentials\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    },
+    {
+      "case": "5 sql identifier",
+      "status": 401,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 248,
+      "bodyLength": 31,
+      "preview": "{\"error\":\"Invalid credentials\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    },
+    {
+      "case": "6 prompt identifier",
+      "status": 401,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 237,
+      "bodyLength": 31,
+      "preview": "{\"error\":\"Invalid credentials\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    },
+    {
+      "case": "7 unicode identifier",
+      "status": 401,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 242,
+      "bodyLength": 31,
+      "preview": "{\"error\":\"Invalid credentials\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    },
+    {
+      "case": "8 plain text body",
+      "status": 500,
+      "contentType": "application/json",
+      "location": null,
+      "cookieNames": [],
+      "elapsedMs": 35,
+      "bodyLength": 24,
+      "preview": "{\"error\":\"Login failed\"}",
+      "secretLeaked": false,
+      "stackTrace": false,
+      "reflectedPayload": false
+    }
+  ],
+  "get": [
+    {
+      "case": "GET /?q=<script>",
+      "path": "/?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "finalUrl": "http://localhost:3000/?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+      "hops": [
+        {
+          "status": 200,
+          "contentType": "text/html; charset=utf-8",
+          "location": null,
+          "bodyLength": 10962
+        }
+      ],
+      "bodyLength": 10962,
+      "preview": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\"/><link rel=\"stylesheet\" href=\"/_next/static/css/app/layout.css?v=1795082619981\" data-precedence=\"next_static/css/app/layout.css\"/><link r…",
+      "analysis": {
+        "unescapedCount": 0,
+        "inScriptTag": false,
+        "escapedPresent": false,
+        "urlEncodedPresent": true,
+        "jsUnicodeEscaped": true,
+        "secretLeaked": false,
+        "stackTrace": true,
+        "hits": []
+      }
+    },
+    {
+      "case": "GET /signup?email=<img>",
+      "path": "/signup?email=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "finalUrl": "http://localhost:3000/signup?email=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E",
+      "hops": [
+        {
+          "status": 200,
+          "contentType": "text/html; charset=utf-8",
+          "location": null,
+          "bodyLength": 34862
+        }
+      ],
+      "bodyLength": 34862,
+      "preview": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\"/><link rel=\"stylesheet\" href=\"/_next/static/css/app/layout.css?v=1795082620091\" data-precedence=\"next_static/css/app/layout.css\"/><link r…",
+      "analysis": {
+        "unescapedCount": 0,
+        "inScriptTag": false,
+        "escapedPresent": false,
+        "urlEncodedPresent": true,
+        "jsUnicodeEscaped": true,
+        "secretLeaked": false,
+        "stackTrace": true,
+        "hits": []
+      }
+    },
+    {
+      "case": "GET /reset-password?token=<script>",
+      "path": "/reset-password?token=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "finalUrl": "http://localhost:3000/reset-password?token=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+      "hops": [
+        {
+          "status": 200,
+          "contentType": "text/html; charset=utf-8",
+          "location": null,
+          "bodyLength": 18066
+        }
+      ],
+      "bodyLength": 18066,
+      "preview": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\"/><link rel=\"stylesheet\" href=\"/_next/static/css/app/layout.css?v=1795082623201\" data-precedence=\"next_static/css/app/layout.css\"/><link r…",
+      "analysis": {
+        "unescapedCount": 0,
+        "inScriptTag": false,
+        "escapedPresent": false,
+        "urlEncodedPresent": true,
+        "jsUnicodeEscaped": true,
+        "secretLeaked": false,
+        "stackTrace": true,
+        "hits": []
+      }
+    }
+  ],
+  "rendered": [
+    {
+      "case": "GET /?q=<script>",
+      "renderedPage": true,
+      "dialogs": [],
+      "dom": {
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "text": "StudySquare Features LearnSpace Exam prep Pricing Sign in Get started AI TUTOR · CURRICULUM-ALIGNED Stuck on something? We'll build you a way through it. Practice any topic, get unstuck with an AI tutor that draws you the whole lesson on a living canvas, and lock it into memory for good — all aligne…",
+        "emailValue": null,
+        "payloadInOuterHtml": false,
+        "snippet": "",
+        "suspiciousImgs": [],
+        "suspiciousScripts": [
+          "self.__next_f.push([1,\"aries\\\":[[\\\"$\\\",\\\"$L7\\\",null,{\\\"type\\\":\\\"boundary:not-found\\\",\\\"pagePath\\\":\\\"__next_builtin__not-"
+        ],
+        "dialogs": [],
+        "inputValues": []
+      },
+      "screenshot": {
+        "attempted": false,
+        "saved": false
+      }
+    },
+    {
+      "case": "GET /signup?email=<img>",
+      "renderedPage": true,
+      "dialogs": [],
+      "dom": {
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "text": "StudySquare StudySquare studio Start studying smarter today. Your first assessments are free — quizzes, interactive sets, and instant AI feedback for students and teachers. Assess Study Improve Classroom ready A PRODUCT OF ← Back to home Create your account Start your AI-powered learning journey — f…",
+        "emailValue": "",
+        "payloadInOuterHtml": false,
+        "snippet": "",
+        "suspiciousImgs": [],
+        "suspiciousScripts": [
+          "self.__next_f.push([1,\"0:{\\\"P\\\":\\\"$1\\\",\\\"c\\\":[\\\"\\\",\\\"signup?email=%3Cimg+src%3Dx+onerror%3Dalert%281%29%3E\\\"],\\\"q\\\":\\\"?e"
+        ],
+        "dialogs": [],
+        "inputValues": [
+          {
+            "id": "name",
+            "type": "text",
+            "value": ""
+          },
+          {
+            "id": "email",
+            "type": "email",
+            "value": ""
+          },
+          {
+            "id": "studentId",
+            "type": "text",
+            "value": ""
+          },
+          {
+            "id": "password",
+            "type": "password",
+            "value": ""
+          },
+          {
+            "id": "confirmPassword",
+            "type": "password",
+            "value": ""
+          }
+        ]
+      },
+      "screenshot": {
+        "attempted": false,
+        "saved": false
+      }
+    },
+    {
+      "case": "GET /reset-password?token=<script>",
+      "renderedPage": true,
+      "dialogs": [],
+      "dom": {
+        "title": "StudySquare — AI study & assessments | A Brain Ink product",
+        "text": "Reset password Enter the 6-digit code from your email and choose a new password Email address Verification code New password Confirm password Update password Request a new code Back to login",
+        "emailValue": "",
+        "payloadInOuterHtml": false,
+        "snippet": "",
+        "suspiciousImgs": [],
+        "suspiciousScripts": [
+          "self.__next_f.push([1,\"0:{\\\"P\\\":\\\"$1\\\",\\\"c\\\":[\\\"\\\",\\\"reset-password?token=%3Cscript%3Ealert%281%29%3C%2Fscript%3E\\\"],\\\"q"
+        ],
+        "dialogs": [],
+        "inputValues": [
+          {
+            "id": "email",
+            "type": "email",
+            "value": ""
+          },
+          {
+            "id": "otp",
+            "type": "text",
+            "value": ""
+          },
+          {
+            "id": "password",
+            "type": "password",
+            "value": ""
+          },
+          {
+            "id": "confirmPassword",
+            "type": "password",
+            "value": ""
+          }
+        ]
+      },
+      "screenshot": {
+        "attempted": true,
+        "saved": true,
+        "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\adversarial\\reset-password-token.png"
+      }
+    }
+  ],
+  "chromeError": null
+}

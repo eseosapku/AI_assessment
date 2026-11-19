@@ -417,7 +417,11 @@ export default function StudioHome() {
             hint="Open one to see every question and why each answer was marked the way it was."
             action={{ label: 'All progress', href: '/progress' }}
           />
-          {recentAssessments.length > 0 ? (
+          {loading ? (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Loading recent quizzes">
+              {[0, 1, 2].map((i) => <div key={i} className="h-60 animate-pulse rounded-[20px] bg-ss-chip" aria-hidden />)}
+            </div>
+          ) : recentAssessments.length > 0 ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {recentAssessments.slice(0, 6).map((assessment) => (
                 <AssessmentCard key={assessment.id} assessment={assessment} />
@@ -441,12 +445,16 @@ export default function StudioHome() {
 
       {/* ── Right rail ── */}
       <div className="flex flex-col gap-5">
-        <RingStat
-          pct={stats.avgScore}
-          name={firstName}
-          sub={stats.total === 0 ? 'No quizzes yet' : `${stats.avgScore}% average across ${stats.total} ${stats.total === 1 ? 'quiz' : 'quizzes'}`}
-          userId={user?.id}
-        />
+        {loading ? (
+          <div className="h-64 animate-pulse rounded-[22px] bg-ss-chip" aria-label="Loading progress summary" />
+        ) : (
+          <RingStat
+            pct={stats.avgScore}
+            name={firstName}
+            sub={stats.total === 0 ? 'No quizzes yet' : `${stats.avgScore}% average across ${stats.total} ${stats.total === 1 ? 'quiz' : 'quizzes'}`}
+            userId={user?.id}
+          />
+        )}
 
         {weekScores.length > 0 && (
           <div className="rounded-[22px] border border-ss-line bg-ss-panel p-[18px]">

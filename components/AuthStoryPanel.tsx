@@ -55,7 +55,7 @@ export function AuthStoryPanel({
           </div>
 
           <div className="relative">
-            <StudioCard className="absolute bottom-14 right-2 w-72 overflow-hidden p-3 rotate-[4deg]">
+            <StudioCard className="absolute bottom-14 right-2 hidden w-72 overflow-hidden p-3 rotate-[4deg] 2xl:block">
               <img src={photo} alt="Students collaborating around a laptop" className="h-40 w-full rounded-2xl object-cover" />
               <div className="mt-3 flex items-center justify-between">
                 <p className="font-display text-xl font-black">Classroom ready</p>

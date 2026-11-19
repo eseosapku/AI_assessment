@@ -1,0 +1,132 @@
+{
+  "href": "http://localhost:3000/signup",
+  "hash": "",
+  "scrollY": 0,
+  "spin": false,
+  "h1": "Start studying smarter today.",
+  "op": "1",
+  "color": "rgb(17, 19, 24)",
+  "rect": {
+    "x": 40,
+    "y": 320,
+    "w": 576,
+    "h": 127
+  },
+  "parentChain": [
+    {
+      "tag": "DIV",
+      "op": "1",
+      "inline": ""
+    },
+    {
+      "tag": "DIV",
+      "op": "1",
+      "inline": ""
+    },
+    {
+      "tag": "DIV",
+      "op": "1",
+      "inline": ""
+    },
+    {
+      "tag": "ASIDE",
+      "op": "1",
+      "inline": ""
+    }
+  ],
+  "sections": {
+    "features": null,
+    "how": null,
+    "pricing": null,
+    "studylab": null
+  },
+  "createInfo": {
+    "op": "1",
+    "color": "rgb(15, 23, 42)",
+    "x": 888,
+    "y": 102,
+    "w": 384,
+    "h": 36
+  },
+  "interesting": [
+    {
+      "tag": "A",
+      "t": "StudySquare",
+      "x": 40,
+      "y": 40,
+      "w": 640,
+      "h": 32
+    },
+    {
+      "tag": "P",
+      "t": "Assess",
+      "x": 56,
+      "y": 603,
+      "w": 131,
+      "h": 20
+    },
+    {
+      "tag": "P",
+      "t": "Study",
+      "x": 231,
+      "y": 603,
+      "w": 131,
+      "h": 20
+    },
+    {
+      "tag": "P",
+      "t": "Improve",
+      "x": 405,
+      "y": 603,
+      "w": 131,
+      "h": 20
+    },
+    {
+      "tag": "IMG",
+      "t": "Students collaborating around a laptop",
+      "x": 394,
+      "y": 566,
+      "w": 273,
+      "h": 178
+    },
+    {
+      "tag": "P",
+      "t": "Classroom ready",
+      "x": 390,
+      "y": 746,
+      "w": 170,
+      "h": 40
+    },
+    {
+      "tag": "IMG",
+      "t": "Brain Ink",
+      "x": 171,
+      "y": 842,
+      "w": 25,
+      "h": 14
+    }
+  ],
+  "imgs": [
+    {
+      "alt": "Students collaborating around a laptop",
+      "nw": 1200,
+      "nh": 675,
+      "rh": 178,
+      "rw": 273,
+      "inView": true,
+      "complete": true
+    },
+    {
+      "alt": "Brain Ink",
+      "nw": 96,
+      "nh": 54,
+      "rh": 14,
+      "rw": 25,
+      "inView": true,
+      "complete": true
+    }
+  ],
+  "unloadedInView": 0,
+  "dialog": null,
+  "title": "StudySquare — AI study & assessments | A Brain Ink product"
+}

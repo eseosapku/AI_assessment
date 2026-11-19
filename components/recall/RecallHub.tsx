@@ -61,10 +61,16 @@ export default function RecallHub() {
           <div>
             <p className="text-[12px] font-bold uppercase tracking-widest text-white/80">Due today</p>
             <p className="mt-1 text-6xl font-extrabold tabular-nums">{loading ? '—' : due}</p>
-            <p className="mt-2 text-sm font-semibold text-white/75">{total} card{total !== 1 ? 's' : ''} in your library</p>
+            <p className="mt-2 text-sm font-semibold text-white/75">
+              {loading ? 'Loading your card library…' : `${total} card${total !== 1 ? 's' : ''} in your library`}
+            </p>
           </div>
           <div className="relative flex flex-col gap-3 sm:items-end">
-            {due > 0 ? (
+            {loading ? (
+              <span className="inline-flex items-center justify-center rounded-full bg-white/15 px-8 py-3.5 text-sm font-bold text-white/90">
+                Loading cards…
+              </span>
+            ) : due > 0 ? (
               <Link href="/recall/review" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#13202A] px-8 py-3.5 text-sm font-bold text-white transition-transform hover:scale-[1.02]">
                 <Play className="h-4 w-4" /> Review {due} card{due !== 1 ? 's' : ''}
               </Link>

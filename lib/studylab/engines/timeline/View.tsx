@@ -103,6 +103,12 @@ function AxisLines({ ax, y }: { ax: Axis; y: number }) {
           </g>
         )
       })}
+      {ax.ticks.length > 0 && ax.to - ax.ticks[ax.ticks.length - 1] > d * 0.3 && (
+        <g>
+          <line x1={X1} x2={X1} y1={y} y2={y + 11} stroke={PAPER_INK} strokeWidth={1.5} />
+          <text x={X1 + 6} y={y + 25} textAnchor="end" fontSize={12} fontWeight={700} fill={PAPER_INK}>{fmtYear(toHist(ax.to), ax.plain)}</text>
+        </g>
+      )}
     </g>
   )
 }
@@ -211,7 +217,9 @@ function Place({ config, state, setState, marked, locked }: Props & { config: Pl
                 <line x1={X0} x2={X1} y1={ty} y2={ty} stroke={GROOVE} strokeWidth={6} strokeLinecap="round" aria-hidden="true" />
                 <line x1={X0} x2={X1} y1={ty} y2={ty} stroke={PLATE_EDGE} strokeWidth={1} aria-hidden="true" />
                 <EventTab name={it.name} top={top} />
-                <text x={X1 + 4} y={top + NAME_DY} textAnchor="end" fontSize={12} fontWeight={800} fill={it.given ? FIXED : ACCENT} aria-hidden="true">{readout}</text>
+                <text x={X1 + 4} y={top + NAME_DY} textAnchor="end" fontSize={12} fontWeight={800} fill={it.given ? FIXED : ACCENT} aria-hidden="true">
+                  {it.given || marked !== 'idle' || hs.some((h) => focus === h.key) ? readout : ''}
+                </text>
                 {isSpan && a !== undefined && b !== undefined && (
                   <rect x={xOf(Math.min(a, b), ax)} y={ty - 4} width={Math.abs(xOf(b, ax) - xOf(a, ax))} height={8} rx={3} fill={ACCENT} opacity={0.35} aria-hidden="true" />
                 )}

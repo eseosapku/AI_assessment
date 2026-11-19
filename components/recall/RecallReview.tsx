@@ -9,6 +9,7 @@ import { fetchDueCards, submitReview } from '@/lib/recall/client'
 import type { RecallCard } from '@/lib/recall/types'
 import { type RecallRating } from '@/lib/recall/sm2'
 import RecallCardFace from '@/components/recall/RecallCardFace'
+import { canonicalSubject } from '@/lib/canonical-subject'
 
 const RATING_META: {
   rating: RecallRating
@@ -176,7 +177,7 @@ export default function RecallReview() {
               >
                 {card.subject && (
                   <span className="mb-3 inline-block w-fit rounded-full bg-ss-chip px-2.5 py-0.5 text-[12px] font-black uppercase tracking-widest text-ss-accent">
-                    {card.subject}
+                    {canonicalSubject(card.subject)}
                   </span>
                 )}
                 <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">Question</p>
@@ -192,7 +193,7 @@ export default function RecallReview() {
               >
                 {card.subject && (
                   <span className="mb-3 inline-block w-fit rounded-full bg-ss-accent-soft px-2.5 py-0.5 text-[12px] font-black uppercase tracking-widest text-ss-accent">
-                    {card.subject}
+                    {canonicalSubject(card.subject)}
                   </span>
                 )}
                 <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent">Answer</p>

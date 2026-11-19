@@ -1,0 +1,90 @@
+[
+  {
+    "name": "studylab-demo",
+    "requested": "http://localhost:3000/studylab/demo",
+    "settled": {
+      "href": "http://localhost:3000/",
+      "ready": "complete",
+      "text": "StudySquare Features LearnSpace Exam prep Pricing Sign in Get started AI TUTOR · CURRICULUM-ALIGNED Stuck on something? We'll build you a way through it. Practice any topic, get unstuck with an AI tutor that draws you the whole lesson on a living canvas, and lock it into memory for good — all aligned to your curriculum. Get started free See how it works Instant AI feedback Builds you the lesson Yo",
+      "h2": [
+        {
+          "t": "One study space. Every way to learn it.",
+          "top": 1099
+        },
+        {
+          "t": "Not just multiple choice. Every question type.",
+          "top": 2882
+        },
+        {
+          "t": "Ask anything. Watch it become a lesson.",
+          "top": 3240
+        },
+        {
+          "t": "From stuck to mastered, in three steps.",
+          "top": 3895
+        },
+        {
+          "t": "Your whole syllabus, color-coded.",
+          "top": 4553
+        },
+        {
+          "t": "Run your class, see every student.",
+          "top": 5154
+        }
+      ],
+      "scrollH": 7159,
+      "spin": false,
+      "errs": []
+    },
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 325880,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\studylab-demo.png"
+  },
+  {
+    "name": "dev-scenes",
+    "requested": "http://localhost:3000/dev/scenes",
+    "settled": {
+      "href": "http://localhost:3000/dev/scenes",
+      "ready": "complete",
+      "text": "All scenes 0 of 333 cards marked Hide cards marked Good Physics Chemistry Biology Mathematics Computing Geography History and arguing Economics and business Science skills Arts Others Physics light written by Opus 5.5 Turn the mirror by its white knob until the light from the lamp reaches the eye. lamp eye mirror normal in out The light does not reach the eye. Good Needs changes Redo Start again S",
+      "h2": [
+        {
+          "t": "Physics",
+          "top": 108
+        },
+        {
+          "t": "Chemistry",
+          "top": 13835
+        },
+        {
+          "t": "Biology",
+          "top": 17423
+        },
+        {
+          "t": "Mathematics",
+          "top": 23159
+        },
+        {
+          "t": "Computing",
+          "top": 39701
+        },
+        {
+          "t": "Geography",
+          "top": 45983
+        }
+      ],
+      "scrollH": 114205,
+      "spin": false,
+      "errs": []
+    },
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 121679,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\dev-scenes.png"
+  }
+]

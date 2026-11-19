@@ -248,6 +248,7 @@ Strict grading guidance:
 4. For criteria requiring units, award only if units are explicitly present.
 5. If a reading passage exists, copied text without original explanation should not earn analysis marks.
 6. Do not punish correct concise answers when the rubric does not require explanation.
+7. The student submitted a response whenever the quoted answer contains any non-whitespace character. Never describe a non-empty answer as missing, unanswered, or not provided; explain instead which criterion it failed to meet.
 7. For comparison questions (bigger/smaller/greater/less), a correct direct choice like "18" can satisfy comparison criteria unless explanation is explicitly required.
 8. For "write in words" or spelling criteria, a correctly spelled single-word answer should be accepted.
 

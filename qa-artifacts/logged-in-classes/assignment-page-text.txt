@@ -1,0 +1,212 @@
+Back
+Save as PDF
+
+ASSESSMENT REVIEW · SEP 7, 2026
+
+Assessment
+
+Assessment
+
+19%
+D
+NEEDS WORK
+5/7
+MCQ correct
+0/19
+Written marks
+19%
+Final score
+D
+Grade
+How you did
+
+Written for this attempt, not a template
+
+What you did well
+You demonstrated a solid understanding of the overarching goal of Gaussian elimination, correctly identifying it as transforming an augmented matrix into Row Echelon Form (REF) in Q1. This shows you grasp the fundamental purpose of the method – to systematically simplify the system of equations.
+Your comprehension of Row Echelon Form and Reduced Row Echelon Form is strong, as evidenced by your correct answers in Q5 and Q8. You accurately differentiated between the two, highlighting the additional requirements for RREF concerning zeros above and below pivots, and the pivot values themselves.
+You also correctly identified key principles regarding solution sets and pivots in multiple choice questions (Q7 & Q9), demonstrating a good grasp of the theoretical concepts surrounding Gaussian elimination and its purpose within solving linear equations.
+Areas to improve
+️ Elementary Row Operations (Q2): You incorrectly identified “Row addition” as not being an elementary row operation, when in fact, it is a fundamental ERO. This suggests a misunderstanding of the foundational actions allowed during Gaussian elimination; remember the three EROs are row swapping, row scaling (multiplication), and row addition/subtraction.
+️ Pivot Definition (Q3): Your answer to Q3 indicated a partial understanding of the ‘pivot’ concept, describing it as “The element used to eliminate entries in other rows,” which is true but incomplete. The crucial aspect of a pivot is that it’s specifically used to eliminate entries below it in its column during the forward elimination stage of Gaussian elimination.
+️ Applying Gaussian Elimination (Q4, Q6, Q10): The most significant area for improvement is in applying the Gaussian elimination process itself, as evidenced by scoring 0/6 on Q4, 0/8 on Q6, and 0/5 on Q10. You were unable to demonstrate the step-by-step transformation into REF, identify pivot variables, perform backward substitution, or even adequately explain the process. This indicates a disconnect between knowing what Gaussian elimination is and being able to do it.
+How to improve
+� Practice with Simple Systems: Begin by working through numerous examples of Gaussian elimination with very simple 2x2 and 3x3 systems of equations by hand. Focus on meticulously applying the EROs and clearly identifying the pivot in each step. Don't just aim for the final REF/RREF form; write out every row operation performed.
+� Focus on Worked Examples & Reverse Engineering: Find detailed, fully worked examples of Gaussian elimination (textbooks, online resources like Khan Academy). Instead of just reading them, cover up the solution steps and try to recreate them yourself. Then, uncover the steps to compare and identify where you went wrong.
+� Develop a Structured Approach to Long-Form Questions: For long-form questions, outline your answer before you start writing. Specifically for Gaussian elimination, create a template including sections for: (1) Initial Augmented Matrix, (2) Identification of Pivot, (3) ERO Performed, (4) Resulting Matrix. This will force you to organize your thoughts and demonstrate a clear, step-by-step process to the examiner, even if your calculations aren’t perfect.
+What to work on next
+
+These are the areas that cost you marks.
+
+math
+
+50%
+
+5 of 10 correct
+
+REVIEW
+Q2
+Q3
+Q4
+Q6
+Q10
+Study these areas
+
+Studying opens your gap map, where you can pick a topic and learn it in LearnSpace.
+
+Every question, and why
+Question 1
+What is the primary goal of Gaussian elimination when applied to a system of linear equations?
+To find the determinant of the coefficient matrix
+To transform the augmented matrix into Row Echelon Form (REF)(CORRECT)
+To solve for the variables directly without any transformation
+To find the eigenvalues of the coefficient matrix
+Explanation: The correct answer is to transform the augmented matrix into Row Echelon Form (REF). The other options are incorrect because Gaussian elimination is not used to find the determinant, solve variables directly, or find eigenvalues.
+
+Source:
+math
+
+Report a problem
+x
+Question 2
+Which of the following is NOT an elementary row operation (ERO) used in Gaussian elimination?
+Row addition(YOUR ANSWER)
+Row multiplication(CORRECT)
+Row swapping
+Row scaling
+Explanation: Row addition, row swapping, and row scaling are valid EROs, but 'Row multiplication' is not a standard term. The correct term is 'Scalar multiplication', making 'Row multiplication' the incorrect option.
+
+Source:
+math
+
+Report a problem
+x
+Question 3
+In the context of Gaussian elimination, what does the term 'pivot' refer to?
+The element used to eliminate entries below it in its column(CORRECT)
+The element used to eliminate entries above it in its column
+The element used to eliminate entries in other columns
+The element used to eliminate entries in other rows(YOUR ANSWER)
+Explanation: The pivot is the element used to eliminate entries below it in its column, making option A correct. The other options incorrectly describe the role of a pivot.
+
+Source:
+math
+
+Report a problem
+0/6
+Question 4
+Long form - 6 marks
+Explain the process of Gaussian elimination using an example system of linear equations. Provide a step-by-step breakdown of how you would transform the system into Row Echelon Form (REF).
+YOUR ANSWER
+n
+MARKING CRITERIA - CLICK ANY TO SEE WHY
+N
+Correct identification of the pivot
+tap
+N
+Proper application of elementary row operations
+tap
+N
+Step-by-step transformation into REF
+tap
+AI Feedback: The student did not provide a response. To earn marks, please provide a step-by-step explanation of Gaussian elimination with an example system of equations.
+Show model answer
+
+Source:
+math
+
+Report a problem
+Question 5
+What is the main difference between Row Echelon Form (REF) and Reduced Row Echelon Form (RREF)?
+REF has leading 1s in each pivot column, while RREF has zeros above and below each pivot
+REF has leading 1s in each pivot column, while RREF has zeros only below each pivot
+REF has leading 1s in each pivot column, while RREF has zeros only above each pivot
+REF has leading 1s in each pivot column, while RREF has zeros both above and below each pivot and the pivots are the only non-zero entries in their columns(CORRECT)
+Explanation: The correct answer is that RREF has leading 1s in each pivot column, zeros both above and below each pivot, and the pivots are the only non-zero entries in their columns. The other options incorrectly describe the properties of RREF.
+
+Source:
+math
+
+Report a problem
+0/8
+Question 6
+Long form - 8 marks
+Describe how you would use Gaussian elimination to solve a system of linear equations with an augmented matrix in Reduced Row Echelon Form (RREF). Provide a detailed explanation of the backward substitution process.
+YOUR ANSWER
+jn
+MARKING CRITERIA - CLICK ANY TO SEE WHY
+N
+Correct identification of pivot variables
+tap
+N
+Proper backward substitution process
+tap
+N
+Clear explanation of the solution
+tap
+AI Feedback: The student's response was completely blank and did not address any part of the question. Please review the reference model answer for a complete explanation.
+Show model answer
+
+Source:
+math
+
+Report a problem
+Question 7
+Which of the following statements about the solution set of a system of linear equations is true?
+A system of linear equations always has a unique solution
+A system of linear equations can have no solution, a unique solution, or infinitely many solutions(CORRECT)
+A system of linear equations always has infinitely many solutions
+A system of linear equations can only have a unique solution or no solution
+Explanation: The correct answer is that a system of linear equations can have no solution, a unique solution, or infinitely many solutions. The other options incorrectly limit the possible outcomes.
+
+Source:
+math
+
+Report a problem
+Question 8
+Which of the following statements is true about the Reduced Row Echelon Form (RREF) of a matrix?
+All pivots must be 1 and each pivot is the only nonzero entry in its column(CORRECT)
+RREF is achieved by applying only row addition operations
+RREF can only be achieved for square matrices
+RREF is the same as Row Echelon Form (REF)
+Explanation: The correct answer is 'All pivots must be 1 and each pivot is the only nonzero entry in its column' because this is a defining characteristic of RREF. The other options are incorrect: RREF is achieved by applying a combination of row operations, it can be applied to both square and rectangular matrices, and RREF is a more refined version of REF with additional conditions.
+
+Source:
+math
+
+Report a problem
+Question 9
+During Gaussian elimination, what is the purpose of using a pivot in the forward elimination process?
+To eliminate the entries above the pivot in the same column
+To eliminate the entries below the pivot in the same column(CORRECT)
+To eliminate the entries in the same row as the pivot
+To eliminate the entries in the same column as the pivot but above the pivot
+Explanation: The correct answer is 'To eliminate the entries below the pivot in the same column' because the pivot is used to eliminate the entries below it in its column, transforming the matrix into an upper triangular form. The other options are incorrect: the pivot does not eliminate entries above it, it does not eliminate entries in the same row, and it does not eliminate entries in the same column but above the pivot.
+
+Source:
+math
+
+Report a problem
+0/5
+Question 10
+Long form - 5 marks
+Explain the process of Gaussian elimination and how it is used to solve a system of linear equations. Provide a step-by-step example using a given system of equations.
+YOUR ANSWER
+.,
+MARKING CRITERIA - CLICK ANY TO SEE WHY
+N
+Explanation of Gaussian elimination process
+tap
+N
+Step-by-step application to a given system
+tap
+N
+Correct identification of pivots and use of EROs
+tap
+AI Feedback: The response is incomplete and does not address any of the criteria. Please provide a full explanation of the Gaussian elimination process, a step-by-step application to a given system, and correct identification of pivots and use of EROs.
+Show model answer
+
+Source:
+math
+
+Report a problem

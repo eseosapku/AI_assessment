@@ -8,6 +8,7 @@ import { useAuth } from '@/components/AuthProvider'
 import { useNotifications } from '@/lib/hooks/useNotifications'
 import { relativeTime, type NotificationKind } from '@/lib/studio/notifications'
 import { usePopoverBehavior } from '@/components/ui/Modal'
+import { CLOSE_NOTIFICATIONS_EVENT } from '@/lib/studio/menu-events'
 
 const KIND: Record<NotificationKind, { icon: typeof Bell; chip: string }> = {
   graded: { icon: GraduationCap, chip: 'bg-[color:var(--ss-good)]/15 text-ss-good' },
@@ -25,6 +26,11 @@ export default function NotificationBell() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    const close = () => setOpen(false)
+    window.addEventListener(CLOSE_NOTIFICATIONS_EVENT, close)
+    return () => window.removeEventListener(CLOSE_NOTIFICATIONS_EVENT, close)
+  }, [])
 
   const place = () => {
     const r = btnRef.current?.getBoundingClientRect()
@@ -120,8 +126,8 @@ export default function NotificationBell() {
                           <Icon className="h-[18px] w-[18px]" strokeWidth={1.9} />
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-[13px] font-extrabold text-ss-ink">{n.title}</span>
-                          {n.body && <span className="block truncate text-[12px] font-semibold text-ss-slate">{n.body}</span>}
+                          <span className="block line-clamp-2 text-[13px] font-extrabold leading-snug text-ss-ink">{n.title}</span>
+                          {n.body && <span className="block line-clamp-2 text-[12px] font-semibold leading-snug text-ss-slate">{n.body}</span>}
                           <span className="mt-0.5 block text-[12px] font-bold uppercase tracking-wide text-[color:var(--ss-slate)]/70">{relativeTime(n.ts)}</span>
                         </span>
                         {unread && <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-ss-accent" />}

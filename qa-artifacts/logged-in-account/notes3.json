@@ -1,0 +1,117 @@
+{
+  "bell": {
+    "x": 1232.875,
+    "y": 69,
+    "label": "Notifications, 1 unread"
+  },
+  "focused": true,
+  "afterSpace": [
+    "profile-sidebar-title",
+    "Notifications"
+  ],
+  "afterActivate": {
+    "dialogs": [
+      {
+        "label": "profile-sidebar-title",
+        "top": 0,
+        "left": 1056,
+        "right": 1440,
+        "bottom": 900,
+        "z": "50"
+      },
+      {
+        "label": "Notifications",
+        "top": 98,
+        "left": 914,
+        "right": 1254,
+        "bottom": 228,
+        "z": "61"
+      }
+    ],
+    "overlap": {
+      "w": 198,
+      "h": 130
+    }
+  },
+  "reopened": true,
+  "linkInfo": {
+    "found": true,
+    "x": 1240,
+    "y": 746,
+    "hit": "Settings",
+    "inside": true
+  },
+  "path": "/settings",
+  "settings": {
+    "href": "http://localhost:3000/settings",
+    "h1": "Profile & security",
+    "header": "Welcome back, Sumba 1 Sumba",
+    "fields": [
+      {
+        "id": "",
+        "type": "file",
+        "value": ""
+      },
+      {
+        "id": "set-email",
+        "type": "email",
+        "value": "b.sumba@alustudent.com"
+      },
+      {
+        "id": "set-full-name",
+        "type": "text",
+        "value": "Sumba Mabumba Branis"
+      },
+      {
+        "id": "set-country",
+        "type": "select-one",
+        "value": "RW"
+      },
+      {
+        "id": "set-class-section",
+        "type": "select-one",
+        "value": "Grade1"
+      },
+      {
+        "id": "set-student-id",
+        "type": "text",
+        "value": "STD-2024-3169"
+      },
+      {
+        "id": "set-role",
+        "type": "text",
+        "value": "student"
+      },
+      {
+        "id": "set-subjects",
+        "type": "text",
+        "value": "Mathematics, Physics, Chemistry, Biology, Computer Science"
+      },
+      {
+        "id": "set-current-password",
+        "type": "password",
+        "value": ""
+      },
+      {
+        "id": "set-new-password",
+        "type": "password",
+        "value": ""
+      },
+      {
+        "id": "set-confirm-new-password",
+        "type": "password",
+        "value": ""
+      }
+    ],
+    "emails": [],
+    "paywall": false,
+    "dialogs": [],
+    "text": "SETTINGS Profile & security Update your profile and password. Your student ID stays your primary identifier. PROFILE PHOTO Your photo Upload a new image or remove it to use the default. Change photo Remove Saved to your account — it follows you to any device you sign in on. PROFILE DETAILS Update your profile Your name, class and subjects. These decide what the dashboard and quiz builder show you first. EMAIL ADDRESS Required for payment receipts and subscription checkout. Your student ID still works for login. FULL NAME COUNTRY 🌍 International / Other 🇳🇬 Nigeria 🇰🇪 Kenya 🇬🇭 Ghana 🇺🇬 Uganda 🇷🇼 Rwanda 🇿🇦 South Africa 🇹🇿 Tanzania 🇪🇹 Ethiopia 🇨🇲 Cameroon 🇸🇳 Senegal 🇿🇲 Zambia 🇿🇼 Zimbabwe Rwanda REB national curriculum & Cambridge · Card or MoMo (RWF) — MoMo OTP via WhatsApp or email at checkout CLASS / SECTION Grade 1 Grade 6 Grade 7 Grade 8 Grade 9 Grade 10 Grade 11 Grade 12 STUDENT ID Your school set this. It can't be changed here. ROLE Set when your account was made. Ask your school to change it. YOUR SUBJECTS These come up first when you build a quiz. Separate them with commas. YOUR FOCUS Sets what your dashboard leads with. Boost grades Explore & learn ACCESSIBILITY Saved on this device, so you can set it differently on your phone. Larger text Makes everything bigger, not just this page. Higher contrast Stronger text and borders — helps in bright sunlight. Reduce motion Turns off animations and sliding transitions. FINDING YOUR WAY Replays the short tour of the menu. Show me around again Save changes PASSWORD Change your password Enter your current password, then a new one of at least 6 characters. CURRENT PASSWORD NEW PASSWORD CONFIRM NEW PASSWORD Change password"
+  },
+  "scrollMid": {
+    "sh": 2225,
+    "ch": 766,
+    "top": 1113
+  },
+  "settingsBottom": "HOTO Your photo Upload a new image or remove it to use the default. Change photo Remove Saved to your account — it follows you to any device you sign in on. PROFILE DETAILS Update your profile Your name, class and subjects. These decide what the dashboard and quiz builder show you first. EMAIL ADDRESS Required for payment receipts and subscription checkout. Your student ID still works for login. FULL NAME COUNTRY 🌍 International / Other 🇳🇬 Nigeria 🇰🇪 Kenya 🇬🇭 Ghana 🇺🇬 Uganda 🇷🇼 Rwanda 🇿🇦 South Africa 🇹🇿 Tanzania 🇪🇹 Ethiopia 🇨🇲 Cameroon 🇸🇳 Senegal 🇿🇲 Zambia 🇿🇼 Zimbabwe Rwanda REB national curriculum & Cambridge · Card or MoMo (RWF) — MoMo OTP via WhatsApp or email at checkout CLASS / SECTION Grade 1 Grade 6 Grade 7 Grade 8 Grade 9 Grade 10 Grade 11 Grade 12 STUDENT ID Your school set this. It can't be changed here. ROLE Set when your account was made. Ask your school to change it. YOUR SUBJECTS These come up first when you build a quiz. Separate them with commas. YOUR FOCUS Sets what your dashboard leads with. Boost grades Explore & learn ACCESSIBILITY Saved on this device, so you can set it differently on your phone. Larger text Makes everything bigger, not just this page. Higher contrast Stronger text and borders — helps in bright sunlight. Reduce motion Turns off animations and sliding transitions. FINDING YOUR WAY Replays the short tour of the menu. Show me around again Save changes PASSWORD Change your password Enter your current password, then a new one of at least 6 characters. CURRENT PASSWORD NEW PASSWORD CONFIRM NEW PASSWORD Change password"
+}

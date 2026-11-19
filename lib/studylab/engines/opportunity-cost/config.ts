@@ -184,7 +184,7 @@ export const opportunityCostEngine: SceneEngine<OpportunityConfig, OpportunitySt
       }
     } else {
       const solution = wheatWorkers(config)
-      const assignment = new RegExp(`\\b${solution}\\s+(?:of the\s+)?workers?|\\b(?:move|transfer|add|put|assign)\\s+(?:one|two|three|four|1|2|3|4)\\s+workers?`, 'i').test(text)
+      const assignment = new RegExp(`\\b${solution}\\s+(?:of the\\s+)?workers?|\\b(?:move|transfer|add|put|assign)\\s+(?:one|two|three|four|1|2|3|4)\\s+workers?`, 'i').test(text)
       const direction = /\b(?:move|transfer|add|put|assign)\b[^.?!]{0,35}\b(?:to|into|towards?)\s+(?:wheat|vegetables?)\b/i.test(text)
       const answer = /\bopportunity cost\b[^.?!]{0,60}\b(?:is|=)\b|\b(?:gains?|gives? up|forgo\\w*|sacrific\\w*)\s+\d+\s+tonnes?/i.test(text)
       if (assignment || direction || answer) out.push(`the prompt gives the worker allocation or opportunity cost away, which the learner is to discover -- name the gesture and order only ("${example}")`)

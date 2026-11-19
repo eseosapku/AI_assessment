@@ -1,0 +1,42 @@
+﻿{
+    "buttons":  [
+                    {
+                        "x":  1242,
+                        "y":  1100,
+                        "w":  16,
+                        "h":  16,
+                        "html":  "\u003cbutton type=\"button\" class=\"absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-gray-300\"\u003e\u003csvg xmlns=\"http://www.w3.o"
+                    },
+                    {
+                        "x":  1242,
+                        "y":  1184,
+                        "w":  16,
+                        "h":  16,
+                        "html":  "\u003cbutton type=\"button\" class=\"absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-gray-300\"\u003e\u003csvg xmlns=\"http://www.w3.o"
+                    }
+                ],
+    "phrase":  [
+                   {
+                       "text":  "StudySquare\nStudySquare studio\nStart studying \nsmarter today.\n\nYour first assessments are free — quizzes, interactive se",
+                       "x":  0,
+                       "y":  0,
+                       "w":  1440,
+                       "h":  1500
+                   },
+                   {
+                       "text":  "StudySquare\nStudySquare studio\nStart studying \nsmarter today.\n\nYour first assessments are free — quizzes, interactive se",
+                       "x":  0,
+                       "y":  0,
+                       "w":  720,
+                       "h":  1500
+                   },
+                   {
+                       "text":  "StudySquare\nStudySquare studio\nStart studying \nsmarter today.\n\nYour first assessments are free — quizzes, interactive se",
+                       "x":  0,
+                       "y":  0,
+                       "w":  720,
+                       "h":  1500
+                   }
+               ],
+    "vh":  1500
+}

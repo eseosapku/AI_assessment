@@ -20,6 +20,7 @@ import {
 import ThemeToggle from './ThemeToggle'
 import { Wordmark } from './Brand'
 import AuthModal from './AuthModal'
+import { landingAuthModeFromSearch, scrollToLandingHash } from '@/lib/landing-navigation'
 
 type AuthModalMode = 'login' | 'signup'
 
@@ -138,16 +139,16 @@ function Nav() {
         <Link href="/" aria-label="StudySquare home">
           <Wordmark />
         </Link>
-        <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
-          {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([label, href]) => (
+        <nav aria-label="Main" className="hidden items-center gap-4 md:flex lg:gap-8">
+          {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#exam-prep'], ['Pricing', '#pricing']].map(([label, href]) => (
             <a key={label} href={href} className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
               {label}
             </a>
           ))}
         </nav>
         <div className="flex items-center gap-2 sm:gap-3">
-          <ThemeToggle />
-          <button type="button" onClick={openLogin} className="hidden rounded-full px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 sm:block">
+          <span className="hidden sm:block"><ThemeToggle /></span>
+          <button data-testid="mobile-sign-in" type="button" onClick={openLogin} className="rounded-full px-2 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 sm:px-3">
             Sign in
           </button>
           <button type="button" onClick={openSignup} className="group inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_30px_-12px_rgba(14,143,209,0.9)] transition-transform hover:scale-[1.03]" style={{ background: CYAN }}>
@@ -380,7 +381,7 @@ function Features() {
                 Ask anything and watch it become an interactive canvas: explainer cards, diagrams, runnable examples, and checkpoints that quiz you. Stuck on homework? Type it, snap it, or drop a PDF — the tutor reads it and walks you through.
               </p>
               <div className="relative mt-6 flex-1">
-                <ShotFrame src="/landing/shot-studylab.png" alt="StudyLab canvas" label="StudyLab canvas" tone={GREEN} />
+                <ShotFrame src="/landing/shot-studylab.png" alt="LearnSpace canvas" label="LearnSpace canvas" tone={GREEN} />
               </div>
             </div>
           </Reveal>
@@ -460,7 +461,7 @@ function Features() {
 
           {/* Exam prep — past-paper card */}
           <Reveal delay={0.15}>
-            <div className="relative h-full overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424]">
+            <div id="exam-prep" className="relative h-full scroll-mt-20 overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424]">
               <div aria-hidden className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20 blur-2xl" style={{ background: AMBER }} />
               <div className="relative flex items-center gap-3">
                 <FeatureArt src="/art/exam.png" tone={AMBER} />
@@ -483,7 +484,7 @@ function Features() {
 /* ===================================================== question-type marquee */
 
 function QuestionMarquee() {
-  const shots = ['/hero/q-order.png', '/hero/q-fillgaps.png', '/hero/q-categorize.png']
+  const shots = ['/hero/q-order.png', 'fill-gaps', '/hero/q-categorize.png']
   const row = [...shots, ...shots]
   return (
     <section className="overflow-hidden border-y border-black/[0.06] bg-white py-16 dark:border-white/10 dark:bg-[#0a0f1e]">
@@ -505,8 +506,22 @@ function QuestionMarquee() {
         >
           {row.map((src, i) => (
             <div key={i} className="w-[320px] shrink-0 overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_24px_60px_-30px_rgba(8,47,73,0.5)] dark:border-white/10 dark:bg-[#0e1424] sm:w-[400px]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="Interactive question type" loading="lazy" className="block w-full" />
+              {src === 'fill-gaps' ? (
+                <div className="min-h-[220px] p-6 text-ss-ink">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-ss-good">Fill in the gaps</p>
+                  <p className="mt-5 text-base font-semibold leading-8">
+                    Forces remain <span className="inline-block min-w-24 border-b-2 border-ss-good" /> when they are equal.
+                    This relationship is described by <span className="inline-block min-w-24 border-b-2 border-ss-good" /> law.
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2 text-sm font-bold">
+                    <span className="rounded-full bg-ss-chip px-3 py-1.5 text-ss-good">balanced</span>
+                    <span className="rounded-full bg-ss-chip px-3 py-1.5 text-ss-good">Newton&apos;s</span>
+                  </div>
+                </div>
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={src} alt="Interactive question type" loading="lazy" className="block w-full" />
+              )}
             </div>
           ))}
         </motion.div>
@@ -530,7 +545,7 @@ function StudyLabSpotlight() {
             Ask anything. Watch it become a lesson.
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/85">
-            StudyLab isn&apos;t a chatbot in a box. It lays your topic out on a spatial canvas you can explore — and quizzes you with checkpoints so it actually sticks.
+            LearnSpace isn&apos;t a chatbot in a box. It lays your topic out on a spatial canvas you can explore — and quizzes you with checkpoints so it actually sticks.
           </p>
           <div className="mt-7 flex flex-wrap gap-2">
             {nodes.map((n) => (
@@ -540,11 +555,11 @@ function StudyLabSpotlight() {
             ))}
           </div>
           <button type="button" onClick={openSignup} className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-[#0C5E92] transition-transform hover:scale-[1.03]">
-            Try StudyLab free <ArrowRight className="h-4 w-4" />
+            Try LearnSpace free <ArrowRight className="h-4 w-4" />
           </button>
         </Reveal>
         <Reveal delay={0.1} className="lg:scale-[1.04]">
-          <ShotFrame src="/landing/shot-canvas.png" alt="StudyLab interactive canvas" label="StudyLab canvas" tone={GREEN} />
+          <ShotFrame src="/landing/shot-canvas.png" alt="LearnSpace interactive canvas" label="LearnSpace canvas" tone={GREEN} />
         </Reveal>
       </div>
     </section>
@@ -604,7 +619,7 @@ function GapMapShowcase() {
             Your whole syllabus, color-coded.
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-slate-600 dark:text-slate-300">
-            Every subject you&apos;ve been assessed in, mapped into a branched tree — mastered, developing, or a gap. Tap any weak branch and StudyLab starts a directed session on the spot.
+            Every subject you&apos;ve been assessed in, mapped into a branched tree — mastered, developing, or a gap. Tap any weak branch and LearnSpace starts a directed session on the spot.
           </p>
           <div className="mt-7 flex flex-wrap gap-4">
             {[['Mastered', 'bg-blue-500'], ['Developing', 'bg-amber-500'], ['Learning gap', 'bg-red-500']].map(([l, c]) => (
@@ -714,7 +729,7 @@ function FinalCTA() {
         <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.25rem] px-8 py-16 text-center sm:py-20" style={{ background: CYAN }}>
           <GridTexture opacity={0.7} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/art/celebration.png" alt="" aria-hidden onError={(e) => ((e.currentTarget.style.display = 'none'))} className="pointer-events-none absolute right-6 top-6 h-24 w-24 opacity-90" />
+          <img src="/art/celebration.svg" alt="" aria-hidden className="pointer-events-none absolute right-6 top-6 h-24 w-24 opacity-90" />
           <div className="relative">
             <h2 className="mx-auto max-w-2xl font-sans text-4xl font-bold leading-[1.05] tracking-[-0.02em] text-white sm:text-6xl">
               Your next study session could be your best one.
@@ -747,7 +762,7 @@ function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 sm:flex-row sm:px-8">
         <Wordmark />
         <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([l, h]) => (
+          {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#exam-prep'], ['Pricing', '#pricing']].map(([l, h]) => (
             <a key={l} href={h} className="text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">{l}</a>
           ))}
         </nav>
@@ -762,6 +777,19 @@ function Footer() {
 export default function LandingPage() {
   const [authModal, setAuthModal] = useState<AuthModalMode | null>(null)
   const authValue = useMemo(() => ({ openLogin: () => setAuthModal('login'), openSignup: () => setAuthModal('signup') }), [])
+
+  useEffect(() => {
+    const requestedAuth = landingAuthModeFromSearch(window.location.search)
+    if (requestedAuth) setAuthModal(requestedAuth)
+
+    const scrollToSection = () => scrollToLandingHash(window.location.hash)
+    const frame = window.requestAnimationFrame(scrollToSection)
+    window.addEventListener('hashchange', scrollToSection)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('hashchange', scrollToSection)
+    }
+  }, [])
 
   return (
     <LandingAuthContext.Provider value={authValue}>

@@ -42,7 +42,9 @@ export default function ExamPrepPage() {
               exams inside are filtered to the countries that sit them. */}
           <h1 className="mt-2 text-[30px] font-extrabold tracking-tight">Exam prep</h1>
           <p className="mt-2 text-sm font-semibold text-white/85">
-            Sit a real paper under real conditions — Cambridge Checkpoint, and your national exams.
+            {user.country === 'NG'
+              ? 'Sit a real paper under real conditions — Cambridge Checkpoint and Nigeria’s national exams.'
+              : 'Sit a Cambridge Checkpoint paper under real exam conditions.'}
           </p>
         </div>
       </section>

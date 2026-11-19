@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Siteyi, HP Sure Click Secure Browser’de açtınız."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Bu site potansiyel tehditler içeriyor olabilir:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "PDF dosyasını, HP Sure Click Secure Browser’de açtınız."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Bu siteden gelen PDF dosyası potansiyel tehditler içeriyor olabilir:"
+   },
+   "blockedPageContinue": {
+      "message": "Bu tarayıcıda devam et"
+   },
+   "blockedPageContinueV2": {
+      "message": "{THIS_BROWSER}’da devam et"
+   },
+   "blockedPageHelpLink": {
+      "message": "Daha Fazla Bilgi"
+   },
+   "blockedPageRemember": {
+      "message": "Bu site için kararımı hatırla"
+   },
+   "blockedPageSecure": {
+      "message": "HP Sure Click Secure Browser içinde aç"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser, bilgisayarınızı zararlı yazılımlar, fidye yazılımları veya virüsler içeren web siteleri ve dosyalara karşı korur."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "HP Wolf Security tarafından tespit edilmiş güvenilir olmayan web sitesi"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "HP Wolf Security tarafından tespit edilmiş tanımlanamayan web sitesi"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Secure Browser’da Aç"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Bu sitenin yaşı ({DOMAIN_AGE_DAYS} gün) yapılandırılmış minimum eşiğin altında."
+   },
+   "extDescription": {
+      "message": "HP Wolf Security ile internette güvenli gezinme."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "tr"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Site, HP Sure Click Secure Browser içinde açıldı."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "PDF dosyası, HP Sure Click Secure Browser içinde açıldı."
+   },
+   "launchedPageCloseTab": {
+      "message": "Sekmeyi kapat"
+   },
+   "launchedPageGoBack": {
+      "message": "Geri git"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Bu liste şu anda boş"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Kimlik bilgisi girişinin izin verildiği siteler:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Günlük tutmayı etkinleştir"
+   },
+   "optionsPageNoOptions": {
+      "message": "Yapılandırabileceğiniz bir seçenek yok."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection ilgisiz bir etki alanı veya web sitesinde güvenilir bir markanın kullanıldığını tespit etti. Bu, kimlik bilgilerinizi çalmaya çalışan bir oltalama sitesi olabilir."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection, yapılandırılmış minimum yaş eşiğinin altında olan yeni bir siteyi engelledi."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection ilgisiz bir etki alanı veya web sitesinde güvenilir bir markanın {BRAND} kullanıldığını tespit etti. Bu, kimlik bilgilerinizi çalmaya çalışan bir oltalama sitesi olabilir."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection, bilinen bir kimlik hırsızlığı sitesini engelledi."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Uyarı: Kimlik Bilgisi Hırsızlığı Engellendi"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection, potansiyel olarak zararlı bir dosyayı engelledi."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection, şifreleme olmadan internet üzerinden kimlik bilgileri gönderen bir siteyi engelledi."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Uyarı: Güvenli Olmayan Oturum Açma Sayfası Engellendi"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Uyarı: Potansiyel Kimlik Bilgisi Hırsızlığı Engellendi"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection, kimlik bilgilerinizi çalmaya çalışabilecek bilinmeyen bir siteyi engelledi."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Uyarı: Potansiyel Kimlik Bilgisi Hırsızlığı"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Bu siteye güveniyorum, devam et"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Güvenliğe geri dön"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Bunun hatalı olduğunu düşünüyorsanız HP Wolf Security yöneticinizle iletişim kurun."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Oturum açma devre dışı bırakılmış halde devam et"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Siteleri temizle"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension, HP Sure Click Secure Browser kullanarak hangi sitelere güvenli bir şekilde erişilebileceğini ve hangi siteleri varsayılan tarayıcıyı kullanarak açmayı seçtiğinizi hatırlar. Bu seçenekleri silmek için aşağıdaki düğmeyi seçin."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension devre dışı."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security bir hatayla karşılaştı. Lütfen tarayıcıyı yeniden başlatın."
+   },
+   "popupHelpLinkText": {
+      "message": "Daha fazla bilgi al"
+   },
+   "popupMissingHelper": {
+      "message": "Uzantı, HP Wolf Security’e bağlanamıyor. HP Wolf Security'in uyumlu bir versiyonunun yüklenmiş ve çalışıyor olduğundan emin olun."
+   },
+   "popupNoError": {
+      "message": "HP Wolf Security tarafından korunuyorsunuz."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Yeni Secure Browser penceresini aç"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click, ilk hale döndürmeyi gerektirir."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click yapılandırmayı bekliyor ve devre dışı bırakıldı."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click için lisans yok ve devre dışı bırakıldı."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Bu adres engelli kategorilere ait: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Bu adres engelli bir kategoriye ait: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "HP Wolf URL Filtering tarafından engellendi"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Bu adres aşağıdaki nedenlerden dolayı güvenli değil: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Bu adres güvenli değil."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Bu adres aşağıdaki nedenden dolayı güvenli değil: {STATUSMSG}"
+   }
+}

@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Abriu o site no HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Este site pode alojar potenciais ameaças:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Abriu um ficheiro PDF no HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "O ficheiro PDF deste site pode alojar potenciais ameaças:"
+   },
+   "blockedPageContinue": {
+      "message": "Continuar neste browser"
+   },
+   "blockedPageContinueV2": {
+      "message": "Continuar no {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Saber Mais"
+   },
+   "blockedPageRemember": {
+      "message": "Lembrar a minha decisão para este site"
+   },
+   "blockedPageSecure": {
+      "message": "Abrir no HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser ajuda a proteger o seu PC de sites e ficheiros infetados com malware, ransomware ou vírus."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Site não confiável detetado por HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Site não identificado detetado por HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Abrir em Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "A idade deste site ({DOMAIN_AGE_DAYS} dias) está abaixo do mínimo configurado."
+   },
+   "extDescription": {
+      "message": "Navegação na Internet segura com HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "pt-PT"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "O site foi aberto no HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "O ficheiro PDF foi aberto no HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Fechar separador"
+   },
+   "launchedPageGoBack": {
+      "message": "Retroceder"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Esta lista está atualmente vazia"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Sites em que a introdução de credenciais é permitida:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Ativar registo"
+   },
+   "optionsPageNoOptions": {
+      "message": "Não tem opções para configurar."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "O HP AI Credential Protection detetou a utilização de uma marca de confiança num domínio ou website não relacionado. Este pode ser um site de phishing que está a tentar roubar as suas credenciais."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection bloqueou um novo site que está abaixo do limite mínimo de idade configurado."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection detetou a utilização de uma marca de confiança {BRAND} num domínio ou website não relacionado. Este pode ser um site de phishing que está a tentar roubar as suas credenciais."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection foi bloqueado como um conhecido site de phishing."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Aviso: Roubo de Credenciais Bloqueado"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection bloqueou um ficheiro potencialmente malicioso."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection bloqueou um site a enviar credenciais na Internet sem encriptação."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Aviso: Página de Início de Sessão Não Segura Bloqueada"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Aviso: Potencial Roubo de Credenciais Bloqueado"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection bloqueou um site desconhecido que poderia estar a roubar as suas credenciais."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Aviso: Potencial Roubo de Credenciais"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Confio neste site, continuar"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Regressar à segurança"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Se acredita que isto está correto, contacte o seu administrador HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Continue com o início de sessão desativado"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Limpar sites"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension lembra quais os sites que escolheu aceder em segurança utilizando o HP Sure Click Secure Browser e quais os sites que escolheu abrir utilizando um browser predefinido. Selecione o botão abaixo para limpar estas escolhas."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension está desativado."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security encontrou um erro. Reinicie o browser."
+   },
+   "popupHelpLinkText": {
+      "message": "Obtenha mais informações"
+   },
+   "popupMissingHelper": {
+      "message": "A extensão não consegue ligar-se a HP Wolf Security. Verifique que uma versão compatível de HP Wolf Security foi instalada e está a executar."
+   },
+   "popupNoError": {
+      "message": "Está a ser protegido por HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Abrir nova janela Secure Browser"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click requer inicialização."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click está a aguardar configuração e foi desativado."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click não tem licença e foi desativado."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Este endereço pertence a categorias bloqueadas: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Este endereço pertence a uma categoria bloqueada: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Bloqueado por HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Este endereço não é seguro pelas seguintes razões: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Este endereço não é seguro."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Este endereço não é seguro pela seguinte razão: {STATUSMSG}"
+   }
+}

@@ -1,0 +1,339 @@
+{
+  "identity": {
+    "name": "Sumba Mabumba Branis",
+    "email": "b.sumba@alustudent.com",
+    "role": "student",
+    "studentId": "STD-2024-3169",
+    "className": "Grade1",
+    "profileComplete": true
+  },
+  "dashboardReady": true,
+  "beforeClick": {
+    "href": "http://localhost:3000/dashboard",
+    "active": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress",
+    "dialogs": [],
+    "bell": {
+      "label": "Notifications, 1 unread",
+      "top": 48,
+      "left": 1212,
+      "right": 1254,
+      "bottom": 90,
+      "w": 42,
+      "h": 42,
+      "z": "auto",
+      "text": "1"
+    },
+    "account": {
+      "label": "",
+      "top": 49,
+      "left": 1266,
+      "right": 1392,
+      "bottom": 90,
+      "w": 126,
+      "h": 41,
+      "z": "auto",
+      "text": "Sumba"
+    },
+    "hitBell": {
+      "x": 1233,
+      "y": 69,
+      "tag": "svg",
+      "label": "",
+      "same": true
+    },
+    "hitAccount": {
+      "x": 1329,
+      "y": 69,
+      "tag": "SPAN",
+      "label": "Sumba",
+      "same": true
+    }
+  },
+  "afterBellMouse": {
+    "href": "http://localhost:3000/dashboard",
+    "active": "1",
+    "dialogs": [
+      {
+        "label": "Notifications",
+        "top": 98,
+        "left": 914,
+        "right": 1254,
+        "bottom": 228,
+        "w": 340,
+        "h": 130,
+        "z": "61",
+        "text": "Notifications Mark all read Start your first practice Keep your streak alive JUST NOW"
+      }
+    ],
+    "bell": {
+      "label": "Notifications, 1 unread",
+      "top": 48,
+      "left": 1212,
+      "right": 1254,
+      "bottom": 90,
+      "w": 42,
+      "h": 42,
+      "z": "auto",
+      "text": "1"
+    },
+    "account": {
+      "label": "",
+      "top": 49,
+      "left": 1266,
+      "right": 1392,
+      "bottom": 90,
+      "w": 126,
+      "h": 41,
+      "z": "auto",
+      "text": "Sumba"
+    },
+    "hitBell": {
+      "x": 1233,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    },
+    "hitAccount": {
+      "x": 1329,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    }
+  },
+  "afterTab": {
+    "href": "http://localhost:3000/dashboard",
+    "active": "Sumba",
+    "dialogs": [
+      {
+        "label": "Notifications",
+        "top": 98,
+        "left": 914,
+        "right": 1254,
+        "bottom": 228,
+        "w": 340,
+        "h": 130,
+        "z": "61",
+        "text": "Notifications Mark all read Start your first practice Keep your streak alive JUST NOW"
+      }
+    ],
+    "bell": {
+      "label": "Notifications, 1 unread",
+      "top": 48,
+      "left": 1212,
+      "right": 1254,
+      "bottom": 90,
+      "w": 42,
+      "h": 42,
+      "z": "auto",
+      "text": "1"
+    },
+    "account": {
+      "label": "",
+      "top": 49,
+      "left": 1266,
+      "right": 1392,
+      "bottom": 90,
+      "w": 126,
+      "h": 41,
+      "z": "auto",
+      "text": "Sumba"
+    },
+    "hitBell": {
+      "x": 1233,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    },
+    "hitAccount": {
+      "x": 1329,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    }
+  },
+  "afterTabEnter": {
+    "href": "http://localhost:3000/dashboard",
+    "active": "Sumba",
+    "dialogs": [
+      {
+        "label": "Notifications",
+        "top": 98,
+        "left": 914,
+        "right": 1254,
+        "bottom": 228,
+        "w": 340,
+        "h": 130,
+        "z": "61",
+        "text": "Notifications Mark all read Start your first practice Keep your streak alive JUST NOW"
+      }
+    ],
+    "bell": {
+      "label": "Notifications, 1 unread",
+      "top": 48,
+      "left": 1212,
+      "right": 1254,
+      "bottom": 90,
+      "w": 42,
+      "h": 42,
+      "z": "auto",
+      "text": "1"
+    },
+    "account": {
+      "label": "",
+      "top": 49,
+      "left": 1266,
+      "right": 1392,
+      "bottom": 90,
+      "w": 126,
+      "h": 41,
+      "z": "auto",
+      "text": "Sumba"
+    },
+    "hitBell": {
+      "x": 1233,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    },
+    "hitAccount": {
+      "x": 1329,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    }
+  },
+  "keyboardOverlap": {
+    "overlap": false,
+    "dialogs": [
+      {
+        "label": "Notifications",
+        "top": 98,
+        "left": 914,
+        "right": 1254,
+        "bottom": 228,
+        "w": 340,
+        "h": 130,
+        "z": "61",
+        "text": "Notifications Mark all read Start your first practice Keep your streak alive JUST NOW"
+      }
+    ]
+  },
+  "afterFocusEnter": {
+    "href": "http://localhost:3000/dashboard",
+    "active": "Sumba",
+    "dialogs": [
+      {
+        "label": "Notifications",
+        "top": 98,
+        "left": 914,
+        "right": 1254,
+        "bottom": 228,
+        "w": 340,
+        "h": 130,
+        "z": "61",
+        "text": "Notifications Mark all read Start your first practice Keep your streak alive JUST NOW"
+      }
+    ],
+    "bell": {
+      "label": "Notifications, 1 unread",
+      "top": 48,
+      "left": 1212,
+      "right": 1254,
+      "bottom": 90,
+      "w": 42,
+      "h": 42,
+      "z": "auto",
+      "text": "1"
+    },
+    "account": {
+      "label": "",
+      "top": 49,
+      "left": 1266,
+      "right": 1392,
+      "bottom": 90,
+      "w": 126,
+      "h": 41,
+      "z": "auto",
+      "text": "Sumba"
+    },
+    "hitBell": {
+      "x": 1233,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    },
+    "hitAccount": {
+      "x": 1329,
+      "y": 69,
+      "tag": "DIV",
+      "label": "true",
+      "same": false
+    }
+  },
+  "afterEscape": {
+    "dialogs": [],
+    "hitAccount": {
+      "x": 1329,
+      "y": 69,
+      "tag": "SPAN",
+      "label": "Sumba",
+      "same": true
+    }
+  },
+  "settingsLink": {
+    "open": true,
+    "x": 1241,
+    "y": 746,
+    "text": "Settings",
+    "top": 790
+  },
+  "settingsPath": "/dashboard",
+  "settingsTop": {
+    "href": "http://localhost:3000/dashboard",
+    "h1": "Build an assessment and find your gaps",
+    "header": "Welcome back, Sumba 1 Sumba",
+    "fields": [],
+    "studentId": "",
+    "links": [
+      {
+        "text": "All progress",
+        "href": "/progress"
+      }
+    ],
+    "dialogs": [],
+    "paywall": false,
+    "text": "YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet"
+  },
+  "settingsScroll": {
+    "sh": 847,
+    "ch": 766
+  },
+  "settingsBottom": "YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet",
+  "nameMatch": {
+    "headerHasSumba": true,
+    "fullName": "",
+    "email": "",
+    "expectedName": "Sumba Mabumba Branis",
+    "expectedEmail": "b.sumba@alustudent.com"
+  },
+  "linkChecks": [
+    {
+      "href": "/progress",
+      "status": 200,
+      "location": ""
+    },
+    {
+      "href": "/practice",
+      "status": 200,
+      "location": "",
+      "source": "notification target"
+    }
+  ]
+}

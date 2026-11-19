@@ -1,0 +1,240 @@
+{
+  "loginLog": [
+    {
+      "step": "open-signin",
+      "opened": {
+        "ok": true
+      }
+    },
+    {
+      "step": "filled",
+      "emailLen": 22,
+      "secretLen": true
+    },
+    {
+      "step": "after-submit",
+      "href": "http://localhost:3000/",
+      "hasUser": true,
+      "role": "student",
+      "email": "b.sumba@alustudent.com",
+      "profileComplete": true,
+      "error": ""
+    }
+  ],
+  "observations": [
+    {
+      "name": "01-post-login",
+      "requested": "(wherever login landed)",
+      "top": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/01-post-login-top.png",
+      "content": null,
+      "bottom": null,
+      "early": false,
+      "navMs": null,
+      "saw": null,
+      "href": "http://localhost:3000/",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "overflowX": 0,
+      "scrollHeight": 900,
+      "headingUnderHeader": false,
+      "dialogs": [],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h",
+      "tour": null,
+      "brokenImages": [],
+      "offenders": [],
+      "session": {
+        "hasUser": true,
+        "email": "b.sumba@alustudent.com",
+        "name": "Sumba Mabumba Branis",
+        "role": "student",
+        "className": "Grade1",
+        "country": "RW",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "text": "",
+      "mainText": "",
+      "console": [
+        {
+          "kind": "log",
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "url": "http://localhost:3000/art/celebration.png"
+        }
+      ],
+      "network": [
+        {
+          "status": 404,
+          "url": "http://localhost:3000/art/celebration.png",
+          "type": "Image"
+        }
+      ]
+    },
+    {
+      "name": "02-dashboard",
+      "requested": "/dashboard",
+      "top": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/02-dashboard-top.png",
+      "content": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/02-dashboard-content.png",
+      "bottom": null,
+      "early": true,
+      "navMs": 42737,
+      "saw": "http://localhost:3000/dashboard complete",
+      "href": "http://localhost:3000/dashboard",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "overflowX": 0,
+      "scrollHeight": 900,
+      "headingUnderHeader": false,
+      "dialogs": [
+        {
+          "label": "tour-title",
+          "text": "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question. Takes about a minute to build. Skip the tour Next"
+        }
+      ],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h",
+      "tour": {
+        "centered": false,
+        "style": "position: fixed; width: 348px; z-index: 82; top: 247.25px; left: 548.422px;",
+        "panel": {
+          "left": 548,
+          "top": 247,
+          "right": 896,
+          "bottom": 566,
+          "w": 348,
+          "h": 319
+        },
+        "spotlight": {
+          "left": 326,
+          "top": 253,
+          "right": 536,
+          "bottom": 315,
+          "w": 210,
+          "h": 62
+        },
+        "overlap": 0,
+        "text": "MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question. Takes about a minute to buil"
+      },
+      "brokenImages": [],
+      "offenders": [],
+      "session": {
+        "hasUser": true,
+        "email": "b.sumba@alustudent.com",
+        "name": "Sumba Mabumba Branis",
+        "role": "student",
+        "className": "Grade1",
+        "country": "RW",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\nYOUR CURRICULUM, YOUR PACE\nBuild an assessment and find your gaps\nCreate assessment\nYour recent quizzes\n\nOpen one to see every question and why each answer was marked the way it was.\n\nAll progress\n\nNothing to review yet\n\nFinished quizzes land here, so you can go back over the questions you got wrong.\n\nTake your first quiz\nSumba\nNo quizzes yet\nMAKE A QUIZ\n1 / 4\nThis button is the whole product\n\nPick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question.\n\nTakes about a minute to build.\n\nSkip the tour\nNext",
+      "mainText": "YOUR CURRICULUM, YOUR PACE\nBuild an assessment and find your gaps\nCreate assessment\nYour recent quizzes\n\nOpen one to see every question and why each answer was marked the way it was.\n\nAll progress\n\nNothing to review yet\n\nFinished quizzes land here, so you can go back over the questions you got wrong.\n\nTake your first quiz\nSumba\nNo quizzes yet",
+      "console": [],
+      "network": []
+    },
+    {
+      "name": "03-practice",
+      "requested": "/practice",
+      "top": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/03-practice-top.png",
+      "content": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/03-practice-content.png",
+      "bottom": null,
+      "early": false,
+      "navMs": 82732,
+      "saw": "http://localhost:3000/practice complete",
+      "href": "http://localhost:3000/practice",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "overflowX": 0,
+      "scrollHeight": 900,
+      "headingUnderHeader": false,
+      "dialogs": [
+        {
+          "label": "tour-title",
+          "text": "FROM YOUR SYLLABUS 1 / 3 Built from your actual textbook Walk through curriculum, subject, topic and difficulty, and the questions are written from the book your school uses — not from the internet. Pick several topics to mix them, or drill one subtopic on its own. Every question shows the page it came from. Skip the tour Next"
+        },
+        {
+          "label": "tour-title",
+          "text": "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you. Skip the tour Next"
+        }
+      ],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h",
+      "tour": {
+        "centered": false,
+        "style": "position: fixed; width: 348px; z-index: 82; top: 370px; left: 296px;",
+        "panel": {
+          "left": 296,
+          "top": 370,
+          "right": 644,
+          "bottom": 711,
+          "w": 348,
+          "h": 341
+        },
+        "spotlight": {
+          "left": 290,
+          "top": 234,
+          "right": 1398,
+          "bottom": 358,
+          "w": 1108,
+          "h": 124
+        },
+        "overlap": 0,
+        "text": "FROM YOUR SYLLABUS 1 / 3 Built from your actual textbook Walk through curriculum, subject, topic and difficulty, and the questions are written from the book your school uses — not from the internet. Pick several topics to mix them, or drill"
+      },
+      "brokenImages": [],
+      "offenders": [],
+      "session": {
+        "hasUser": true,
+        "email": "b.sumba@alustudent.com",
+        "name": "Sumba Mabumba Branis",
+        "role": "student",
+        "className": "Grade1",
+        "country": "RW",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n6\nSumba\n\nPRACTICE\n\nChoose your mode\n\nAI quizzes, national exam prep, and class work — each with its own flow.\n\nBuild your quiz\nCurriculum, topics, difficulty — step by step, then generate.\nQuiz me on anything\nOff the syllabus? Type a topic, paste notes, or upload a PDF — we'll work out what to cover.\nRecall\n\nFlashcards on a smart schedule — review what you missed from quizzes.\n\nOPEN RECALL\nExam prep\n\nCambridge Checkpoint papers, plus the national exams where they are sat.\n\nOPEN EXAM PREP\nClass assignment\n\nOpen the work your teacher posted in your classrooms.\n\nOPEN CLASSES\nFROM YOUR SYLLABUS\n1 / 3\nBuilt from your actual textbook\n\nWalk through curriculum, subject, topic and difficulty, and the questions are written from the book your school uses — not from the internet. Pick several topics to mix them, or drill one subtopic on its own.\n\nEvery question shows the page it came from.\n\nSkip the tour\nNext\nWHEN YOU GET STUCK\n1 / 3\nAsk for a lesson, not an answer\n\nName what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you.\n\nSkip the tour\nNext",
+      "mainText": "PRACTICE\n\nChoose your mode\n\nAI quizzes, national exam prep, and class work — each with its own flow.\n\nBuild your quiz\nCurriculum, topics, difficulty — step by step, then generate.\nQuiz me on anything\nOff the syllabus? Type a topic, paste notes, or upload a PDF — we'll work out what to cover.\nRecall\n\nFlashcards on a smart schedule — review what you missed from quizzes.\n\nOPEN RECALL\nExam prep\n\nCambridge Checkpoint papers, plus the national exams where they are sat.\n\nOPEN EXAM PREP\nClass assignment\n\nOpen the work your teacher posted in your classrooms.\n\nOPEN CLASSES\nFROM YOUR SYLLABUS\n1 / 3\nBuilt from your actual textbook\n\nWalk through curriculum, subject, topic and difficulty, and the questions are written from the book your school uses — not from the internet. Pick several topics to mix them, or drill one subtopic on its own.\n\nEvery question shows the page it came from.\n\nSkip the tour\nNext",
+      "console": [],
+      "network": []
+    },
+    {
+      "name": "04-exam-prep",
+      "requested": "/exam-prep",
+      "top": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/04-exam-prep-top.png",
+      "content": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-student/04-exam-prep-content.png",
+      "bottom": null,
+      "early": false,
+      "navMs": 45001,
+      "saw": "http://localhost:3000/exam-prep complete",
+      "href": "http://localhost:3000/exam-prep",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "overflowX": 0,
+      "scrollHeight": 900,
+      "headingUnderHeader": false,
+      "dialogs": [],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h",
+      "tour": null,
+      "brokenImages": [],
+      "offenders": [],
+      "session": {
+        "hasUser": true,
+        "email": "b.sumba@alustudent.com",
+        "name": "Sumba Mabumba Branis",
+        "role": "student",
+        "className": "Grade1",
+        "country": "RW",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n1\nSumba\nPractice\n\nPRACTICE\n\nExam prep\n\nSit a real paper under real conditions — Cambridge Checkpoint, and your national exams.\n\nSTEP 1\n\nChoose your exam\n\nCambridge Checkpoint\n\nPrimary and Lower Secondary practice papers",
+      "mainText": "Practice\n\nPRACTICE\n\nExam prep\n\nSit a real paper under real conditions — Cambridge Checkpoint, and your national exams.\n\nSTEP 1\n\nChoose your exam\n\nCambridge Checkpoint\n\nPrimary and Lower Secondary practice papers",
+      "console": [],
+      "network": []
+    },
+    {
+      "name": "05-recall",
+      "requested": "/recall",
+      "error": "timeout Runtime.evaluate"
+    }
+  ]
+}

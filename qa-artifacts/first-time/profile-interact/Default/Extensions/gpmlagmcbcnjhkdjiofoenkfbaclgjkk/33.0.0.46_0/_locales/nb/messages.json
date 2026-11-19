@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Du har åpnet nettstedet i HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Dette nettstedet kan inneholde potensielle trusler:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Du har åpnet PDF-filen i HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "PDF-filen fra dette nettstedet kan inneholde potensielle trusler:"
+   },
+   "blockedPageContinue": {
+      "message": "Fortsett i denne nettleseren"
+   },
+   "blockedPageContinueV2": {
+      "message": "Fortsett i {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Lær mer"
+   },
+   "blockedPageRemember": {
+      "message": "Husk valget mitt for dette nettstedet"
+   },
+   "blockedPageSecure": {
+      "message": "Åpne i HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser bidrar til å beskytte PC-en mot nettsteder og filer som er infisert av skadelige programvarer, løsepengevirus eller virus."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Ikke klarert nettsted oppdaget av HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Uidentifisert nettsted oppdaget av HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Åpne i Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Alderen for dette nettstedet ({DOMAIN_AGE_DAYS} dager) er under konfigurert minimum."
+   },
+   "extDescription": {
+      "message": "Trygg nettlesing med HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "no"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Nettstedet er åpnet i HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "PDF-filen er åpnet i HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Lukk fane"
+   },
+   "launchedPageGoBack": {
+      "message": "Gå tilbake"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Denne listen er for øyeblikket tom"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Nettsteder der legitimasjonsinntasting er tillat:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Aktiver loggføring"
+   },
+   "optionsPageNoOptions": {
+      "message": "Du har ingen alternativer å konfigurere."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection har oppdaget bruken av et klarert varemerke på et urelatert domene eller nettsted. Dette kan være et phishing-nettsted som prøver å stjele påloggingsinformasjonen din."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection har blokkert et nytt nettsted som er under den konfigurerte nederste aldersgrensen."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection har oppdaget bruken av et klarert varemerke {BRAND} på et urelatert domene eller nettsted. Dette kan være et phishing-nettsted som prøver å stjele påloggingsinformasjonen din."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection har blokkert et kjent phishing-nettsted."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Advarsel: Legitimasjonstyveri blokkert"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection har blokkert en potensielt skadelig fil."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection har blokkert et nettsted som sender legitimasjon over internett uten kryptering."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Advarsel: Usikker påloggingsside blokkert"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Advarsel: Potensielt legitimasjonstyveri blokkert"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection har blokkert et ukjent nettsted som kan prøve å stjele påloggingslegitimasjonen din."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Advarsel: Potensielt legitimasjonstyveri"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Jeg stoler på dette nettstedet. Fortsett."
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Tilbake til tryggheten"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Hvis du mener at dette er feil, kan du kontakte HP Wolf Security-administratoren din."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Fortsett med pålogging deaktivert"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Tøm nettsteder"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension husker hvilke nettsteder du har valgt å åpne trygt ved bruk av HP Sure Click Secure Browser og hvilke nettsteder du har valgt å åpne ved bruk av standard nettleser. Velg knappen nedenfor for å fjerne disse valgene."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension er deaktivert."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security har støtt på et problem. Start nettleser på nytt."
+   },
+   "popupHelpLinkText": {
+      "message": "Få mer informasjon"
+   },
+   "popupMissingHelper": {
+      "message": "Utvidelsen kan ikke kobles til HP Wolf Security. Kontroller at en kompatibel versjon av HP Wolf Security er installert og kjører."
+   },
+   "popupNoError": {
+      "message": "Du blir beskyttet av HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Åpne nytt Secure Browser-vindu"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click krever initialisering."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click venter på konfigurering og har blitt deaktivert."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click er ikke lisensiert og har blitt deaktivert."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Denne adressen hører til i blokkerte kategorier: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Denne adressen hører til i en blokkert kategori: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Blokkert av HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Denne adressen er ikke trygg på grunn av følgende årsaker: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Denne adressen er ikke trygg."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Denne adressen er ikke trygg på grunn av følgende årsak: {STATUSMSG}"
+   }
+}

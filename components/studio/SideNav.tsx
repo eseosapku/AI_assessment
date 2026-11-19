@@ -100,16 +100,16 @@ export function SideNav() {
 export function MobileNav() {
   const pathname = usePathname()
   return (
-    <nav aria-label="Main, compact" className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-ss-line bg-[color:var(--ss-panel)]/95 px-2 py-2 backdrop-blur-xl lg:hidden">
+    <nav aria-label="Main, compact" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 items-stretch border-t border-ss-line bg-[color:var(--ss-panel)]/95 px-1 py-2 backdrop-blur-xl lg:hidden">
       {studentNav.map((item) => {
         const active = item.match(pathname)
         const Icon = item.icon
         return (
-          <Link key={item.href} href={item.href} className={`flex flex-1 flex-col items-center gap-0.5 rounded-xl py-2 text-[12px] font-bold ${active ? 'text-ss-accent' : 'text-ss-slate'}`}>
+          <Link key={item.href} href={item.href} className={`flex min-w-0 flex-col items-center gap-0.5 rounded-xl px-0.5 py-2 text-[12px] font-bold leading-tight ${active ? 'text-ss-accent' : 'text-ss-slate'}`}>
             <span className={`grid h-9 w-9 place-items-center rounded-2xl ${active ? 'bg-ss-accent text-white' : ''}`}>
               <Icon className="h-5 w-5" strokeWidth={1.9} />
             </span>
-            {item.label}
+            <span className="block w-full truncate text-center">{item.label}</span>
           </Link>
         )
       })}

@@ -1,0 +1,123 @@
+﻿{
+    "buttons":  [
+                    {
+                        "text":  "",
+                        "aria":  "Toggle theme",
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  1329,
+                        "y":  20,
+                        "w":  38,
+                        "h":  38
+                    },
+                    {
+                        "text":  "Student",
+                        "aria":  null,
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  863,
+                        "y":  218,
+                        "w":  188,
+                        "h":  46
+                    },
+                    {
+                        "text":  "Teacher",
+                        "aria":  null,
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  1059,
+                        "y":  218,
+                        "w":  188,
+                        "h":  46
+                    },
+                    {
+                        "text":  "School",
+                        "aria":  null,
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  863,
+                        "y":  304,
+                        "w":  188,
+                        "h":  46
+                    },
+                    {
+                        "text":  "University",
+                        "aria":  null,
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  1059,
+                        "y":  304,
+                        "w":  188,
+                        "h":  46
+                    },
+                    {
+                        "text":  "",
+                        "aria":  null,
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  1217,
+                        "y":  950,
+                        "w":  16,
+                        "h":  16
+                    },
+                    {
+                        "text":  "",
+                        "aria":  null,
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  1217,
+                        "y":  1034,
+                        "w":  16,
+                        "h":  16
+                    },
+                    {
+                        "text":  "Create Student Account",
+                        "aria":  null,
+                        "title":  null,
+                        "labelledby":  null,
+                        "svg":  true,
+                        "x":  863,
+                        "y":  1081,
+                        "w":  384,
+                        "h":  44
+                    }
+                ],
+    "inputs":  [
+                   {
+                       "id":  "name",
+                       "placeholder":  "Alex Johnson",
+                       "label":  "FULL NAME"
+                   },
+                   {
+                       "id":  "email",
+                       "placeholder":  "you@example.com",
+                       "label":  "EMAIL (OPTIONAL)"
+                   },
+                   {
+                       "id":  "studentId",
+                       "placeholder":  "e.g. STD-2024-0001",
+                       "label":  "STUDENT ID (OPTIONAL)"
+                   },
+                   {
+                       "id":  "password",
+                       "placeholder":  "Min. 6 characters",
+                       "label":  "PASSWORD"
+                   },
+                   {
+                       "id":  "confirmPassword",
+                       "placeholder":  "••••••••",
+                       "label":  "CONFIRM PASSWORD"
+                   }
+               ],
+    "countryText":  "🇷🇼 Rwanda",
+    "countryValue":  "RW",
+    "productBox":  null,
+    "bodyH":  1201
+}

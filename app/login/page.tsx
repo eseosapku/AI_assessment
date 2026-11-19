@@ -4,5 +4,5 @@ import { redirect } from 'next/navigation'
 // sign-in modal. Keep this route as a redirect so any lingering /login links
 // (signup, forgot/reset password, auth guards) land somewhere valid.
 export default function LoginRedirect() {
-  redirect('/')
+  redirect('/?auth=login')
 }

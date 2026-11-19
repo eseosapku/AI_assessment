@@ -1,0 +1,12 @@
+{
+  "tour": {
+    "dialogs": 2,
+    "titles": [
+      "FROM YOUR SYLLABUS 1 / 3 Built from your actual textbook Walk through ",
+      "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you"
+    ],
+    "skips": 2
+  },
+  "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Skip the tour' }).first()\n    - locator resolved to <button type=\"button\" class=\"text-[13px] font-bold text-ss-slate hover:text-ss-ink\">Skip the tour</button>\n  - attempting click action\n   ",
+  "consoleErrors": []
+}

@@ -20,6 +20,7 @@ import { CAMERA_MS, cameraFor, easeOut, fitFrame, focusFraming, footClearance, p
 import { BACK_TO_CARD_HINT } from '@/lib/studylab/trail/furniture'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { takesArrivalFocus, viewportMoved } from '@/lib/studylab/spotlight'
+import { blockedWheelPan } from '@/lib/studylab/trail/wheel'
 
 const WORLD = 'trail-world'
 
@@ -352,12 +353,34 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     [rf],
   )
 
+  const onWheelCapture = useCallback(
+    (e: React.WheelEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLElement
+      const blockedByNoWheel = !!target.closest('.nowheel')
+      const scroller = target.closest<HTMLElement>('.ss-trail-scrolls')
+      const scrollableCanConsume = !!scroller && (
+        (e.deltaY < 0 && scroller.scrollTop > 0) ||
+        (e.deltaY > 0 && scroller.scrollTop + scroller.clientHeight < scroller.scrollHeight - 1)
+      )
+      const pan = blockedWheelPan({ blockedByNoWheel, scrollableCanConsume, deltaX: e.deltaX, deltaY: e.deltaY })
+      if (!pan) return
+
+      e.preventDefault()
+      e.stopPropagation()
+      const view = rf.getViewport()
+      rf.setViewport({ x: view.x + pan.x, y: view.y + pan.y, zoom: view.zoom })
+      setExploring(true)
+    },
+    [rf],
+  )
+
   return (
     <div
       ref={wrapperRef}
       tabIndex={0}
       aria-label="The lesson board"
       onKeyDown={onKeyDown}
+      onWheelCapture={onWheelCapture}
       className={`h-full w-full focus-visible:outline-2 focus-visible:outline-[color:var(--subject)]${focusId && !exploring ? ' ss-trail-on-card' : ''}`}
     >
       <ReactFlow

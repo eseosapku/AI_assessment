@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <script src="scripts/blocked-page/main.js"></script>
+        <link href="bulma.min.css" rel="stylesheet"/>
+        <link href="bulma-tooltip.min.css" rel="stylesheet"/>
+        <link href="blocked-page.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="centering-div">
+            <div class="columns is-centered set-fullwidth">
+                <div class="column is-two-fifths-full-hd is-three-fifths-widescreen is-four-fifths-desktop is-four-fifths-tablet bounding-column">
+                    <div class="box" style="visibility: hidden;" id="bounding-box">
+                        <div class="columns is-centered is-vcentered add-small-negative-bottom-margin">
+                            <div class="column is-one-third has-text-weight-semibold">
+                                <a class="button is-white blend-background" target="_blank" id="learn-more-link">
+                                    <div class="columns is-gapless is-mobile">
+                                        <div class="column is-narrow">
+                                            <p class="match-play-colour" id="learn-more-link-text"></p>
+                                        </div>
+                                        <div class="column is-narrow add-play-left-margin">
+                                            <figure class="image is-24x24 is-inline-block">
+                                                <img src="assets/play.png">
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="column is-one-third has-text-centered">
+                                <div class="logo-div">
+                                    <figure class="image is-inline-block set-logo-width-and-margin">
+                                        <img src="icons/icon128.png">
+                                    </figure>
+                                    <strong class="no-wrap is-size-4">
+                                        HP Wolf Security
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="column is-one-third">
+                            </div>
+                        </div>
+                        <div class="columns is-centered has-text-centered">
+                            <div class="column is-three-quarters">
+                                <div class="columns is-centered add-bottom-margin">
+                                    <div class="column">
+                                        <div class="content add-spacer-bottom-margin">
+                                            <p id="hostname-explanation"></p>
+                                        </div>
+                                        <div class="columns is-centered is-mobile">
+                                            <div class="column is-narrow">
+                                                <div class="box make-pill-box">
+                                                    <div class="columns is-centered is-gapless is-mobile">
+                                                        <div class="column is-narrow add-pill-box-text-padding">
+                                                            <p class="has-text-grey is-size-5" id="hostname"></p>
+                                                        </div>
+                                                        <div class="column is-narrow">
+                                                            <div class="button no-border is-paddingless add-exclamation-left-margin tooltip is-tooltip-right" id="warning-tooltip">
+                                                                <figure class="image is-24x24">
+                                                                    <img src="assets/exclamation.png">
+                                                                </figure>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns is-centered has-text-centered add-negative-bottom-margin">
+                            <div class="column is-three-quarters">
+                                <div class="columns is-centered add-bottom-margin">
+                                    <div class="column">
+                                        <figure class="image is-inline-block add-negative-bottom-margin set-superhero-width">
+                                            <img src="assets/superhero.png">
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div class="columns is-centered">
+                                    <div class="column">
+                                        <div class="content">
+                                            <p id="browser-explanation"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns is-centered is-mobile">
+                                    <div class="column">
+                                        <button class="button is-fullwidth" id="trust-url-button"></button>
+                                    </div>
+                                    <div class="column">
+                                        <button class="button is-fullwidth is-info" id="untrust-url-button">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="columns is-centered is-vcentered is-size-7 add-negative-bottom-margin">
+                                    <div class="column">
+                                        <label class="checkbox center-checkbox">
+                                            <input type="checkbox" id="remember-trust-decision-checkbox">
+                                            <span class="add-checkbox-left-margin" id="remember-trust-decision-text"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content has-text-centered has-text-weight-semibold">
+                            <p id="opened-secure-explanation"></p>
+                        </div>
+                        <div class="columns is-centered">
+                            <div class="column is-three-quarters">
+                                <div class="columns is-centered is-mobile">
+                                    <div class="column">
+                                        <button class="button is-fullwidth" id="go-back-button"></button>
+                                    </div>
+                                    <div class="column">
+                                        <button class="button is-fullwidth is-info" id="close-tab-button"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

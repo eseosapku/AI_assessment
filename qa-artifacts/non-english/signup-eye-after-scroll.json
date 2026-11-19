@@ -1,0 +1,31 @@
+﻿{
+    "buttons":  [
+                    {
+                        "id":  "password",
+                        "bx":  1231,
+                        "by":  649,
+                        "bw":  16,
+                        "bh":  16,
+                        "ix":  877,
+                        "iy":  634,
+                        "iw":  384,
+                        "ih":  46,
+                        "aria":  null,
+                        "title":  null
+                    },
+                    {
+                        "id":  "confirmPassword",
+                        "bx":  1231,
+                        "by":  733,
+                        "bw":  16,
+                        "bh":  16,
+                        "ix":  877,
+                        "iy":  718,
+                        "iw":  384,
+                        "ih":  46,
+                        "aria":  null,
+                        "title":  null
+                    }
+                ],
+    "scrollY":  301
+}

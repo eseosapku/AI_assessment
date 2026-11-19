@@ -1,0 +1,135 @@
+[
+  {
+    "name": "signup",
+    "requested": "http://localhost:3000/signup",
+    "href": "http://localhost:3000/signup",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "text": "StudySquare StudySquare studio Start studying smarter today. Your first assessments are free — quizzes, interactive sets, and instant AI feedback for students and teachers. Assess Study Improve Classroom ready A PRODUCT OF ← Back to home Create your account Start your AI-powered learning journey — free. I AM A Student Teacher STUDYING AT School University FULL NAME EMAIL (OPTIONAL) STUDENT ID (OPTIONAL) Provide an email or student ID. Students without email can use their school ID. COUNTRY / CURRICULUM REGION 🌍 International / Other 🇳🇬 Nigeria 🇰🇪 Kenya 🇬🇭 Ghana 🇺🇬 Uganda 🇷🇼 Rwanda 🇿🇦 South Africa 🇹🇿 Tanzania 🇪🇹 Ethiopia 🇨🇲 Cameroon 🇸🇳 Senegal 🇿🇲 Zambia 🇿🇼 Zimbabwe Rw",
+    "portalText": "",
+    "err": false,
+    "viewport": [
+      1440,
+      900
+    ],
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 257269,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\signup.png"
+  },
+  {
+    "name": "forgot-password",
+    "requested": "http://localhost:3000/forgot-password",
+    "href": "http://localhost:3000/forgot-password",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "text": "Forgot password? Enter your email and we'll send you a 6-digit verification code Email address Send verification code Back to Login",
+    "portalText": "",
+    "err": false,
+    "viewport": [
+      1440,
+      900
+    ],
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 248728,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\forgot-password.png"
+  },
+  {
+    "name": "reset-password",
+    "requested": "http://localhost:3000/reset-password",
+    "href": "http://localhost:3000/reset-password",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "text": "Reset password Enter the 6-digit code from your email and choose a new password Email address Verification code New password Confirm password Update password Request a new code Back to login",
+    "portalText": "",
+    "err": false,
+    "viewport": [
+      1440,
+      900
+    ],
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 245445,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\reset-password.png"
+  },
+  {
+    "name": "studylab-demo",
+    "requested": "http://localhost:3000/studylab/demo",
+    "href": "http://localhost:3000/studylab/demo",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "text": "",
+    "portalText": "",
+    "err": false,
+    "viewport": [
+      1440,
+      900
+    ],
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 11669,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\studylab-demo.png"
+  },
+  {
+    "name": "dev-scenes",
+    "requested": "http://localhost:3000/dev/scenes",
+    "href": "http://localhost:3000/dev/scenes",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "text": "All scenes 0 of 333 cards marked Hide cards marked Good Physics Chemistry Biology Mathematics Computing Geography History and arguing Economics and business Science skills Arts Others",
+    "portalText": "",
+    "err": false,
+    "viewport": [
+      1440,
+      900
+    ],
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 22570,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\dev-scenes.png"
+  },
+  {
+    "name": "bedrock-test",
+    "requested": "http://localhost:3000/bedrock-test",
+    "href": "http://localhost:3000/bedrock-test",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "text": "AWS Bedrock Model Benchmark Tests speed (latency) and accuracy (3-question factual test) across all selected models. Select models to test (1/1) All None Gemma 3 27B Run Benchmark (1 models)",
+    "portalText": "",
+    "err": false,
+    "viewport": [
+      1440,
+      900
+    ],
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 31278,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\bedrock-test.png"
+  },
+  {
+    "name": "welcome",
+    "requested": "http://localhost:3000/welcome",
+    "href": "http://localhost:3000/",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "text": "StudySquare Features LearnSpace Exam prep Pricing Sign in Get started AI TUTOR · CURRICULUM-ALIGNED Stuck on something? We'll build you a way through it. Practice any topic, get unstuck with an AI tutor that draws you the whole lesson on a living canvas, and lock it into memory for good — all aligned to your curriculum. Get started free See how it works Instant AI feedback Builds you the lesson Your curriculum 92% Gap closed Algebra · mastered BUILT FOR YOUR CURRICULUM REB · Rwanda WAEC & JAMB · Nigeria Cambridge IGCSE SAT Your national syllabus EVERYTHING IN ONE PLACE One study space. Every way to learn it. FLAGSHIP LearnSpace — your AI draws the whole lesson Ask anything and watch it becom",
+    "portalText": "",
+    "err": false,
+    "viewport": [
+      1440,
+      900
+    ],
+    "png": [
+      1440,
+      900
+    ],
+    "bytes": 281572,
+    "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\power-user\\screenshots\\welcome.png"
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "practice": {
+    "navTop": 755,
+    "cards": [
+      {
+        "t": "Build your quiz Curriculum, topics, difficulty — step by step, then generate.",
+        "top": 244,
+        "bottom": 450,
+        "title": null,
+        "titleTop": null,
+        "titleBottom": null,
+        "ctaTop": null,
+        "navTop": 755
+      },
+      {
+        "t": "Quiz me on anything Off the syllabus? Type a topic, paste notes, or upload a PDF — we'll w",
+        "top": 470,
+        "bottom": 614,
+        "title": null,
+        "titleTop": null,
+        "titleBottom": null,
+        "ctaTop": null,
+        "navTop": 755
+      },
+      {
+        "t": "Recall Flashcards on a smart schedule — review what you missed from quizzes. OPEN RECALL",
+        "top": 634,
+        "bottom": 896,
+        "title": "Recall",
+        "titleTop": 767,
+        "titleBottom": 794,
+        "cta": "OPEN RECALL",
+        "ctaTop": 857,
+        "navTop": 755
+      },
+      {
+        "t": "Exam prep Cambridge Checkpoint papers, plus the national exams where they are sat. OPEN EX",
+        "top": 916,
+        "bottom": 1177,
+        "title": "Exam prep",
+        "titleTop": 1049,
+        "titleBottom": 1076,
+        "cta": "OPEN EXAM PREP",
+        "ctaTop": 1138,
+        "navTop": 755
+      },
+      {
+        "t": "Class assignment Open the work your teacher posted in your classrooms. OPEN CLASSES",
+        "top": 1197,
+        "bottom": 1459,
+        "title": "Class assignment",
+        "titleTop": 1330,
+        "titleBottom": 1357,
+        "cta": "OPEN CLASSES",
+        "ctaTop": 1420,
+        "navTop": 755
+      }
+    ]
+  },
+  "settings": {
+    "navTop": 755,
+    "uniqueWhileScrolling": [
+      "set-email",
+      "set-full-name",
+      "🌍 International / Other 🇳🇬 Nigeria 🇰",
+      "Grade 1 Grade 6 Grade 7 Grade 8 Grade 9 ",
+      "set-student-id",
+      "set-role",
+      "set-subjects",
+      "Boost grades",
+      "Explore & learn",
+      "Larger text Makes everything bigger, not",
+      "Higher contrast Stronger text and border",
+      "Reduce motion Turns off animations and s",
+      "Show me around again",
+      "Save changes",
+      "set-current-password",
+      "Show current password",
+      "set-new-password",
+      "Show new password",
+      "set-confirm-new-password",
+      "Show password confirmation",
+      "Change password"
+    ],
+    "stillAtEnd": []
+  },
+  "progress": {
+    "found": true,
+    "w": 111,
+    "h": 16,
+    "top": 620,
+    "bottom": 636,
+    "navTop": 755
+  }
+}

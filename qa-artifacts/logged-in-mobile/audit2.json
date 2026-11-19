@@ -1,0 +1,1801 @@
+{
+  "pages": {
+    "dashboard": {
+      "shot": {
+        "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\dashboard.png",
+        "w": 390,
+        "h": 844
+      },
+      "before": {
+        "path": "/dashboard",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [
+          {
+            "text": "MAKE A QUIZ 1 / 1 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — wi",
+            "top": 363,
+            "bottom": 682,
+            "left": 30,
+            "right": 378,
+            "off": false,
+            "buttons": [
+              {
+                "text": "Skip the tour",
+                "w": 80,
+                "h": 20,
+                "top": 633,
+                "bottom": 653,
+                "inView": true
+              },
+              {
+                "text": "Got it",
+                "w": 67,
+                "h": 36,
+                "top": 625,
+                "bottom": 661,
+                "inView": true
+              }
+            ]
+          }
+        ],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "All progress",
+            "w": 90,
+            "h": 24,
+            "top": 577
+          },
+          {
+            "text": "Skip the tour",
+            "w": 80,
+            "h": 20,
+            "top": 633
+          },
+          {
+            "text": "Got it",
+            "w": 67,
+            "h": 36,
+            "top": 625
+          }
+        ],
+        "navTop": 755
+      },
+      "after": {
+        "path": "/dashboard",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "All progress",
+            "w": 90,
+            "h": 24,
+            "top": 577
+          }
+        ],
+        "navTop": 755
+      },
+      "atEnd": {
+        "scroll": {
+          "top": 523,
+          "height": 1261,
+          "client": 738
+        },
+        "path": "/dashboard",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "All progress",
+            "w": 90,
+            "h": 24,
+            "top": 54
+          },
+          {
+            "text": "Take your first quiz",
+            "w": 116,
+            "h": 20,
+            "top": 408
+          }
+        ],
+        "navTop": 755
+      }
+    },
+    "practice": {
+      "shot": {
+        "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\practice.png",
+        "w": 390,
+        "h": 844
+      },
+      "before": {
+        "path": "/practice",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [
+          {
+            "text": "FROM YOUR SYLLABUS 1 / 3 Built from your actual textbook Walk through curriculum, subject, topic and difficulty, and the questions are written from the book you",
+            "top": 468,
+            "bottom": 809,
+            "left": 30,
+            "right": 378,
+            "off": false,
+            "buttons": [
+              {
+                "text": "Skip the tour",
+                "w": 80,
+                "h": 20,
+                "top": 760,
+                "bottom": 780,
+                "inView": true
+              },
+              {
+                "text": "Next",
+                "w": 63,
+                "h": 36,
+                "top": 752,
+                "bottom": 788,
+                "inView": true
+              }
+            ]
+          }
+        ],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "Skip the tour",
+            "w": 80,
+            "h": 20,
+            "top": 760
+          },
+          {
+            "text": "Next",
+            "w": 63,
+            "h": 36,
+            "top": 752
+          }
+        ],
+        "navTop": 755
+      },
+      "after": {
+        "path": "/practice",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [
+          {
+            "text": "Recall Flashcards on a smart schedule — review what you missed from qu",
+            "top": 634,
+            "bottom": 896,
+            "h": 262
+          }
+        ],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          }
+        ],
+        "navTop": 755
+      },
+      "atEnd": {
+        "scroll": {
+          "top": 723,
+          "height": 1461,
+          "client": 738
+        },
+        "path": "/practice",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          }
+        ],
+        "navTop": 755
+      }
+    },
+    "studylab": {
+      "shot": {
+        "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\studylab.png",
+        "w": 390,
+        "h": 844
+      },
+      "before": {
+        "path": "/studylab",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [
+          {
+            "text": "START A LESSON 1 / 3 Name what confused you The narrower the better. \"Photosynthesis\" gets you a tour of the topic; \"why leaves are green\" gets you an answer. T",
+            "top": 338,
+            "bottom": 700,
+            "left": 30,
+            "right": 378,
+            "off": false,
+            "buttons": [
+              {
+                "text": "Skip the tour",
+                "w": 80,
+                "h": 20,
+                "top": 652,
+                "bottom": 671,
+                "inView": true
+              },
+              {
+                "text": "Next",
+                "w": 63,
+                "h": 36,
+                "top": 644,
+                "bottom": 679,
+                "inView": true
+              }
+            ]
+          }
+        ],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "Skip the tour",
+            "w": 80,
+            "h": 20,
+            "top": 652
+          },
+          {
+            "text": "Next",
+            "w": 63,
+            "h": 36,
+            "top": 644
+          }
+        ],
+        "navTop": 755
+      },
+      "after": {
+        "path": "/studylab",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          }
+        ],
+        "navTop": 755
+      },
+      "atEnd": {
+        "scroll": {
+          "top": 2143,
+          "height": 2881,
+          "client": 738
+        },
+        "path": "/studylab",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          }
+        ],
+        "navTop": 755
+      }
+    },
+    "classrooms": {
+      "shot": {
+        "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\classrooms.png",
+        "w": 390,
+        "h": 844
+      },
+      "before": {
+        "path": "/classrooms",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "6",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          }
+        ],
+        "navTop": 755
+      }
+    },
+    "progress": {
+      "shot": {
+        "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\progress.png",
+        "w": 390,
+        "h": 844
+      },
+      "before": {
+        "path": "/progress",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [
+          {
+            "text": "WHERE YOU STAND 1 / 2 Your average, and which way it is going Across every quiz you have finished. One bad quiz moves this less than you would think, so judge i",
+            "top": 273,
+            "bottom": 571,
+            "left": 21,
+            "right": 369,
+            "off": false,
+            "buttons": [
+              {
+                "text": "Skip the tour",
+                "w": 80,
+                "h": 20,
+                "top": 523,
+                "bottom": 542,
+                "inView": true
+              },
+              {
+                "text": "Next",
+                "w": 63,
+                "h": 36,
+                "top": 515,
+                "bottom": 550,
+                "inView": true
+              }
+            ]
+          }
+        ],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "Start practicing",
+            "w": 111,
+            "h": 16,
+            "top": 825
+          },
+          {
+            "text": "Skip the tour",
+            "w": 80,
+            "h": 20,
+            "top": 523
+          },
+          {
+            "text": "Next",
+            "w": 63,
+            "h": 36,
+            "top": 515
+          }
+        ],
+        "navTop": 755
+      },
+      "after": {
+        "path": "/progress",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          }
+        ],
+        "navTop": 755
+      },
+      "atEnd": {
+        "scroll": {
+          "top": 332,
+          "height": 1070,
+          "client": 738
+        },
+        "path": "/progress",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "Start practicing",
+            "w": 111,
+            "h": 16,
+            "top": 620
+          }
+        ],
+        "navTop": 755
+      }
+    },
+    "settings": {
+      "shot": {
+        "file": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-mobile\\settings.png",
+        "w": 390,
+        "h": 844
+      },
+      "before": {
+        "path": "/settings",
+        "labels": [
+          {
+            "label": "Home",
+            "box": {
+              "x": 21,
+              "w": 35,
+              "right": 56
+            }
+          },
+          {
+            "label": "Practice",
+            "box": {
+              "x": 75,
+              "w": 49,
+              "right": 124
+            }
+          },
+          {
+            "label": "LearnSpace",
+            "box": {
+              "x": 130,
+              "w": 70,
+              "right": 200
+            }
+          },
+          {
+            "label": "Gap Maps",
+            "box": {
+              "x": 201,
+              "w": 59,
+              "right": 259
+            }
+          },
+          {
+            "label": "Progress",
+            "box": {
+              "x": 265,
+              "w": 52,
+              "right": 317
+            }
+          },
+          {
+            "label": "Classes",
+            "box": {
+              "x": 329,
+              "w": 45,
+              "right": 374
+            }
+          }
+        ],
+        "gaps": [
+          {
+            "from": "Home",
+            "to": "Practice",
+            "px": 19
+          },
+          {
+            "from": "Practice",
+            "to": "LearnSpace",
+            "px": 6
+          },
+          {
+            "from": "LearnSpace",
+            "to": "Gap Maps",
+            "px": 1
+          },
+          {
+            "from": "Gap Maps",
+            "to": "Progress",
+            "px": 6
+          },
+          {
+            "from": "Progress",
+            "to": "Classes",
+            "px": 12
+          }
+        ],
+        "overflow": {
+          "html": 0,
+          "main": 0
+        },
+        "bleed": [],
+        "covered": [],
+        "cut": [
+          {
+            "text": "1",
+            "w": 42,
+            "scrollW": 46,
+            "clientW": 42,
+            "cls": "relative grid h-[42px] w-[42px] place-items-center"
+          }
+        ],
+        "dialogs": [],
+        "small": [
+          {
+            "text": "Toggle theme",
+            "w": 38,
+            "h": 38,
+            "top": 34
+          },
+          {
+            "text": "Change photo",
+            "w": 153,
+            "h": 36,
+            "top": 511
+          },
+          {
+            "text": "Remove",
+            "w": 112,
+            "h": 36,
+            "top": 511
+          }
+        ],
+        "navTop": 755
+      }
+    }
+  },
+  "dismiss": {
+    "dashboard": {
+      "attempts": [
+        "clicked-skip"
+      ],
+      "still": false
+    },
+    "practice": {
+      "attempts": [
+        "clicked-skip"
+      ],
+      "still": false
+    },
+    "studylab": {
+      "attempts": [
+        "clicked-skip"
+      ],
+      "still": false
+    },
+    "progress": {
+      "attempts": [
+        "clicked-skip"
+      ],
+      "still": false
+    }
+  },
+  "signOut": {
+    "pageText": {
+      "signOut": false,
+      "logout": false
+    },
+    "atBottom": {
+      "signOut": false,
+      "logout": false
+    },
+    "headerButtons": 3,
+    "opened": true,
+    "sheet": {
+      "open": true,
+      "hasLogout": true,
+      "label": "Logout",
+      "box": {
+        "top": 771,
+        "bottom": 819,
+        "h": 48,
+        "w": 340
+      },
+      "inView": true,
+      "hit": "Logout",
+      "coveredByNav": false,
+      "scrollH": 934,
+      "clientH": 842
+    }
+  }
+}

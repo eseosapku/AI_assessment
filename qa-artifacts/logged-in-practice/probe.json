@@ -1,0 +1,54 @@
+{
+  "console": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "requests": [
+    "GET /progress?_rsc=jNED1RqbZ30_p2py",
+    "GET /recall/review",
+    "GET /_next/static/chunks/app/(studio)/progress/page.js",
+    "GET /_next/static/chunks/app/(studio)/recall/review/page.js",
+    "GET /_next/static/css/app/(studio)/recall/review/page.css?v=1795086578229",
+    "GET /api/recall/due?user_id=[id]",
+    "GET /api/recall/due?user_id=[id]",
+    "GET /recall?_rsc=iWrbtI3wdcxNDVQB",
+    "GET /progress",
+    "GET /_next/static/chunks/app/(studio)/progress/page.js",
+    "GET /studylab?study=Cambridge%20IGCSE%20and%20O%20Level%20History%20Study%20and%20Revision%20Guide%2C%20Second&_rsc=pOvFZcps",
+    "GET /_next/static/chunks/app/(studio)/studylab/page.js",
+    "GET /api/studylab?user_id=[id]",
+    "GET /api/studylab/persona?user_id=[id]",
+    "GET /api/studylab?user_id=[id]",
+    "GET /api/studylab/persona?user_id=[id]",
+    "GET /progress",
+    "GET /_next/static/chunks/app/(studio)/progress/page.js"
+  ],
+  "progressClick": {
+    "url": "/reports",
+    "newRequests": [
+      "GET /progress?_rsc=jNED1RqbZ30_p2py"
+    ]
+  },
+  "recallLink": {
+    "text": "Recall",
+    "pointer": "auto",
+    "href": "/recall"
+  },
+  "recallClick": {
+    "url": "/recall/review",
+    "newRequests": [
+      "GET /recall?_rsc=iWrbtI3wdcxNDVQB"
+    ]
+  },
+  "study": {
+    "url": "/studylab",
+    "newRequests": [
+      "GET /studylab?study=Cambridge%20IGCSE%20and%20O%20Level%20History%20Study%20and%20Revision%20Guide%2C%20Second&_rsc=pOvFZcps",
+      "GET /_next/static/chunks/app/(studio)/studylab/page.js",
+      "GET /api/studylab?user_id=[id]",
+      "GET /api/studylab/persona?user_id=[id]",
+      "GET /api/studylab?user_id=[id]",
+      "GET /api/studylab/persona?user_id=[id]"
+    ]
+  },
+  "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#main-content a[href^=\"/results/\"]').first()\n    - locator resolved to <a class=\"absolute inset-0 z-0\" href=\"/results/6afd9710-c5a0-4c30-9f9d-d48ff0cf5486\" aria-label=\"View results for Cambridge International AS _ A Level Economics Fourth edition Coursebook\"></a>\n  - attempting click action\n    - waiting for "
+}

@@ -1,0 +1,14 @@
+2026-11-19T10:06:01.757Z cdp page about:blank
+2026-11-19T10:06:02.057Z navigate http://localhost:3000/
+2026-11-19T10:06:10.201Z shot 01-home 99385
+2026-11-19T10:06:10.218Z navigate http://localhost:3000/#features
+2026-11-19T10:06:12.483Z shot 02-features 262561
+2026-11-19T10:06:14.416Z shot 03-question-samples 499559
+2026-11-19T10:06:14.424Z navigate http://localhost:3000/#studylab
+2026-11-19T10:06:16.942Z shot 04-studylab 488322
+2026-11-19T10:06:16.986Z navigate http://localhost:3000/studylab/demo
+2026-11-19T10:06:47.018Z FATAL Error: timeout Page.navigate
+    at Timeout._onTimeout (file:///C:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/ai-judge/capture.mjs:59:16)
+    at listOnTimeout (node:internal/timers:685:17)
+    at process.processTimers (node:internal/timers:618:7)
+2026-11-19T10:06:47.930Z shot 99-error 488375

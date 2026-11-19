@@ -1,0 +1,30 @@
+[
+  {
+    "id": "algorithm-tracer-1",
+    "group": "Computing",
+    "title": "algorithm-tracer\nwritten by Sonnet 5.5",
+    "chars": 890,
+    "bad": [
+      "clipped"
+    ],
+    "overflow": [],
+    "clipped": [
+      "1 DECLARE Data : ARRAY[1:5] OF INTEGER 2 DECLARE Target : INTEGER 3 DECLARE Index : INTEGER 4 DECLARE Found : BOOLEAN ▶ 5 Found ← FALSE ▶ 6 "
+    ],
+    "text": "Complete the trace table for this linear search.\n\nLinear search\n\nTRACE TABLE\n\nThis algorithm looks through Data for Target and outputs its position, or \"Not found\".\n\n4\n1\n9\n2\n2\n3\n7\n4\n5\n5\nIndex\n–\nFound\n–\nOUTPUT\n–\n1\nDECLARE Data : ARRAY[1:5] OF INTEGER\n2\nDECLARE Target : INTEGER\n3\nDECLARE Index : INTEGER\n4\nDECLARE Found : BOOLEAN\n▶\n5\nFound ← FALSE\n▶\n6\nIndex ← 1\n7\nWHILE Index <= 5 AND Found = FALSE DO\n8\nIF Data[Index] = Target THEN\n9\nFound ← TRUE\n10\nELSE\n11\nIndex ← Index + 1\n12\nENDIF\n13\nENDWHILE\n14\nIF Found = TRUE THEN\n15\nOUTPUT Index\n16\nELSE\n17\nOUTPUT \"Not found\"\n18\nENDIF\nData, positions 1 to 5 · Target = 7\nRow\n‹\nStart\n›\n1 of 7\nTrace table: one row for each part of the algorithm, one column for"
+  },
+  {
+    "id": "algorithm-tracer-2",
+    "group": "Computing",
+    "title": "algorithm-tracer\nwritten by Sonnet 5.5",
+    "chars": 615,
+    "bad": [
+      "clipped"
+    ],
+    "overflow": [],
+    "clipped": [
+      "1 DECLARE Data : ARRAY[1:5] OF INTEGER 2 DECLARE Temp : INTEGER 3 DECLARE Index : INTEGER 4 FOR Index ← 1 TO 4 5 IF Data[Index] > Data[Index"
+    ],
+    "text": "Predict what Data holds after this pass.\n\nOne pass of a bubble sort\n\nPREDICT THE OUTPUT\n\nThis algorithm makes one pass of a bubble sort over Data, swapping neighbours that are out of order.\n\n4\n1\n9\n2\n2\n3\n7\n4\n5\n5\n1\nDECLARE Data : ARRAY[1:5] OF INTEGER\n2\nDECLARE Temp : INTEGER\n3\nDECLARE Index : INTEGER\n4\nFOR Index ← 1 TO 4\n5\nIF Data[Index] > Data[Index + 1] THEN\n6\nTemp ← Data[Index]\n7\nData[Index] ← Data[Index + 1]\n8\nData[Index + 1] ← Temp\n9\nENDIF\n10\nNEXT Index\nData, positions 1 to 5\n\nType what Data holds after the pass, place by place.\n\nData[1]\nData[2]\nData[3]\nData[4]\nData[5]\nGood\nNeeds changes\nRedo\nStart again"
+  }
+]

@@ -1,0 +1,261 @@
+{
+  "href": "http://localhost:3000/#features",
+  "hash": "#features",
+  "scrollY": 0,
+  "spin": false,
+  "h1": "Stuck on something? We'll build you a way through it.",
+  "op": "1",
+  "color": "rgb(15, 23, 42)",
+  "rect": {
+    "x": 112,
+    "y": 191,
+    "w": 543,
+    "h": 241
+  },
+  "parentChain": [
+    {
+      "tag": "DIV",
+      "op": "1",
+      "inline": "opacity: 1; transform: none;"
+    },
+    {
+      "tag": "DIV",
+      "op": "1",
+      "inline": ""
+    },
+    {
+      "tag": "DIV",
+      "op": "1",
+      "inline": ""
+    },
+    {
+      "tag": "SECTION",
+      "op": "1",
+      "inline": ""
+    }
+  ],
+  "sections": {
+    "features": 920,
+    "how": 3716,
+    "pricing": 5539,
+    "studylab": 3061
+  },
+  "createInfo": null,
+  "interesting": [
+    {
+      "tag": "A",
+      "t": "StudySquare",
+      "x": 112,
+      "y": 13,
+      "w": 152,
+      "h": 38
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 1112,
+      "y": 199,
+      "w": 192,
+      "h": 192
+    },
+    {
+      "tag": "IMG",
+      "t": "StudySquare dashboard",
+      "x": 697,
+      "y": 295,
+      "w": 617,
+      "h": 373
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 215,
+      "y": 1282,
+      "w": 36,
+      "h": 36
+    },
+    {
+      "tag": "IMG",
+      "t": "StudyLab canvas",
+      "x": 210,
+      "y": 1546,
+      "w": 652,
+      "h": 301
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 947,
+      "y": 1278,
+      "w": 36,
+      "h": 36
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 947,
+      "y": 1648,
+      "w": 36,
+      "h": 36
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 211,
+      "y": 2068,
+      "w": 36,
+      "h": 36
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 947,
+      "y": 2017,
+      "w": 36,
+      "h": 36
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 1161,
+      "y": 2149,
+      "w": 65,
+      "h": 72
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 211,
+      "y": 2387,
+      "w": 36,
+      "h": 36
+    },
+    {
+      "tag": "IMG",
+      "t": "Interactive question type",
+      "x": -44,
+      "y": 2995,
+      "w": 398,
+      "h": 0
+    },
+    {
+      "tag": "IMG",
+      "t": "Interactive question type",
+      "x": 376,
+      "y": 2995,
+      "w": 398,
+      "h": 0
+    },
+    {
+      "tag": "IMG",
+      "t": "Interactive question type",
+      "x": 796,
+      "y": 2995,
+      "w": 398,
+      "h": 0
+    },
+    {
+      "tag": "IMG",
+      "t": "Interactive question type",
+      "x": 1216,
+      "y": 2995,
+      "w": 398,
+      "h": 0
+    },
+    {
+      "tag": "IMG",
+      "t": "Interactive question type",
+      "x": 1636,
+      "y": 2995,
+      "w": 398,
+      "h": 0
+    },
+    {
+      "tag": "IMG",
+      "t": "Interactive question type",
+      "x": 2056,
+      "y": 2995,
+      "w": 398,
+      "h": 0
+    },
+    {
+      "tag": "P",
+      "t": "StudyLab isn't a chatbot in a box. It la",
+      "x": 112,
+      "y": 3356,
+      "w": 496,
+      "h": 88
+    },
+    {
+      "tag": "IMG",
+      "t": "StudyLab interactive canvas",
+      "x": 657,
+      "y": 3424,
+      "w": 670,
+      "h": 0
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 213,
+      "y": 4076,
+      "w": 40,
+      "h": 40
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 582,
+      "y": 4076,
+      "w": 40,
+      "h": 40
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 952,
+      "y": 4076,
+      "w": 40,
+      "h": 40
+    },
+    {
+      "tag": "IMG",
+      "t": "Learning gap map",
+      "x": 113,
+      "y": 4685,
+      "w": 582,
+      "h": 0
+    },
+    {
+      "tag": "IMG",
+      "t": "",
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    }
+  ],
+  "imgs": [
+    {
+      "alt": "http://localhost:3000/art/hero-scene.png",
+      "nw": 760,
+      "nh": 696,
+      "rh": 192,
+      "rw": 192,
+      "inView": true,
+      "complete": true
+    },
+    {
+      "alt": "StudySquare dashboard",
+      "nw": 1500,
+      "nh": 829,
+      "rh": 373,
+      "rw": 617,
+      "inView": true,
+      "complete": true
+    }
+  ],
+  "unloadedInView": 0,
+  "dialog": null,
+  "title": "StudySquare — AI study & assessments | A Brain Ink product"
+}

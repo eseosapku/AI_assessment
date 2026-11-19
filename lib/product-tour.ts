@@ -27,6 +27,11 @@
 
 export type TourId = 'home' | 'practice' | 'learnspace' | 'gapmap' | 'progress' | 'recall'
 
+/** The shell-level tour belongs to the dashboard, never to every signed-in route. */
+export function showHomeTour(pathname: string): boolean {
+  return pathname === '/dashboard'
+}
+
 export interface TourStep {
   /** Value of the target's data-tour attribute. */
   anchor: string

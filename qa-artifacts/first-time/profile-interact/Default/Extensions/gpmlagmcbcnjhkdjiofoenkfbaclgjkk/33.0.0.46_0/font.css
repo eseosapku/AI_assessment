@@ -1,0 +1,19 @@
+/* Firefox */
+@supports (-moz-appearance:none) {
+    @font-face {
+        font-family: "HP Simplified Light";
+        font-style: normal;
+        font-weight: 400;
+        src: url("moz-extension://__MSG_@@extension_id__/HPSimplified_Lt.ttf") format("truetype");
+    }
+}
+
+/* Chromium browsers */
+@supports not (-moz-appearance:none) {
+    @font-face {
+        font-family: "HP Simplified Light";
+        font-style: normal;
+        font-weight: 400;
+        src: url("chrome-extension://__MSG_@@extension_id__/HPSimplified_Lt.ttf") format("truetype");
+    }
+}

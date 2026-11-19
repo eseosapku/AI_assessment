@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "HP Sure Click Secure Browserでサイトを開きました。"
+   },
+   "blockedLinkPageTitle": {
+      "message": "このサイトには潜在的な脅威が存在している可能性があります。"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "HP Sure Click Secure BrowserでPDFファイルを開きました。"
+   },
+   "blockedPDFPageTitle": {
+      "message": "このサイトのPDFファイルには潜在的な脅威が存在している可能性があります。"
+   },
+   "blockedPageContinue": {
+      "message": "このブラウザーで続行"
+   },
+   "blockedPageContinueV2": {
+      "message": "{THIS_BROWSER}で続行"
+   },
+   "blockedPageHelpLink": {
+      "message": "詳細情報"
+   },
+   "blockedPageRemember": {
+      "message": "このサイトでの決定を記憶する"
+   },
+   "blockedPageSecure": {
+      "message": "HP Sure Click Secure Browserで開く"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browserは、マルウェア、ランサムウェア、またはウイルスに感染したWebサイトやファイルからコンピューターを保護するために役立ちます。"
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "HP Wolf Securityで信頼できないWebサイトが検出されました"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "HP Wolf Securityで識別できないWebサイトが検出されました"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Secure Browserで開く"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "このサイトの経過時間（{DOMAIN_AGE_DAYS}日）は、設定された最小値を下回っています。"
+   },
+   "extDescription": {
+      "message": "HP Wolf Securityを使用した安全なインターネットの閲覧。"
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "ja"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "HP Sure Click Secure Browserでサイトが開かれました。"
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "HP Sure Click Secure BrowserでPDFファイルが開かれました。"
+   },
+   "launchedPageCloseTab": {
+      "message": "タブを閉じる"
+   },
+   "launchedPageGoBack": {
+      "message": "戻る"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "このリストは現在空です。"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "資格情報の入力が許可されているサイト："
+   },
+   "optionsPageLoggingToggle": {
+      "message": "ロギングを有効にする"
+   },
+   "optionsPageNoOptions": {
+      "message": "構成するオプションがありません。"
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "[HP AI Credential Protection]は、信頼されたブランドが、無関係なドメインまたはWebサイトで使用されていることを検出しました。これは、資格情報を盗もうとするフィッシング サイトの可能性があります。"
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "[HP Credential Protection]は、設定された最小経過時間しきい値未満の新しいサイトをブロックしました。"
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "[HP Credential Protection]は、信頼されたブランド{BRAND}が、無関係なドメインまたはWebサイトで使用されていることを検出しました。これは、資格情報を盗もうとするフィッシング サイトの可能性があります。"
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protectionが既知のフィッシング サイトをブロックしました。"
+   },
+   "overlayBlacklist_Title": {
+      "message": "警告：資格情報の盗難がブロックされました"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protectionが、悪意のある可能性のあるファイルをブロックしました。"
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protectionが、暗号化せずにインターネット経由で資格情報を送信するサイトをブロックしました。"
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "警告：安全でないログイン ページがブロックされました"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "警告：潜在的な資格情報の盗難がブロックされました"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protectionが、資格情報を盗もうとしている可能性のある不明なサイトをブロックしました。"
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "警告：潜在的な資格情報の盗難"
+   },
+   "overlay_AllowInputButton": {
+      "message": "このサイトを信頼して続行する"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "安全なサイトに戻る"
+   },
+   "overlay_BlameAdmin": {
+      "message": "これが正しくないと思われる場合は、HP Wolf Security管理者に問い合わせてください。"
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "ログインを無効にして続行する"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "サイトをクリア"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extensionは、HP Sure Click Secure Browserを使用して安全にアクセスすることを選択したサイト、およびデフォルトのブラウザーを使用して開くことを選択したサイトを記憶します。この選択内容をクリアするには下のボタンを選択してください。"
+   },
+   "popupDisabled": {
+      "message": "[HP Wolf Security Extension]が無効です。"
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Securityでエラーが発生しました。ブラウザーを再起動してください。"
+   },
+   "popupHelpLinkText": {
+      "message": "詳細情報の表示"
+   },
+   "popupMissingHelper": {
+      "message": "拡張機能がHP Wolf Securityに接続できません。互換性のあるバージョンのHP Wolf Securityがインストールされており、実行されていることを確認してください。"
+   },
+   "popupNoError": {
+      "message": "HP Wolf Securityによって保護されています。"
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "新しいSecure Browserウィンドウを開く"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Clickの初期化が必要です。"
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Clickは、構成を待機中であり、無効になっています。"
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Clickは、ライセンスがなく、無効になっています。"
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "このアドレスは、ブロック済みカテゴリに属しています： {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "このアドレスは、ブロック済みカテゴリに属しています： {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "HP Wolf URL Filteringによりブロックされています"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "このアドレスは以下の理由により安全ではありません： {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "このアドレスは安全ではありません。"
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "このアドレスは次の理由により安全ではありません： {STATUSMSG}"
+   }
+}

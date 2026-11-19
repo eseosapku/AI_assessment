@@ -1,0 +1,11 @@
+2026-11-19T10:10:56.840Z navigate home
+2026-11-19T10:11:10.738Z shot 01b-home-settled
+2026-11-19T10:11:11.910Z shot 01c-home-dashboard
+2026-11-19T10:11:11.985Z navigate demo
+2026-11-19T10:11:35.354Z shot 05-studylab-demo
+2026-11-19T10:11:35.362Z demo at http://localhost:3000/
+2026-11-19T10:11:35.375Z navigate scenes
+2026-11-19T10:11:50.359Z shot 06-scenes-top
+2026-11-19T10:11:50.866Z cards 0
+2026-11-19T10:11:50.884Z scenes done 0
+2026-11-19T10:11:50.897Z done

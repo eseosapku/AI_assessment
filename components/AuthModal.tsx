@@ -57,6 +57,16 @@ export default function AuthModal({
             <h2 id="auth-modal-title" className="mt-1 font-display text-2xl font-black tracking-tight">
               {mode === 'login' ? 'Sign in' : 'Create account'}
             </h2>
+            {mode === 'signup' && (
+              <button
+                data-testid="signup-modal-sign-in"
+                type="button"
+                onClick={() => onSwitch('login')}
+                className="mt-2 min-h-11 text-sm font-semibold text-white underline decoration-white/60 underline-offset-4"
+              >
+                Already have an account? Sign in
+              </button>
+            )}
           </div>
 
           <div className="max-h-[70vh] overflow-y-auto px-6 py-6">

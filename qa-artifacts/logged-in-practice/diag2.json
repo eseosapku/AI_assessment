@@ -1,0 +1,71 @@
+{
+  "dialogs": 2,
+  "afterTopSkip": 1,
+  "afterSecondSkip": 0,
+  "reportsHit": {
+    "x": 148,
+    "y": 363,
+    "w": 215,
+    "h": 44,
+    "stack": [
+      {
+        "tag": "A",
+        "id": "",
+        "text": "Progress",
+        "href": "/progress"
+      },
+      {
+        "tag": "NAV",
+        "id": "",
+        "text": "MENU Home Practice LearnSpace Gap Maps Progress Cl",
+        "href": null
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "text": "StudySquare MENU Home Practice LearnSpace Gap Maps",
+        "href": null
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "text": "StudySquare MENU Home Practice LearnSpace Gap Maps",
+        "href": null
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "text": "Skip to main content StudySquare MENU Home Practic",
+        "href": null
+      },
+      {
+        "tag": "BODY",
+        "id": "",
+        "text": "Skip to main content StudySquare MENU Home Practic",
+        "href": null
+      }
+    ]
+  },
+  "reportsProgress": [
+    "/reports"
+  ],
+  "reportsHome": [
+    "/reports",
+    "/dashboard"
+  ],
+  "reviewHit": {
+    "missing": true
+  },
+  "reviewBack": [
+    "/recall/review"
+  ],
+  "studyCount": 0,
+  "resultCount": 0,
+  "report": {
+    "mainSW": 1144,
+    "mainCW": 1144,
+    "docSW": 1440,
+    "vw": 1440,
+    "clipped": []
+  }
+}

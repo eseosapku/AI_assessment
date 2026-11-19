@@ -23,6 +23,9 @@ import {
 } from '@/lib/assessment-weak-areas'
 import { buildRetakePayload, rememberRetakeOrigin, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { describeSource, type QuestionSource } from '@/lib/question-source'
+import { alignReviewExplanation } from '@/lib/review-explanation'
+import { delexicaliseExplanation } from '@/lib/answer-position'
+import { hasAnyStoredResponse, honestWrittenFeedback, mcqResponse } from '@/lib/result-review'
 
 // Per-grade band gradient + ring color + plain-English meaning for the summary.
 const GRADE_REVIEW: Record<string, { grad: string; ring: string; meaning: string }> = {
@@ -358,9 +361,9 @@ function LongFormResultCard({
                         ))}
                     </div>
 
-                    {grade.general_feedback && (
+                    {honestWrittenFeedback(studentAnswer, grade.general_feedback) && (
                         <div className="mt-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/30 text-sm text-blue-800 dark:text-blue-200">
-                            <span className="font-semibold">AI Feedback: </span>{grade.general_feedback}
+                            <span className="font-semibold">AI Feedback: </span>{honestWrittenFeedback(studentAnswer, grade.general_feedback)}
                         </div>
                     )}
                 </div>
@@ -441,7 +444,8 @@ function McqResultCard({
     idx: number
     userAnswer: number | null
 }) {
-    const isCorrect = userAnswer !== null && userAnswer === q.correct_answer
+    const answered = userAnswer !== null
+    const isCorrect = answered && userAnswer === q.correct_answer
     const sourceLine = describeSource(q.source)
 
     return (
@@ -450,14 +454,16 @@ function McqResultCard({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.05 }}
-            className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${isCorrect ? 'border-l-green-500' : 'border-l-red-500'}`}
+            className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${!answered ? 'border-l-gray-400' : isCorrect ? 'border-l-green-500' : 'border-l-red-500'}`}
         >
             <div className="flex items-start gap-4 mb-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${isCorrect
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${!answered
+                    ? 'bg-ss-chip text-ss-slate'
+                    : isCorrect
                     ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
                     : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
                     }`}>
-                    {isCorrect ? <Check className="w-5 h-5" /> : <span className="font-bold text-lg">x</span>}
+                    {!answered ? <span className="text-xs font-bold">—</span> : isCorrect ? <Check className="w-5 h-5" /> : <span className="font-bold text-lg">x</span>}
                 </div>
                 <div className="flex-1">
                     <div className="text-sm text-ss-slate mb-1">Question {idx + 1}</div>
@@ -478,6 +484,8 @@ function McqResultCard({
                     <h3 className="text-lg font-medium"><L>{q.question}</L></h3>
                 </div>
             </div>
+
+            {!answered && <p className="mb-3 ml-12 text-sm font-semibold text-ss-slate">Not answered</p>}
 
             <div className="space-y-2 ml-12 mb-4">
                 {(q.options ?? []).map((opt, optIdx) => {
@@ -735,7 +743,7 @@ export default function ResultDetailPage() {
             const data = json.data
 
             const qData = data.questions_data ?? data.assessments?.questions_data ?? []
-            setQuestions(Array.isArray(qData) ? qData : [])
+            setQuestions(Array.isArray(qData) ? qData.map((q) => alignReviewExplanation(delexicaliseExplanation(q))) : [])
             setFeedback(normalizeFeedback(data.feedback))
             setResult(data)
             setIsLoadingResult(false)
@@ -749,6 +757,7 @@ export default function ResultDetailPage() {
     const longFormAnswers = answers?.longform ?? {}
     const interactiveAnswers = answers?.interactive ?? {}
     const longFormGrades = result?.longform_grades ?? {}
+    const hasResponses = hasAnyStoredResponse({ mcq: mcqAnswers, longform: longFormAnswers, interactive: interactiveAnswers })
 
     // Same weak-area grouping the post-submission screen uses, so a student
     // revisiting an old result sees the identical next steps.
@@ -763,7 +772,7 @@ export default function ResultDetailPage() {
             return { index: idx, label, credit: creditFromMarks(g?.marks_awarded, g?.marks_total) }
         }
         const raw = mcqAnswers[idx] ?? mcqAnswers[String(idx)]
-        const userAnswer = Number.isFinite(Number(raw)) ? Number(raw) : null
+        const userAnswer = mcqResponse(raw)
         return { index: idx, label, credit: userAnswer === q.correct_answer ? 1 : 0 }
     })
     const problemAreas = pickProblemAreas(summarizeWeakAreas(outcomes))
@@ -815,6 +824,7 @@ export default function ResultDetailPage() {
     const score = Number(result?.percentage ?? result?.score ?? 0)
     const grade = result?.grade ?? getGradeFromScore(score)
     const subject = result?.assessments?.subject || 'Assessment'
+    const reviewTitle = result?.assignment_title || subject
     const topic = result?.assessments?.difficulty || 'Assessment'
     const completedOn = result?.created_at
         ? new Date(result.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -950,8 +960,8 @@ export default function ResultDetailPage() {
                                         <p className="text-[12px] font-extrabold uppercase tracking-[0.06em] text-white/85">
                                             Assessment review{completedOn ? ` · ${completedOn}` : ''}
                                         </p>
-                                        <h1 className="mt-1 line-clamp-2 text-[22px] font-extrabold leading-tight">{subject}</h1>
-                                        {topic && <p className="mt-0.5 text-[13px] font-semibold text-white/85">{topic}</p>}
+                                        <h1 className="mt-1 line-clamp-2 text-[22px] font-extrabold leading-tight">{reviewTitle}</h1>
+                                        {subject !== reviewTitle && <p className="mt-0.5 text-[13px] font-semibold text-white/85">{subject}</p>}
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-5 sm:ml-auto">
@@ -998,18 +1008,22 @@ export default function ResultDetailPage() {
                             </div>
 
                             <div className="p-6 sm:p-7">
-                                <FeedbackPanel feedback={feedback} onJumpToQuestion={jumpToQuestion} questionCount={questions.length} />
+                                {hasResponses ? (
+                                  <FeedbackPanel feedback={feedback} onJumpToQuestion={jumpToQuestion} questionCount={questions.length} />
+                                ) : (
+                                  <p className="rounded-xl bg-ss-chip p-4 text-sm font-semibold text-ss-slate">This paper was submitted without answers, so there are no strengths to assess yet.</p>
+                                )}
                             </div>
                         </motion.div>
                     )
                 })()}
 
-                <NextStepsPanel
+                {hasResponses && <NextStepsPanel
                     areas={problemAreas}
                     subject={subject}
                     onJumpToQuestion={jumpToQuestion}
                     onRetake={result?.assessment_id ? handleRetake : undefined}
-                />
+                />}
 
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold px-2">Every question, and why</h2>
@@ -1056,7 +1070,7 @@ export default function ResultDetailPage() {
                             }
 
                             const answer = mcqAnswers[idx] ?? mcqAnswers[String(idx)]
-                            const userAnswer = Number.isFinite(Number(answer)) ? Number(answer) : null
+                            const userAnswer = mcqResponse(answer)
                             return (
                                 <div key={idx} id={anchor} className="scroll-mt-24 rounded-apple transition-shadow">
                                     <McqResultCard

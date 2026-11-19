@@ -179,10 +179,10 @@ function Code({ lines, lit, pickable, frozen, pick, onPick, marked, faultAt, red
         {on && !pickable && <span aria-hidden="true" className="text-[8px]">▶</span>}
         {l.n}
       </span>
-      <span className="whitespace-pre" style={{ paddingLeft: `${l.depth * 3}ch`, color: INK }}><Words text={l.text} /></span>
+      <span className="min-w-0 whitespace-pre-wrap break-words" style={{ paddingLeft: `${l.depth * 3}ch`, color: INK }}><Words text={l.text} /></span>
     </>
   )
-  const rows = pickable ? Math.min(lines.length, 10) : Math.min(lines.length, 5)
+  const rows = Math.min(lines.length, 10)
   return (
     <div
       ref={box}

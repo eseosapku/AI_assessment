@@ -1,0 +1,76 @@
+{
+  "title": "StudySquare — AI study & assessments | A Brain Ink product",
+  "url": "http://localhost:3000/classrooms",
+  "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n7\nSumba\n\nCLASSES\n\nYour classrooms\n\nAssignments, deadlines, and teacher posts — one place for each class you're in.\n\nGrade 5 - Science\n\n0\n\nUPCOMING\n\n0\n\nOPEN\n\n9\n\nDONE\n\nGrade 6 - Science\n\n0\n\nUPCOMING\n\n2\n\nOPEN\n\n9\n\nDONE",
+  "links": [
+    {
+      "href": "#main-content",
+      "label": "Skip to main content"
+    },
+    {
+      "href": "/dashboard",
+      "label": "StudySquare"
+    },
+    {
+      "href": "/dashboard",
+      "label": "Home"
+    },
+    {
+      "href": "/practice",
+      "label": "Practice"
+    },
+    {
+      "href": "/studylab",
+      "label": "LearnSpace"
+    },
+    {
+      "href": "/studylab/gap-map",
+      "label": "Gap Maps"
+    },
+    {
+      "href": "/progress",
+      "label": "Progress"
+    },
+    {
+      "href": "/classrooms",
+      "label": "Classes"
+    },
+    {
+      "href": "/settings",
+      "label": "Settings"
+    },
+    {
+      "href": "/dashboard",
+      "label": "Home"
+    },
+    {
+      "href": "/practice",
+      "label": "Practice"
+    },
+    {
+      "href": "/studylab",
+      "label": "LearnSpace"
+    },
+    {
+      "href": "/studylab/gap-map",
+      "label": "Gap Maps"
+    },
+    {
+      "href": "/progress",
+      "label": "Progress"
+    },
+    {
+      "href": "/classrooms",
+      "label": "Classes"
+    }
+  ],
+  "buttons": [
+    "7",
+    "Sumba",
+    "Grade 5 - Science\n\n0\n\nUPCOMING\n\n0\n\nOPEN\n\n9\n\nDONE",
+    "Grade 6 - Science\n\n0\n\nUPCOMING\n\n2\n\nOPEN\n\n9\n\nDONE"
+  ],
+  "katexErrors": [],
+  "brokenImgs": [],
+  "overflow": []
+}

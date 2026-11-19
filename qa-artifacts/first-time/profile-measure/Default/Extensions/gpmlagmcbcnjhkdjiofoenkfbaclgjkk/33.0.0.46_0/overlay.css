@@ -1,0 +1,274 @@
+@import "../branding/hp_sure_click/css/font.css";
+
+/* data- attribute improves the specificity of our CSS. We want it to apply to our overlay and only our overlay */
+/* All our CSS is to stop it being overridden by CSS in the site we are overlaying */
+:host {
+    --color-primary: 109, 208, 251;
+    --color-danger: 235, 94, 94;
+    --color-contrast: 22, 20, 29;
+
+    --color-lightbox-bg-unknown: rgba(var(--color-contrast), 0.5);
+    --color-lightbox-bg-blocked: rgba(190, 19, 19, 0.8);
+    --color-lightbox-bg-urlfiltering: rgba(190, 19, 19, 1.0);
+
+    --color-text-primary: 255, 255, 255;
+
+    --font-family: "HP Simplified Light", "Helvetica", Arial, sans-serif;
+    --font-family-url: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-base: 18px;
+}
+
+#br-fullpage-overlay {
+    all: initial;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-lightbox-bg-unknown);
+    backdrop-filter: blur(2px);
+    z-index: 2147483647;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-base);
+}
+
+/* Resetting all elements underneath */
+#br-fullpage-overlay * {
+    font-size: 1em;
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    display: block;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    right: auto;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    letter-spacing: normal;
+    line-height: 1.4em;
+}
+
+#br-fullpage-overlay.br-fullpage-overlay--Blocked {
+    background-color: var(--color-lightbox-bg-blocked);
+}
+
+#br-fullpage-overlay.br-fullpage-overlay--URLFiltering {
+    background-color: var(--color-lightbox-bg-urlfiltering);
+}
+
+#br-fullpage-overlay .br-fullpage-overlay-content {
+    flex-grow: 0;
+    font-size: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    color: rgb(var(--color-text-primary));
+}
+
+#br-fullpage-overlay .br-fullpage-branding {
+    flex-grow: 0;
+    flex-shrink: 0;
+    background-color: rgba(22, 20, 29, 0.8);
+    align-content: flex-start;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 2.5em;
+    padding: 0.5em 1em;
+}
+
+#br-fullpage-overlay .logo-hp {
+    height: 100%;
+}
+
+#br-fullpage-overlay .logo-wolf {
+    position: relative;
+    top: 1px;
+    height: 90%;
+}
+
+#br-fullpage-overlay .logo-hp-ai {
+    position: relative;
+    top: 1px;
+    height: 90%;
+}
+
+#br-fullpage-overlay .br-fullpage-branding svg {
+    width: auto;
+    height: 100%;
+    margin: 0 1em 0 0;
+}
+
+#br-fullpage-overlay .br-fullpage-warning-box {
+    background-color: rgba(22, 20, 29);
+    padding: 1em;
+    height: auto;
+    flex-grow: 1;
+}
+
+#br-fullpage-overlay .br-warning-title {
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 1em;
+    display: inline-flex;
+    align-items: flex-start;
+}
+
+#br-fullpage-overlay .br-warning-title .logo-cp {
+    height: 1em;
+    width: auto;
+    fill: currentColor;
+    margin-right: 12px;
+    position: relative;
+    top: 8px;
+}
+
+#br-fullpage-overlay .br-warning-title .logo-cp svg {
+    width: auto;
+    height: 100%;
+}
+
+#br-fullpage-overlay .br-warning-description p {
+    margin-bottom: 1em;
+}
+
+#br-fullpage-overlay .br-warning-infobox {
+    background-color: rgb(var(--color-danger));
+    color: rgb(var(--color-contrast));
+    padding: 1em;
+    margin-bottom: 2em;
+}
+
+#br-fullpage-overlay .br-warning-actions {
+    margin-top: 2em;
+}
+
+#br-fullpage-overlay .button {
+    appearance: none;
+    margin: 0 1em 1em 0;
+    overflow: visible;
+    text-decoration: none;
+    text-transform: none;
+    user-select: none;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    outline: 0px;
+    box-shadow: none;
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 0;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 1em;
+    font-weight: 400;
+    -webkit-box-pack: center;
+    justify-content: center;
+    line-height: 20px;
+    min-width: 112px;
+    padding: 11px 23px 11px 15px;
+    position: relative;
+    transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s, color 0.3s ease 0s;
+}
+
+#br-fullpage-overlay .button.button--with-icon {
+    padding: 7px 23px 8px 8px;
+}
+
+#br-fullpage-overlay .button svg {
+    fill: currentColor;
+    width: auto;
+    height: 1.5em;
+    margin-right: 6px;
+}
+
+#br-fullpage-overlay .button--safe {
+    border-color: rgba(var(--color-primary), 1);
+    color: rgba(var(--color-primary), 1);
+}
+
+#br-fullpage-overlay .button--safe:hover,
+#br-fullpage-overlay .button--safe:focus,
+#br-fullpage-overlay .button--safe:active {
+    background-color: rgba(var(--color-primary), 0.1);
+    border-color: rgba(var(--color-primary), 0.8);
+}
+
+#br-fullpage-overlay .button--neutral {
+    color: rgb(var(--color-text-primary));
+    border-color: rgba(var(--color-text-primary), 0.9);
+}
+
+#br-fullpage-overlay .button--neutral:hover,
+#br-fullpage-overlay .button--neutral:focus,
+#br-fullpage-overlay .button--neutral:active {
+    background-color: rgba(var(--color-text-primary), 0.1);
+    border-color: rgba(var(--color-text-primary), 1);
+}
+
+#br-fullpage-overlay .button--ghost {
+    color: rgb(255, 255, 255);
+    border-color: transparent;
+}
+
+#br-fullpage-overlay .button--ghost:hover,
+#br-fullpage-overlay .button--ghost:focus,
+#br-fullpage-overlay .button--ghost:active {
+    border-color: transparent;
+    background-color: rgba(var(--color-primary), 0.1);
+}
+
+
+@media (min-width: 460px) {
+    #br-fullpage-overlay .br-fullpage-warning-box {
+        padding: 2em;
+    }
+
+    #br-fullpage-overlay .br-fullpage-overlay-content {
+        flex-wrap: nowrap;
+    }
+
+    #br-fullpage-overlay .br-fullpage-branding {
+        padding: 2.2em 1em;
+        width: 4.5em;
+        height: auto;
+        justify-content: center;
+    }
+
+    #br-fullpage-overlay .logo-hp,
+    #br-fullpage-overlay .logo-wolf,
+    #br-fullpage-overlay .logo-hp-ai {
+        height: auto;
+        width: 100%;
+    }
+
+    #br-fullpage-overlay .logo-hp svg,
+    #br-fullpage-overlay .logo-wolf svg,
+    #br-fullpage-overlay .logo-hp-ai svg {
+        width: 100%;
+        height: auto;
+        margin: 0 0 1em 0;
+    }
+}
+
+@media (min-width: 660px) {
+    #br-fullpage-overlay .br-fullpage-overlay-content {
+        width: 90%;
+        max-width: 800px;
+    }
+    #br-fullpage-overlay .br-fullpage-branding {
+        padding: 1.4em;
+        width: 5.5em;
+    }
+}

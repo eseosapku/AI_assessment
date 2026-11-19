@@ -48,7 +48,7 @@ export function localSummary(userId: string): RecallSummary {
   }
 }
 
-export function localDueCards(userId: string, limit = 30): RecallCard[] {
+export function localDueCards(userId: string, limit = 1000): RecallCard[] {
   const now = Date.now()
   return load()
     .cards.filter(c => c.user_id === userId && new Date(c.due_at).getTime() <= now)

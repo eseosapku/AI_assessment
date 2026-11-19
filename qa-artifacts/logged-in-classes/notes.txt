@@ -1,0 +1,8 @@
+login ok role=student id=a14a382f-07f4-4c48-88d2-7d89d4c71606
+shot 01-dashboard-top.png url=http://localhost:3000/dashboard
+shot 02-dashboard-mid.png url=http://localhost:3000/dashboard
+shot 03-dashboard-bottom.png url=http://localhost:3000/dashboard
+result links 0
+shot 04-classrooms.png url=http://localhost:3000/classrooms
+grade6 buttons 0
+chosen result none rawish=false

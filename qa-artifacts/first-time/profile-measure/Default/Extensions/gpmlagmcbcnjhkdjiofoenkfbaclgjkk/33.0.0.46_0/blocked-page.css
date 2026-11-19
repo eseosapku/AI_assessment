@@ -1,0 +1,101 @@
+@import "base-style.css";
+
+body {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+button {
+    font-family: inherit;
+}
+
+.centering-div {
+    display: table-cell !important;
+    vertical-align: middle !important;
+    padding: 20px !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.set-fullwidth {
+    width: 100% !important;
+}
+
+.bounding-column {
+    max-width: 50rem !important;
+    margin: 0.5rem !important;
+}
+
+.add-negative-bottom-margin {
+    margin-bottom: -1rem !important;
+}
+
+.add-small-negative-bottom-margin {
+    margin-bottom: -0.5rem !important;
+}
+
+.add-spacer-bottom-margin {
+    margin-bottom: 5px !important;
+}
+
+.add-exclamation-left-margin {
+    margin-left: 10px !important;
+}
+
+.add-play-left-margin {
+    margin-left: 7px !important;
+}
+
+.add-checkbox-left-margin {
+    margin-left: 3px !important;
+}
+
+.match-play-colour {
+    color: #0094d3 !important;
+}
+
+.blend-background {
+    background-color: inherit !important;
+}
+
+.no-border {
+    border-style: none !important;
+}
+
+.no-wrap {
+    white-space: nowrap !important;
+}
+
+.make-pill-box {
+    border-radius: 999999px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.columns.is-gapless>.column.add-pill-box-text-padding {
+    padding-top: 2.5px !important;
+}
+
+.logo-div {
+    display: flex !important;
+    align-content: center !important;
+    justify-content: center !important;
+}
+
+.set-logo-width-and-margin {
+    max-width: 2.25rem !important;
+    margin-right: 0.5rem !important;
+}
+
+.set-superhero-width {
+    max-width: 17.5rem !important;
+}
+
+.center-checkbox {
+    display: flex !important;
+    justify-content:center !important;
+}

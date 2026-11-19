@@ -1,0 +1,83 @@
+[
+  {
+    "name": "01-home",
+    "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\first-time\\01-home.png",
+    "bytes": 7484,
+    "scrollY": 0,
+    "h1": null,
+    "h1Opacity": null,
+    "url": "http://localhost:3000/",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "errors": []
+  },
+  {
+    "name": "02-features",
+    "error": "Error: No DevTools page target\n    at waitForPage (file:///c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/first-time/capture.mjs:97:9)\n    at async captureOne (file:///c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/first-time/capture.mjs:185:20)\n    at async file:///c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/first-time/capture.mjs:229:20"
+  },
+  {
+    "name": "03-how",
+    "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\first-time\\03-how.png",
+    "bytes": 7830,
+    "scrollY": 0,
+    "h1": null,
+    "h1Opacity": null,
+    "url": "http://localhost:3000/#how",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "errors": []
+  },
+  {
+    "name": "04-pricing",
+    "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\first-time\\04-pricing.png",
+    "bytes": 7858,
+    "scrollY": 0,
+    "h1": null,
+    "h1Opacity": null,
+    "url": "http://localhost:3000/#pricing",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "errors": []
+  },
+  {
+    "name": "05-studylab",
+    "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\first-time\\05-studylab.png",
+    "bytes": 7512,
+    "scrollY": 0,
+    "h1": null,
+    "h1Opacity": null,
+    "url": "http://localhost:3000/#studylab",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "errors": []
+  },
+  {
+    "name": "06-signup",
+    "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\first-time\\06-signup.png",
+    "bytes": 194846,
+    "scrollY": 0,
+    "h1": "Start studying smarter today.",
+    "h1Opacity": "1",
+    "url": "http://localhost:3000/signup",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "errors": []
+  },
+  {
+    "name": "07-forgot-password",
+    "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\first-time\\07-forgot-password.png",
+    "bytes": 258894,
+    "scrollY": 0,
+    "h1": "Forgot password?",
+    "h1Opacity": "1",
+    "url": "http://localhost:3000/forgot-password",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "errors": []
+  },
+  {
+    "name": "08-login",
+    "png": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\first-time\\08-login.png",
+    "bytes": 7825,
+    "scrollY": 0,
+    "h1": null,
+    "h1Opacity": null,
+    "url": "http://localhost:3000/",
+    "title": "StudySquare — AI study & assessments | A Brain Ink product",
+    "errors": []
+  }
+]

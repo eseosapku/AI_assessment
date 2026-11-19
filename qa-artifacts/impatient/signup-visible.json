@@ -1,0 +1,44 @@
+{
+  "a": {
+    "name": "a",
+    "navStatus": 200,
+    "domMs": 987,
+    "becameVisible": true,
+    "visibleMs": 4098,
+    "waitError": null,
+    "metrics": {
+      "opacity": "1",
+      "transform": "none",
+      "heading": "Create your account",
+      "submit": "Create Student Account",
+      "name": true,
+      "email": true,
+      "password": true,
+      "confirm": true,
+      "className": true
+    },
+    "consoleErrors": [],
+    "pngBytes": 299681
+  },
+  "b": {
+    "name": "b",
+    "navStatus": 200,
+    "domMs": 1022,
+    "becameVisible": true,
+    "visibleMs": 5009,
+    "waitError": null,
+    "metrics": {
+      "opacity": "1",
+      "transform": "none",
+      "heading": "Create your account",
+      "submit": "Create Student Account",
+      "name": true,
+      "email": true,
+      "password": true,
+      "confirm": true,
+      "className": true
+    },
+    "consoleErrors": [],
+    "pngBytes": 299681
+  }
+}

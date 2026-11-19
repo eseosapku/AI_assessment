@@ -1,0 +1,48 @@
+<!-- Copyright (c) 2019 Bromium, Inc. -->
+<!DOCTYPE html>
+<html style="min-height: 75px;">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="base-style.css" />
+  <link rel="stylesheet" type="text/css" href="slider-switch.css" />
+</head>
+
+<body>
+  <!--Status notice-->
+  <div id="status-notice" style="display:none"></div>
+
+  <!--General-->
+  <div id="general-section" style="display:none">
+      <table>
+        <tbody id="logging-toggle-table">
+          <tr>
+            <th align="left" width="400px"></th>
+            <th width="50px"></th>
+          </tr>
+        </tbody>
+      </table>
+   </div>
+  </div>
+
+  <!--Allowed domains-->
+  <div id="identity-protection-section" style="display:none">
+    <h2 id="identity-protection-header"><strong>HP Credential Protection</strong></h2>
+    <div id="user-allowed-host-section">
+      <h3 id="allowed-domains-section-header"></h2>
+      <table>
+        <tbody id="host-table">
+          <tr>
+            <th align="left" width="400px"></th>
+            <th width="50px"></th>
+          </tr>
+          <tr>
+            <td id="no-allowed-domain" colspan="2" style="display:none"></td>
+          </tr>
+        </tbody>
+      </table>
+   </div>
+  </div>
+
+  <script src="scripts/options/main.js"></script>
+</body>
+</html>

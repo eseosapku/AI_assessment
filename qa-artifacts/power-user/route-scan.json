@@ -1,0 +1,929 @@
+﻿[
+    {
+        "path":  "/",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/",
+        "finalPath":  "/",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  10761,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/login",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/",
+        "finalPath":  "/",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  10761,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/login",
+                          "status":  307,
+                          "location":  "/"
+                      },
+                      {
+                          "url":  "http://localhost:3000/",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/signup",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/signup",
+        "finalPath":  "/signup",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  34653,
+        "visibleLength":  1174,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Study Square StudySquare studio Start studying smarter today. Your first assessments are free — quizzes, interactive sets, and instant AI feedback for students and teachers. Assess ",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/signup",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/forgot-password",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/forgot-password",
+        "finalPath":  "/forgot-password",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14555,
+        "visibleLength":  190,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Forgot password? Enter your email and we\u0027ll send you a 6-digit verification code Email address Send verification code Back to Login",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/forgot-password",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/reset-password",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/reset-password",
+        "finalPath":  "/reset-password",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  17908,
+        "visibleLength":  249,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Reset password Enter the 6-digit code from your email and choose a new password Email address Verification code New password Confirm password Update password Request a new code Back",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/reset-password",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/welcome",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/welcome",
+        "finalPath":  "/welcome",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  11481,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/welcome",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/complete-profile",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/complete-profile",
+        "finalPath":  "/complete-profile",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  12222,
+        "visibleLength":  65,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product ← Home",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/complete-profile",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/dashboard",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/dashboard",
+        "finalPath":  "/dashboard",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14176,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/dashboard",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/practice",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/practice",
+        "finalPath":  "/practice",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  13862,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/practice",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/exam-prep",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/exam-prep",
+        "finalPath":  "/exam-prep",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14176,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/exam-prep",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/recall",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/recall",
+        "finalPath":  "/recall",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  13848,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/recall",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/recall/review",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/recall/review",
+        "finalPath":  "/recall/review",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14977,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/recall/review",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/progress",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/progress",
+        "finalPath":  "/progress",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14169,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/progress",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/report-card",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/report-card",
+        "finalPath":  "/report-card",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14190,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/report-card",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/reports",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/reports",
+        "finalPath":  "/reports",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14162,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/reports",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/settings",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/settings",
+        "finalPath":  "/settings",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14169,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/settings",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/classrooms",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/classrooms",
+        "finalPath":  "/classrooms",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  13876,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/classrooms",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/studylab",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/studylab",
+        "finalPath":  "/studylab",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14169,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/studylab",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/studylab/demo",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/studylab/demo",
+        "finalPath":  "/studylab/demo",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  13029,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/studylab/demo",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/studylab/gap-map",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/studylab/gap-map",
+        "finalPath":  "/studylab/gap-map",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14840,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/studylab/gap-map",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/assessment",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/assessment",
+        "finalPath":  "/assessment",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  12070,
+        "visibleLength":  83,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Getting your quiz ready…",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/assessment",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/assignments/new",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/assignments/new",
+        "finalPath":  "/assignments/new",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  21652,
+        "visibleLength":  980,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Back to dashboard Save Draft Send to Classroom Create from scratch New Assignment Title Deadline (optional) Subject Grade / Class Select a class Topics (comma or line separated) Cur",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/assignments/new",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/assignments/from-pdf",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/assignments/from-pdf",
+        "finalPath":  "/assignments/from-pdf",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  19226,
+        "visibleLength":  613,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Back to dashboard Generate from PDF New Assignment Assignment name Upload PDF Subject (optional) If left blank, we use the PDF filename. Grade / Class Select a class Topics (comma o",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/assignments/from-pdf",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/admin",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/admin",
+        "finalPath":  "/admin",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  12984,
+        "visibleLength":  164,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product StudySquare — Platform What the platform found, what it fixed, and whether students got better. Referrals",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/admin",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/admin/referrals",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/admin/referrals",
+        "finalPath":  "/admin/referrals",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  16028,
+        "visibleLength":  258,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Platform dashboard Referral management Create codes, assign owners, set discounts, and track successful uses. Code Referral owner Discount % Expires (optional) Create referral code ",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/admin/referrals",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/referrals",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/referrals",
+        "finalPath":  "/referrals",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  11665,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/referrals",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/subscription/success",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/subscription/success",
+        "finalPath":  "/subscription/success",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  12884,
+        "visibleLength":  120,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Processing payment Confirming your payment… Back to dashboard",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/subscription/success",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/bedrock-test",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/bedrock-test",
+        "finalPath":  "/bedrock-test",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  12495,
+        "visibleLength":  253,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product AWS Bedrock Model Benchmark Tests speed (latency) and accuracy (3-question factual test) across all selected models. Select models to test ( 1 / 1 ) All None Gemma 3 27B Run Benchma",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/bedrock-test",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/dev/scenes",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/dev/scenes",
+        "finalPath":  "/dev/scenes",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14031,
+        "visibleLength":  242,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product All scenes 0 of 333 cards marked Hide cards marked Good Physics Chemistry Biology Mathematics Computing Geography History and arguing Economics and business Science skills Arts Othe",
+        "errorText":  "overlay:nextjs-portal",
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/dev/scenes",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/dev/learnspace",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/dev/learnspace",
+        "finalPath":  "/dev/learnspace",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  15805,
+        "visibleLength":  530,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Subject Number — Mathematics Matter — Physics Life — Biology World — Geography Code — Computer Science Data — Economics Words — English Language Time — History Craft — Art and Desig",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/dev/learnspace",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/dev/render",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/dev/render",
+        "finalPath":  "/dev/render",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  12404,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/dev/render",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/dev/sort",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/dev/sort",
+        "finalPath":  "/dev/sort",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  14092,
+        "visibleLength":  313,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product React Flow Press enter or space to select a node. You can then use the arrow keys to move the node around. Press delete to remove it and escape to cancel. Press enter or space to se",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/dev/sort",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/dev/activities",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/dev/activities",
+        "finalPath":  "/dev/activities",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  15679,
+        "visibleLength":  540,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Material apparatus sorting-frame ordering-track three-period-cards venn-sets balance-beam labelled-diagram variable-model decision-branch bonding-ring sorting-frame · acid/base from",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/dev/activities",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/manage-classes",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/manage-classes",
+        "finalPath":  "/manage-classes",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  12257,
+        "visibleLength":  195,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Manage Classes Create and assign textbooks Add classes, choose which textbooks (subjects) belong to each class, and update them anytime.",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/manage-classes",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/Practice",
+        "status":  404,
+        "finalUrl":  "http://localhost:3000/Practice",
+        "finalPath":  "/Practice",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  11554,
+        "visibleLength":  127,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product 404: This page could not be found. 404 This page could not be found.",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/Practice",
+                          "status":  404,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/DASHBOARD",
+        "status":  404,
+        "finalUrl":  "http://localhost:3000/DASHBOARD",
+        "finalPath":  "/DASHBOARD",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  11555,
+        "visibleLength":  127,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product 404: This page could not be found. 404 This page could not be found.",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/DASHBOARD",
+                          "status":  404,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/signup/",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/signup",
+        "finalPath":  "/signup",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  34653,
+        "visibleLength":  1174,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product Study Square StudySquare studio Start studying smarter today. Your first assessments are free — quizzes, interactive sets, and instant AI feedback for students and teachers. Assess ",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/signup/",
+                          "status":  308,
+                          "location":  "/signup"
+                      },
+                      {
+                          "url":  "http://localhost:3000/signup",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    },
+    {
+        "path":  "/login?next=/practice",
+        "status":  200,
+        "finalUrl":  "http://localhost:3000/",
+        "finalPath":  "/",
+        "title":  "StudySquare — AI study \u0026amp; assessments | A Brain Ink product",
+        "contentType":  "text/html; charset=utf-8",
+        "bodyLength":  10761,
+        "visibleLength":  58,
+        "visiblePreview":  "StudySquare — AI study \u0026 assessments | A Brain Ink product",
+        "errorText":  null,
+        "scriptOnlyMatch":  null,
+        "redirectLoop":  false,
+        "externalStop":  false,
+        "transportError":  null,
+        "notes":  null,
+        "chain":  [
+                      {
+                          "url":  "http://localhost:3000/login?next=/practice",
+                          "status":  307,
+                          "location":  "/"
+                      },
+                      {
+                          "url":  "http://localhost:3000/",
+                          "status":  200,
+                          "location":  null
+                      }
+                  ]
+    }
+]

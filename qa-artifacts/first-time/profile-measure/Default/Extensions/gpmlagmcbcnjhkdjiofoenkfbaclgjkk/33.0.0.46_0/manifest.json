@@ -1,0 +1,46 @@
+{
+   "action": {
+      "default_icon": {
+         "16": "icons/icon16.png",
+         "32": "icons/icon32.png",
+         "64": "icons/icon64.png"
+      },
+      "default_popup": "popup.html",
+      "default_title": "__MSG_extName__"
+   },
+   "background": {
+      "service_worker": "main.js"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "scripts/content-script/main.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start"
+   } ],
+   "default_locale": "en",
+   "description": "__MSG_extDescription__",
+   "externally_connectable": {
+      "ids": [  ],
+      "matches": [  ]
+   },
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "icons/icon128.png",
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAj5lk3e0OkE5nrVGpKnW0O5YHIgRwqW+QYIr5QcyRvUERQL92AlqJV+Zz0d7JyPLYe0NrQxh10Jx31D9Eb3YVdY+qdLC0Y3qIhCShl+g7NfX9UOGisGbZ89pO/hTqjBxGgJ8hn13pc6UDBv/aBz+mNxOfRWnjNRP7ntQcOlT0yh9NNlD9CH1ObdIRyzbiexY5SIcUxohzJfFS7nfnV3pPTIJfGagBHN8TK8i5o2E7D6X/YnLSDeGTIusbxk6KTEpP9L5IouPq0Bh/2ZIoYGN9ywnkaFC4G+wFTJx9znwEYgWPxCL/1LmEsetTdZr0KdkKjFa1Z1ebP2ZydZ1t7QXfhwIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_extName__",
+   "options_ui": {
+      "open_in_tab": false,
+      "page": "options.html"
+   },
+   "permissions": [ "alarms", "webRequest", "webRequestBlocking", "tabs", "nativeMessaging", "storage", "downloads", "contextMenus", "history", "unlimitedStorage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "33.0.0.46",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>", "file:///*" ],
+      "resources": [ "blocked-page.html", "blocked-file-page.html", "external-app-link-page-v1.html", "icons/ip16.png", "HPSimplified_Lt.ttf", "scripts/external-app/main.js", "scripts/external-app/external-app-link-checker.js" ]
+   } ]
+}

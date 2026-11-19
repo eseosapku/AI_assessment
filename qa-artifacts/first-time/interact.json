@@ -1,0 +1,710 @@
+{
+  "home": {
+    "href": "http://localhost:3000/",
+    "hash": "",
+    "scrollY": 0,
+    "spin": false,
+    "dashH": 373,
+    "dashNw": 1500,
+    "heads": [
+      {
+        "t": "Stuck on something? We'll build you a way through it.",
+        "x": 112,
+        "y": 199,
+        "w": 543,
+        "h": 241,
+        "minOp": 0.59,
+        "chain": [
+          1,
+          0.592919,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "One study space. Every way to learn it.",
+        "x": 176,
+        "y": 1099,
+        "w": 672,
+        "h": 96,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Not just multiple choice. Every question type.",
+        "x": 176,
+        "y": 2882,
+        "w": 1088,
+        "h": 40,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Ask anything. Watch it become a lesson.",
+        "x": 112,
+        "y": 3240,
+        "w": 496,
+        "h": 96,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "From stuck to mastered, in three steps.",
+        "x": 176,
+        "y": 3895,
+        "w": 576,
+        "h": 96,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Your whole syllabus, color-coded.",
+        "x": 744,
+        "y": 4553,
+        "w": 584,
+        "h": 96,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Run your class, see every student.",
+        "x": 225,
+        "y": 5154,
+        "w": 523,
+        "h": 80,
+        "minOp": 0,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          1
+        ]
+      },
+      {
+        "t": "One price. Everything included.",
+        "x": 240,
+        "y": 5707,
+        "w": 960,
+        "h": 48,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "sections": {
+      "features": 920,
+      "how": 3716,
+      "pricing": 5539,
+      "studylab": 3061
+    },
+    "topText": [
+      "Stuck on something? We'll build you a way through it."
+    ],
+    "dialog": null,
+    "buttons": [
+      {
+        "type": null,
+        "aria": "Toggle theme",
+        "text": ""
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Sign in"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Get started"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Get started free"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Try StudyLab free"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Set up a classroom"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Start learning free"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Get started free"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "I already have an account"
+      }
+    ],
+    "submitBox": null,
+    "scrollH": 7159,
+    "clientH": 900
+  },
+  "click-Features": {
+    "clicked": {
+      "href": "#features"
+    },
+    "scrollY": 920,
+    "hash": "#features",
+    "sections": {
+      "features": 0,
+      "how": 3095,
+      "pricing": 4919,
+      "studylab": 2441
+    },
+    "topText": [
+      "One study space. Every way to learn it."
+    ],
+    "heads": [
+      {
+        "t": "Stuck on something? We'll build you a way through it.",
+        "x": 112,
+        "y": -729,
+        "w": 543,
+        "h": 241,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "One study space. Every way to learn it.",
+        "x": 176,
+        "y": 159,
+        "w": 672,
+        "h": 96,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Not just multiple choice. Every question type.",
+        "x": 176,
+        "y": 1962,
+        "w": 1088,
+        "h": 40,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Ask anything. Watch it become a lesson.",
+        "x": 112,
+        "y": 2620,
+        "w": 496,
+        "h": 96,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "click-LearnSpace": {
+    "clicked": {
+      "href": "#studylab"
+    },
+    "scrollY": 3361,
+    "hash": "#studylab",
+    "sections": {
+      "features": -2441,
+      "how": 654,
+      "pricing": 2501,
+      "studylab": 0
+    },
+    "topText": [
+      "Ask anything. Watch it become a lesson."
+    ],
+    "heads": [
+      {
+        "t": "Stuck on something? We'll build you a way through it.",
+        "x": 112,
+        "y": -3170,
+        "w": 543,
+        "h": 241,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "One study space. Every way to learn it.",
+        "x": 176,
+        "y": -2282,
+        "w": 672,
+        "h": 96,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Not just multiple choice. Every question type.",
+        "x": 176,
+        "y": -479,
+        "w": 1088,
+        "h": 40,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Ask anything. Watch it become a lesson.",
+        "x": 112,
+        "y": 159,
+        "w": 496,
+        "h": 96,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "click-Exam prep": {
+    "clicked": {
+      "href": "#features"
+    },
+    "scrollY": 920,
+    "hash": "#features",
+    "sections": {
+      "features": 0,
+      "how": 3095,
+      "pricing": 4942,
+      "studylab": 2441
+    },
+    "topText": [
+      "One study space. Every way to learn it."
+    ],
+    "heads": [
+      {
+        "t": "Stuck on something? We'll build you a way through it.",
+        "x": 112,
+        "y": -729,
+        "w": 543,
+        "h": 241,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "One study space. Every way to learn it.",
+        "x": 176,
+        "y": 159,
+        "w": 672,
+        "h": 96,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Not just multiple choice. Every question type.",
+        "x": 176,
+        "y": 1962,
+        "w": 1088,
+        "h": 40,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Ask anything. Watch it become a lesson.",
+        "x": 112,
+        "y": 2600,
+        "w": 496,
+        "h": 96,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "click-Pricing": {
+    "clicked": {
+      "href": "#pricing"
+    },
+    "scrollY": 5862,
+    "hash": "#pricing",
+    "sections": {
+      "features": -4942,
+      "how": -1847,
+      "pricing": 0,
+      "studylab": -2501
+    },
+    "topText": [
+      "One price. Everything included."
+    ],
+    "heads": [
+      {
+        "t": "Stuck on something? We'll build you a way through it.",
+        "x": 112,
+        "y": -5671,
+        "w": 543,
+        "h": 241,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "One study space. Every way to learn it.",
+        "x": 176,
+        "y": -4783,
+        "w": 672,
+        "h": 96,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Not just multiple choice. Every question type.",
+        "x": 176,
+        "y": -2980,
+        "w": 1088,
+        "h": 40,
+        "minOp": 0,
+        "chain": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Ask anything. Watch it become a lesson.",
+        "x": 112,
+        "y": -2342,
+        "w": 496,
+        "h": 96,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "how": {
+    "how": {
+      "href": "#how"
+    },
+    "scrollY": 4015,
+    "hash": "#how",
+    "topText": [
+      "From stuck to mastered, in three steps."
+    ],
+    "sections": {
+      "features": -3095,
+      "how": 0,
+      "pricing": 1847,
+      "studylab": -654
+    }
+  },
+  "getStarted": {
+    "started": {
+      "ok": true
+    },
+    "dialog": "JOIN STUDYSQUARE Create account I AM A Student Teacher STUDYING AT School University FULL NAME EMAIL (OPTIONAL) STUDENT ID (OPTIONAL) Provide an email or student ID. Students without email can use their school ID. COUNTRY / CURRICULUM REGION 🌍 International / Other 🇳🇬 Nigeria 🇰🇪 Kenya 🇬🇭 Ghana 🇺🇬 Uganda 🇷🇼 Rwanda 🇿🇦 South Africa 🇹🇿 Tanzania 🇪🇹 Ethiopia 🇨🇲 Cameroon 🇸🇳 Senegal 🇿🇲 Zambia 🇿🇼 Zimbabwe Rwanda REB national curriculum & Cambridge · Card or MoMo (RWF) — MoMo OTP ",
+    "href": "http://localhost:3000/"
+  },
+  "signIn": {
+    "signin": {
+      "ok": true
+    },
+    "dialog": "WELCOME BACK Sign in EMAIL OR STUDENT ID PASSWORD Forgot? Sign In No account? Sign up free",
+    "href": "http://localhost:3000/"
+  },
+  "signup": {
+    "timeline": [
+      {
+        "t": 0.5,
+        "minOp": 0,
+        "y": 102
+      },
+      {
+        "t": 1,
+        "minOp": 0,
+        "y": 102
+      },
+      {
+        "t": 1.5,
+        "minOp": 0,
+        "y": 102
+      },
+      {
+        "t": 2,
+        "minOp": 0.92,
+        "y": 87
+      }
+    ],
+    "heads": [
+      {
+        "t": "Start studying smarter today.",
+        "x": 40,
+        "y": 320,
+        "w": 576,
+        "h": 127,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "t": "Create your account",
+        "x": 888,
+        "y": 87,
+        "w": 384,
+        "h": 36,
+        "minOp": 0.92,
+        "chain": [
+          1,
+          0.918834,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "buttons": [
+      {
+        "type": null,
+        "aria": "Toggle theme",
+        "text": ""
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Student"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "Teacher"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "School"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": "University"
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": ""
+      },
+      {
+        "type": "button",
+        "aria": null,
+        "text": ""
+      },
+      {
+        "type": "submit",
+        "aria": null,
+        "text": "Create Student Account"
+      }
+    ],
+    "submitBox": {
+      "y": 1134,
+      "h": 44,
+      "x": 888,
+      "w": 384
+    },
+    "scrollH": 1269,
+    "clientH": 900,
+    "href": "http://localhost:3000/signup"
+  },
+  "forgot": {
+    "timeline": [
+      {
+        "t": 0.5,
+        "minOp": 0,
+        "y": 366
+      },
+      {
+        "t": 1,
+        "minOp": 0,
+        "y": 366
+      },
+      {
+        "t": 1.5,
+        "minOp": 0,
+        "y": 366
+      },
+      {
+        "t": 2,
+        "minOp": 1,
+        "y": 346
+      }
+    ],
+    "heads": [
+      {
+        "t": "Forgot password?",
+        "x": 537,
+        "y": 346,
+        "w": 366,
+        "h": 36,
+        "minOp": 1,
+        "chain": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "href": "http://localhost:3000/forgot-password"
+  }
+}

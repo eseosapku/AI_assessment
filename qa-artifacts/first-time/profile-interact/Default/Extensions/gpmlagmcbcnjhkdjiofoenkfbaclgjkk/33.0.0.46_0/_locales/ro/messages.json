@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Aţi deschis site-ul în HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Acest site ar putea găzdui potenţiale ameninţări:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Aţi deschis fişierul PDF în HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Fişierul PDF de pe acest site ar putea găzdui potenţiale ameninţări:"
+   },
+   "blockedPageContinue": {
+      "message": "Continuare în acest browser"
+   },
+   "blockedPageContinueV2": {
+      "message": "Continuare în {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Aflaţi mai multe"
+   },
+   "blockedPageRemember": {
+      "message": "Reţinere decizie pentru acest site"
+   },
+   "blockedPageSecure": {
+      "message": "Deschidere în HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser ajută la protejarea PC-ului de site-uri web şi fişiere infectate cu malware, ransomware sau viruşi."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Site web nesigur detectat de HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Site web neidentificat detectat de HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Deschidere în Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Vârsta acestui site ({DOMAIN_AGE_DAYS} days) este sub nivelul minim configurat."
+   },
+   "extDescription": {
+      "message": "Navigare în siguranţă pe internet cu HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "ro"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Acest site a fost deschis în HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "Acest fişier PDF a fost deschis în HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Închidere filă"
+   },
+   "launchedPageGoBack": {
+      "message": "Înapoi"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Lista este goală momentan"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Site-uri unde introducerea de date de conectare este permisă:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Activare conectare"
+   },
+   "optionsPageNoOptions": {
+      "message": "Nu aveţi nicio opţiune de configurat."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection a detectat utilizarea unei mărci de încredere pe un domeniu sau un site web fără legătură. Acesta ar putea fi un site de phishing care încearcă să vă fure datele de conectare."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection a blocat un site nou care se află sub pragul minim de vârstă configurat."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection a detectat utilizarea unei mărci de încredere {BRAND} pe un domeniu sau un site web fără legătură. Acesta ar putea fi un site de phishing care încearcă să vă fure datele de conectare."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection a blocat un site de phishing cunoscut."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Avertisment: Furt de acreditări blocat"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection a blocat un fişier potenţial maliţios."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection a blocat un site care trimitea date de conectare pe internet fără criptare."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Avertisment: Pagină de conectare nesecurizată blocată"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Avertisment: Potenţial furt de acreditări blocat"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection a blocat un site necunoscut care ar putea încerca să vă fure datele de conectare."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Avertisment: Potenţial furt de acreditări"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Am încredere în acest site, continuare"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Înapoi la siguranţă"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Dacă credeţi că acest lucru este incorect, contactaţi administratorul HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Continuare cu conectare dezactivată"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Ştergere site-uri"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension reţine site-urile pe care aţi ales să le accesaţi în siguranţă folosind HP Sure Click Secure Browser şi site-urile pe care aţi ales să le deschideţi folosind browserul implicit. Selectaţi butonul de mai jos pentru a şterge aceste alegeri."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension este dezactivat."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security a întâmpinat o eroare. Reporniţi browserul."
+   },
+   "popupHelpLinkText": {
+      "message": "Obţineţi mai multe informaţii"
+   },
+   "popupMissingHelper": {
+      "message": "Extensia nu poate fi conectată la HP Wolf Security. Verificaţi dacă o versiune compatibilă a HP Wolf Security a fost instalată şi funcţionează."
+   },
+   "popupNoError": {
+      "message": "Sunteţi protejaţi de HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Deschidere o nouă fereastră de Secure Browser"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click necesită iniţializare."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click este în aşteptarea configurării şi a fost dezactivat."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click nu este licenţiat şi a fost dezactivat."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Această adresă aparţine unor categorii blocate: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Această adresă aparţine unei categorii blocate: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Blocat de HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Această adresă nu este sigură din următoarele motive: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Această adresă nu este sigură."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Această adresă nu este sigură din următorul motiv: {STATUSMSG}"
+   }
+}

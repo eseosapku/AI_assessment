@@ -1,0 +1,74 @@
+/*
+Copyright (c) 2019 Bromium, Inc.
+*/
+
+/*
+<label class="slider-label">
+  <input type="checkbox">
+  <span class="slider-state">
+    <span class="slider-on">Allow</span>
+    <span class="slider-off">Disallow</span>
+    <span class="slider-toggle"></span>
+  </span>
+</label>
+*/
+.slider-label {
+  display: inline-block;
+  position: relative;
+  font: 10px sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 20px;
+  cursor: pointer;
+}
+.slider-label input {
+  display: none;
+}
+.slider-state {
+  display: inline-block;
+  width: auto;
+  height: 24px;
+  background: #d6dadc;
+  border-radius: 12px;
+  box-sizing: border-box;
+  padding: 2px 8px;
+  -webkit-user-select: none;
+}
+.slider-toggle {
+  background: white;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  transition: left 150ms;
+}
+.slider-label:hover .toggle {
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.4);
+}
+.slider-on,
+.slider-off {
+  display: inline-block;
+  position: relative;
+  min-width: 10px;
+  color: white;
+  opacity: 1;
+  transition: opacity 150ms;
+
+}
+.slider-on {
+  opacity: 0;
+}
+input:checked + .slider-state {
+  background: #0071bc;
+}
+input:checked + .slider-state .slider-toggle {
+  left: calc(100% - 22px);
+}
+input:checked + .slider-state .slider-off {
+  opacity: 0;
+}
+input:checked + .slider-state .slider-on {
+  opacity: 1;
+}

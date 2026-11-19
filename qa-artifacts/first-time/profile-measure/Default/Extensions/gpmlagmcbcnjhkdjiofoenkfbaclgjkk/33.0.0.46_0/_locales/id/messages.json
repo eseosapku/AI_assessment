@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Anda telah membuka situs ini di HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Situs ini berpotensi mengandung ancaman:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Anda telah membuka file PDF di HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "File PDF dari situs ini berpotensi mengandung ancaman:"
+   },
+   "blockedPageContinue": {
+      "message": "Lanjutkan di browser ini"
+   },
+   "blockedPageContinueV2": {
+      "message": "Lanjutkan di {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Pelajari Selengkapnya"
+   },
+   "blockedPageRemember": {
+      "message": "Ingat keputusan saya untuk situs ini"
+   },
+   "blockedPageSecure": {
+      "message": "Buka di HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser membantu melindungi PC Anda dari situs web dan file yang terinfeksi malware, ransomware, atau virus."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Situs web tidak tepercaya terdeteksi oleh HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Situs web tak dikenal terdeteksi oleh HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Buka di Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Usia situs ini ({DOMAIN_AGE_DAYS} hari) di bawah minimum yang telah dikonfigurasi."
+   },
+   "extDescription": {
+      "message": "Berselancar di internet dengan aman menggunakan HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "id"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Situs telah dibuka di HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "File PDF telah dibuka di HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Tutup tab"
+   },
+   "launchedPageGoBack": {
+      "message": "Kembali"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Daftar ini saat ini kosong."
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Situs yang mengizinkan akses dengan kredensial:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Aktifkan pencatatan log"
+   },
+   "optionsPageNoOptions": {
+      "message": "Anda tidak memiliki opsi untuk mengonfigurasi apa pun."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection telah mendeteksi penggunaan merek tepercaya pada domain atau situs web yang tidak terkait. Ini bisa jadi situs phishing yang mencoba mencuri kredensial Anda."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection telah memblokir situs baru yang berada di bawah ambang batas usia minimum yang telah dikonfigurasi."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection telah mendeteksi penggunaan merek tepercaya {BRAND} pada domain atau situs web yang tidak terkait. Ini bisa jadi situs phishing yang mencoba mencuri kredensial Anda."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection telah memblokir situs phishing yang dikenal."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Peringatan: Pencurian Kredensial Diblokir"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection telah memblokir file yang berpotensi berbahaya."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection telah memblokir situs yang mengirimkan kredensial melalui internet tanpa enkripsi."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Peringatan: Halaman Login Tidak Aman Diblokir"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Peringatan: Potensi Pencurian Kredensial Diblokir"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection telah memblokir situs tidak dikenal yang mungkin mencoba mencuri kredensial Anda."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Peringatan: Potensi Pencurian Kredensial"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Saya percaya situs ini, lanjutkan."
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Kembali ke halaman aman"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Jika Anda yakin ini tidak benar, hubungi administrator HP Wolf Security Anda."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Lanjutkan dengan login dinonaktifkan."
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Bersihkan situs"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension mengingat situs mana yang telah Anda pilih untuk diakses dengan aman menggunakan HP Sure Click Secure Browser dan situs mana yang telah Anda pilih untuk dibuka menggunakan browser default. Pilih tombol di bawah untuk menghapus pilihan ini."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension dinonaktifkan."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security mengalami kesalahan. Silakan mulai ulang browser."
+   },
+   "popupHelpLinkText": {
+      "message": "Dapatkan informasi selengkapnya"
+   },
+   "popupMissingHelper": {
+      "message": "Ekstensi tidak dapat terhubung ke HP Wolf Security. Periksa apakah versi HP Wolf Security yang kompatibel telah diinstal dan berjalan."
+   },
+   "popupNoError": {
+      "message": "Anda dilindungi oleh HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Buka jendela Secure Browser baru."
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click memerlukan inisialisasi."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click sedang menunggu konfigurasi dan telah dinonaktifkan."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click tidak berlisensi dan telah dinonaktifkan."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Alamat ini termasuk dalam kategori yang diblokir: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Alamat ini termasuk dalam kategori yang diblokir: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Diblokir oleh HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Alamat ini tidak aman karena alasan berikut: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Alamat ini tidak aman."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Alamat ini tidak aman karena alasan berikut: {STATUSMSG}"
+   }
+}

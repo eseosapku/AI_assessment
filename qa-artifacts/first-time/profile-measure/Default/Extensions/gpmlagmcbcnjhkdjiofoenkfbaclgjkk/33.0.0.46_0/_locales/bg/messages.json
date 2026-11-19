@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Отворихте сайта в HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Този сайт може да е хост на потенциални заплахи:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Отворихте PDF файла в HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "PDF файлът от този сайт може да е хост на потенциални заплахи:"
+   },
+   "blockedPageContinue": {
+      "message": "Продължаване в този браузър"
+   },
+   "blockedPageContinueV2": {
+      "message": "Продължаване в {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Научете повече"
+   },
+   "blockedPageRemember": {
+      "message": "Запомни моите решения за този сайт"
+   },
+   "blockedPageSecure": {
+      "message": "Отваряне в HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser помага за защитата на вашия компютър от уеб сайтове и файлове, заразени с малуер, рансъмуер или вируси."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Открит е ненадежден уеб сайт от HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Открит е неидентифициран уеб сайт от HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Отваряне в Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Възрастта на този сайт ({DOMAIN_AGE_DAYS} дни) е под конфигурирания минимум."
+   },
+   "extDescription": {
+      "message": "Безопасно преглеждане в интернет с HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "bg"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Сайтът е отворен в HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "PDF файлът е отворен в HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Затваряне на раздел"
+   },
+   "launchedPageGoBack": {
+      "message": "Връщане назад"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Този списък в момента е празен"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Сайтове, в които е разрешено въвеждането на идентификационни данни:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Разрешаване на влизане"
+   },
+   "optionsPageNoOptions": {
+      "message": "Нямате опции за конфигуриране."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection откри използването на доверена марка в несвързан домейн или уебсайт. Възможно е това да е фишинг сайт, който се опитва да открадне данните ви."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection блокира нов сайт, който е под конфигурирания минимален праг за възрастта."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection откри използването на доверена марка {BRAND} в несвързан домейн или уебсайт. Възможно е това да е фишинг сайт, който се опитва да открадне данните ви."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection блокира известен фишинг сайт."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Предупреждение: Блокирана кражба на идентификационни данни"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection блокира потенциално злонамерен файл."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection блокира сайт, който изпраща идентификационни данни по интернет без криптиране."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Предупреждение: Блокирана незащитена страница за вход"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Предупреждение: Блокирана потенциална кражба на идентификационни данни"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection блокира непознат сайт, който се опита да открадне вашите идентификационни данни."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Предупреждение: Потенциална кражба на идентификационни данни"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Доверявам се на този сайт. Напред"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Напред към безопасността"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Ако считате, че това не е така, свържете се с администратора на HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Дезактивирано продължаване към входа"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Изчистване на сайтове"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension помни кои сайтове сте избрали за безопасен достъп с помощта на HP Sure Click Secure Browser и кои сайтове сте избрали да отваряте с браузъра по подразбиране. Изберете бутона по-долу, за да изчистите тези избори."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension е деактивирано."
+   },
+   "popupGenericError": {
+      "message": "Възникна грешка в HP Wolf Security. Рестартирайте браузъра."
+   },
+   "popupHelpLinkText": {
+      "message": "Получаване на още информация"
+   },
+   "popupMissingHelper": {
+      "message": "Разширението не може да се свърже с HP Wolf Security. Проверете дали е инсталирана и се изпълнява съвместимата версия на HP Wolf Security."
+   },
+   "popupNoError": {
+      "message": "Вие сте защитени от HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Отворете нов прозорец на Secure Browser"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click изисква инициализация."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click очаква конфигурация и е дезактивирано."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click няма лиценз и е дезактивирано."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Този адрес принадлежи на блокирани категории: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Този адрес принадлежи на блокирана категория: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Блокирано от HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Този адрес не е безопасен поради следните причини: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Този адрес не е безопасен."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Този адрес не е безопасен поради следната причина: {STATUSMSG}"
+   }
+}

@@ -1,0 +1,6168 @@
+light-1 | Turn the mirror by its white knob until the light from the lamp reaches the eye.
+
+lamp
+eye
+mirror
+normal
+in
+out
+The light does not reach the eye.
+Good
+Needs changes
+Redo
+Start again\nlight-2 | Swing the lamp round the ring by its white knob until its light reaches the eye on the far side of the glass.
+
+lamp
+eye
+normal
+air
+glass
+in
+out
+The light does not reach the eye.
+Good
+Needs changes
+Redo
+Start again\nlight-3 | Swing the lamp round under the water by its white knob until its light comes out of the flat face and reaches the eye.
+
+lamp
+eye
+normal
+air
+water
+in
+out
+The light does not reach the eye.
+Good
+Needs changes
+Redo
+Start again\nlight-4 | Swing the lamp round under the glass by its white knob until its light reaches the eye.
+
+lamp
+eye
+normal
+air
+glass
+in
+out
+The light does not reach the eye.
+Good
+Needs changes
+Redo
+Start again\nlight-5 | Slide the candle along by its white knob until the picture on the screen is sharp.
+
+candle
+lens
+screen
+The picture on the screen is a blur.
+Good
+Needs changes
+Redo
+Start again\nwaves-1 | Shake the end of the rope so the wave matches the dashed green wave.
+
+make this wave
+one wave
+hand
+orange dot
+rope
+Shake the handle: the wave runs down the rope.
+How fast you shake
+−
+5
++
+How far you shake
+−
+4
++
+Good
+Needs changes
+Redo
+Start again\nwaves-2 | The rope gets thicker part way along. Shake the end so the wave on the thick part matches the dashed green wave.
+
+make this wave
+one wave
+hand
+orange dot
+orange dot
+thin rope
+thick rope
+Shake the handle: the wave runs down the rope.
+How fast you shake
+−
+4
++
+Good
+Needs changes
+Red\nforces-1 | Find the resultant force on the car, then say what happens to its motion.
+
+Starts moving to the right
+Driving force
+1200 N
+Air resistance
+600 N
+Friction
+1000 N
+= 800 N
+Arrows are drawn to the scale shown. Only the forces along the line are drawn: up and down, the weight and the s\nforces-2 | Drag the end of the push arrow until the forces on the box are balanced.
+
+Starts moving to the right
+Aim: balanced forces: a resultant of 0 N
+Push
+15 N
+Friction
+30 N
+= 20 N
+Arrows are drawn to the scale shown. Only the forces along the line are drawn: up and down, the weight and \nforces-3 | A resultant force acts on the car. Work out its acceleration.
+
+Mass: 1200 kg
+Resultant force: 1200 N
+Resultant force
+1200 N
+The arrow shows the resultant force on it.
+Acceleration (m/s²)
+m/s²
+
+Type a number. You may add m/s².
+
+Answer in metres per second squared.
+
+Good
+Needs chan\nforces-4 | Work out the weight of the box.
+
+Mass: 2 kg
+g = 9.8 N/kg
+Only the object is drawn.
+Weight (N)
+N
+
+Type a number of newtons.
+
+Answer in newtons.
+
+Good
+Needs changes
+Redo
+Start again\nmotion-1 | Hold the runner and move it so your graph follows the dashed path.
+
+0
+2
+4
+6
+0 m
+0
+1
+2
+3
+4
+5
+6
+7
+8
+0
+2
+4
+6
+Time (s)
+Distance (m)
+Hold the runner and slide it; the clock runs while you hold it.
+Clock
+0 of 8 s
+Good
+Needs changes
+Redo
+Start again\nmotion-2 | How fast is the runner in the bold part of the journey?
+
+0
+2
+4
+6
+8
+10
+12
+0 m
+0
+1
+2
+3
+4
+5
+6
+0
+2
+4
+6
+8
+10
+12
+Time (s)
+Distance (m)
+Place the flags on the bold line, then read the speed.
+Speed
+−
+? m/s
++
+Good
+Needs changes
+Redo
+Start again\nenergy-track-1 | Press the + and − buttons to raise or lower the ball until it just reaches the flag.
+
+ball
+flag
+floor
+height
+motion
+heat
+total
+Raise or lower the ball so it just climbs to the flag.
+Ball height
+−
++
+The ball climbs above the flag.
+Good
+Needs changes
+Redo
+Start again\nenergy-track-2 | Press the + and − buttons to change the floor until the ball just reaches the flag.
+
+flag
+floor
+height
+motion
+heat
+total
+Roughen or smooth the floor so the ball just climbs to the flag.
+Floor
+−
++
+The ball climbs above the flag.
+Good
+Needs changes
+Redo
+Start again\nmoments-machines-1 | Drag the brass stack along the rule, or use the buttons, until the rule sits level.
+
+6 N
+3 N
+50
+40
+30
+20
+10
+20
+30
+40
+50
+10
+pivot
+Marks are cm from the pivot. Each disc is 1 N.
+Brass stack from the pivot
+−
+10 cm
++
+The rule tips left.
+Good
+Needs changes
+Redo
+Start again\nmoments-machines-2 | Drag the fulcrum along the ground, or use the buttons. Lift the 600 N rock with your 150 N push, as high as it will go.
+
+600 N
+your push
+fulcrum
+The bar rests on the rock until your push is enough.
+Push needed
+your push 150 N
+Fulcrum from the rock
+−
+80 cm
++
+The rock stays on the \nmoments-machines-3 | Use the buttons to change the strands and to pull the rope. Raise the crate to the shelf without pulling harder than 200 N, using as little rope as you can.
+
+shelf 2 m up
+600 N
+1
+your pull
+rope pulled
+The crate will not move: that is more pull than you have.
+Pull needed
+your pull\nmoments-machines-4 | Change the output gear with the buttons, then drag the handle round or press Turn once to watch it. Make the output gear turn 3 times for each turn of the handle, the same way as the handle.
+
+handle gear, 24 teeth
+output gear, 24 teeth
+Red marks count the turns. Arrows show which\nmoments-machines-5 | Drag the stand along the bench, or use the buttons, until the rule sits level.
+
+1 N
+4 N
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+pivot
+Marks are cm along the rule. Each disc is 1 N.
+Stand on the rule
+‹
+50 cm
+›
+The rule tips right.
+Good
+Needs changes
+Redo
+Start again\ndensity-pressure-1 | Tap + to stack weights on the pine block, and − to take one off. Load it with as many weights as it can carry and still float.
+
+pine 500 g
+water
+weights
+150 g each
+Pine block, 20 × 10 × 5 cm, 500 g. Water: 1 g per cm³.
+Weights, 150 g each
+−
+0
++
+
+Total mass on the water
+500 g
+
+0 w\ndensity-pressure-2 | Tap + to stack weights on the ice block, and − to take one off. Load it with as many weights as it can carry and still float.
+
+ice 917 g
+brine
+weights
+80 g each
+Ice block, 20 × 10 × 5 cm, 917 g. Brine: 1.2 g per cm³.
+Weights, 80 g each
+−
+0
++
+
+Total mass on the water
+917 g
+
+0 weig\ndensity-pressure-3 | Tap the arrows to turn the brick onto another face, and + or − to add or take away a brick. Press the foam in to the dashed line, using as few bricks as you can.
+
+2.0 kg
+scale
+foam
+target dent
+20 cm
+5 cm
+Brick 20 × 10 × 5 cm, 2 kg each. The foam dents in proportion to the pressur\ndensity-pressure-4 | Tap + to lower the capsule into the brine, and − to raise it. In water the needle stopped at the orange tab: lower the capsule until the needle reaches it here.
+
+0 cm
+10 cm
+20 cm
+30 cm
+0
+1
+2
+3
+4
+kPa
+brine
+1.2 g/cm³
+capsule
+Orange tab: where the needle stopped in water. g = 10 N/k\nthermal-transfer-1 | Heat the rods and watch the balls drop, then put the metals in order, best conductor first.
+
+iron
+brass
+copper
+boiling water
+Each ball hangs 10 cm from the bath on a dab of wax. Redder means hotter.
+Heat the rods
+Elapsed
+0:00
+Order, best conductor first
+1
+iron
+2
+brass
+3
+copper
+
+T\nthermal-transfer-2 | Add wool, a lid or foil to the cup. Keep the water above 50 °C for 30 minutes, with as few parts as you can.
+
+conduction
+convection
+radiation
+water
+0
+20
+40
+60
+80
+100
+target
+Orange arrows: heat leaving the water. Thicker means more.
+Wool layers
+−
+0
++
+Lid
+Off
+Shiny foil
+Off
+Time
+10\nthermal-transfer-3 | Add wool, a lid or foil to the cup. Keep the drink below 10 °C for 30 minutes, with as few parts as you can.
+
+conduction
+convection
+radiation
+water
+0
+20
+40
+60
+80
+100
+target
+Orange arrows: heat entering the drink. Thicker means more.
+Wool layers
+−
+0
++
+Lid
+Off
+Shiny foil
+Off
+Time
+7\nsprings-oscillators-1 | Hang weights on the spring with the + and − buttons until it stretches to the dashed line.
+
+target
+clamp
+spring
+hanger
+Hang weights on the spring until the stack reaches the dashed line.
+Weights hung
+−
+0
++
+The spring has not reached the target.
+Good
+Needs changes
+Redo
+Start again\nhalf-life-1 | Drag the clock handle along the time line, or tap + and -, until half of the nuclei have gone.
+
+not yet decayed
+decayed
+nuclei left
+16
+32
+48
+64
+0
+10
+20
+30
+40
+time (minutes)
+Each nucleus goes all at once, and nobody can say when.
+Time
+−
+0 min
++
+
+Nuclei left
+64
+
+New sample
+Time 0 m\nhalf-life-2 | The half-life of technetium-99m is 6 hours. Drag the clock handle along the time line, or tap + and -, until only an eighth of the nuclei are left.
+
+technetium-99m
+technetium-99
+nuclei left
+16
+32
+48
+64
+0
+10
+20
+30
+time (hours)
+Each nucleus goes all at once, and nobody can say when\nhalf-life-3 | The dashed line is the background count. Drag the clock handle along the time line, or tap + and -, until half of the source's nuclei have decayed.
+
+not yet decayed
+decayed
+counts/min
+35
+70
+105
+140
+0
+20
+40
+60
+time (minutes)
+background 20
+GM tube
+140
+counts/min
+The background is t\nhalf-life-4 | Before it runs, drag each bead up or down to show how many nuclei are left after that many half-lives.
+
+not yet decayed
+decayed
+nuclei left
+0
+16
+32
+48
+64
+half-lives
+left
+0
+64
+1
+64
+2
+64
+3
+64
+4
+64
+The tray shows the last bead you moved.
+Your beads say 64 after 1, 64 after 2, 64 aft\nmagnetism-1 | Turn each compass so the red end of its needle shows the way the magnetic field points at that spot.
+
+N
+S
+1
+2
+3
+A bar magnet, with a plotting compass at each numbered point.
+
+The red end of a needle is its north-seeking end. Drag a needle round, or click it and use the arrow keys\nmagnetism-2 | The field lines of these two magnets are drawn. Name each end of the magnets a north pole or a south pole.
+
+A
+tap
+B
+tap
+C
+tap
+D
+tap
+Two bar magnets end to end. An arrow on a field line shows which way the field points. Tap an end to name it.
+
+Good
+Needs changes
+Redo
+Start again\nmagnetism-3 | Predict what the meter needle does in the second case. Which way does it swing, and how far compared with the reference?
+
+Reference
+S
+N
+pushed in
+0
+
+The magnet has its north pole pointing into the coil, and is pushed in at a steady speed. The needle swings to the left.
+
+Predict
+N\ncircuit-1 | Switch the circuit so bulb B is lit and bulb A is out.
+
+6 V
+A
+B
+
+Bulb A is glowing brightly. Bulb B is dark.
+
+Good
+Needs changes
+Redo
+Start again\ncircuit-2 | Add the second bulb so bulb A stays as bright as it was on its own: tap a slot to put it there.
+
+6 V
+A
+
+Bulb A is glowing brightly. Bulb B is not in the circuit.
+
+Good
+Needs changes
+Redo
+Start again\ncircuit-3 | Make both bulbs light.
+
+6 V
+A
+B
+
+Bulb A is glowing brightly. Bulb B is dark.
+
+Good
+Needs changes
+Redo
+Start again\ncircuit-4 | Add the second bulb so bulb A dims: tap a slot to put it there.
+
+12 V
+A
+
+Bulb A is glowing brightly. Bulb B is not in the circuit.
+
+Good
+Needs changes
+Redo
+Start again\norbit-1 | Move the Moon to where we see a first quarter.
+
+Sunlight
+Earth
+Seen from Earth
+50% lit
+Good
+Needs changes
+Redo
+Start again\nparticles-1 | Heat the wax until it is a liquid.
+
+Wax
+
+Particles packed in a regular pattern, each vibrating in its place
+
+TEMPERATURE
+-5 °C
+Particle speed
+Good
+Needs changes
+Redo
+Start again\natom-1 | Build an atom of sodium-23: its protons, its neutrons, and its electrons in their shells.
+
+1
+2
+3
+4
+Proton
+Neutron
+Electron
+
+NUCLEUS
+
+Protons
+−
+0
++
+Neutrons
+−
+0
++
+
+ELECTRONS
+0
+
+Shell 1
+−
+0
++
+Shell 2
+−
+0
++
+Shell 3
+−
+0
++
+Shell 4
+−
+0
++
+
+CHARGE
+0
+
+Good
+Needs changes
+Redo
+Start again\nbonding-1 | Make magnesium chloride: move electrons until every atom has a full outer shell.
+
+Mg
+2,8,2
+Cl
+2,8,7
+Cl
+2,8,7
+
+Drag an electron from one atom to another, or pick an atom and then where its electron goes.
+
+Start again
+Good
+Needs changes
+Redo
+Start again\nbonding-2 | Make a water molecule: share electrons until every shell is full.
+
+O
+H
+H
+
+Drag from one atom to the next, or pick one and then the other, to share a pair: one electron from each. Tap a shared pair to take it back.
+
+Start again
+Good
+Needs changes
+Redo
+Start again\nequation-balancer-1 | Balance the equation using the smallest whole numbers.
+
+The equation, then each molecule drawn as touching atom spheres in the usual model colours with its symbol, a plus and a minus beside each formula, and a bar for each element on each side.
+
+Fe
++
+O2
+→
+Fe2O3
+
+Fe
+−
+1
++
+Fe
+O2
+−
+\nequation-balancer-2 | Run the reaction as many times as the molecules allow.
+
+The balanced equation, a tray of reactant molecules drawn as touching atom spheres with their symbols, the products made, and a plus and a minus for how many times the reaction runs.
+
+2H2
++
+O2
+→
+2H2O
+
+we have
+
+H2
+H
+H
+H
+H
+H
+H\nrates-equilibrium-1 | Change the temperature so the reaction goes faster.
+
+Each ring marks a collision hard enough to react.
+thiosulfate
+acid
+share of collisions
+enough to react
+energy needed
+energy of a collision
+Temperature
+40 °C
+Cooler
+Hotter
+Good
+Needs changes
+Redo
+Start again\nrates-equilibrium-2 | Use the pressure lid to make more ammonia in the mixture.
+
+A solid ring marks one change; a dashed ring, the opposite.
+N2
+nitrogen
++
+3
+H2
+hydrogen
+⇌
+2
+NH3
+ammonia
+Pressure
+Lower
+Higher
+Good
+Needs changes
+Redo
+Start again\nsolutions-ph-1 | Open the tap to let the burette run into the flask: use the buttons to add titrant, a few cm³ at a time and then a drop at a time. Stop as soon as the indicator has changed colour.
+
+0
+10
+20
+30
+40
+50
+burette
+0.200 mol/dm³
+sodium hydroxide
+tap
+conical flask
+25.0 cm³ of 0.100 mol/dm\nsolutions-ph-2 | Add tubes to the rack: each new tube is 1 cm³ of the one before made up to 10 cm³ with water. Keep going until the last tube is the colour of pH 5 on the chart.
+
+start
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+target
+Start: 0.1 mol/dm³ hydrochloric acid. Each new tube is 1 cm³ of the one \nlab-bench-1 | Get the salt out of this salt water.
+
+Mixture: salt water
+Get: the salt
+The mixture
+
+Pick apparatus from the shelf to try it on the mixture.
+
+Filter funnel and paper
+Evaporating basin and Bunsen
+Distillation set-up
+Fractionating column
+Chromatography paper and solvent
+Magnet
+Good\ncell-lab-1 | Add or take away solute on the left so that, overall, solute particles move from the left to the right.
+
+left
+right
+solute passes
+solute on the left
+−
+4
++
+4 solute particles on the left
+Good
+Needs changes
+Redo
+Start again\ncell-lab-2 | The membrane lets only water through. Add or take away solute on the left so that no water moves across overall.
+
+left
+right
+only water passes
+solute on the left
+−
+3
++
+3 solute particles on the left
+Good
+Needs changes
+Redo
+Start again\ncell-lab-3 | Cut the block into equal cubes so that each has at least 3 times the block's surface area for its volume.
+
+1 cube
+skin
+inside
+Cut the block into more pieces and watch the two bars.
+Cuts along each edge
+−
+1
++
+Good
+Needs changes
+Redo
+Start again\nenzyme-rate-1 | Tap the buttons to change the water bath, and take a fresh tube whenever you want one. Test hotter and colder to find the fastest catalase can go, then leave a tube running at that rate.
+
+0
+20
+40
+60
+foam
+liver
+enzyme
+active site
+substrate
+Foam in a minute, mm
+0
+50
+100
+0
+10
+20
+30
+\nenzyme-rate-2 | Tap the buttons to change the pH, and take a fresh tube whenever you want one. Test higher and lower to find the fastest pepsin can go, then leave a tube running at that rate.
+
+0
+20
+40
+60
+pH
+paper
+egg white
+enzyme
+active site
+substrate
+Egg white gone in a minute, %
+0
+50
+100
+1
+2
+3\nenzyme-rate-3 | Tap the buttons to change the hydrogen peroxide. Get the top rate from catalase, without using any more hydrogen peroxide than you need.
+
+0
+20
+40
+60
+1%
+foam
+liver
+enzyme
+active site
+substrate
+Foam in a minute, mm
+0
+50
+100
+1
+2
+3
+4
+5
+6
+%
+Catalase splits hydrogen peroxide. The oxyge\nenzyme-rate-4 | Tap the buttons to move the lamp and change the carbon dioxide. Reach 24 bubbles a minute without using any more light or carbon dioxide than you need.
+
+CO₂
+lamp
+pondweed
+oxygen
+Bubbles a minute
+0
+12
+24
+36
+1
+2
+3
+4
+5
+light
+aim
+The pondweed gives off oxygen as it makes its food.
+
+B\nenzyme-rate-5 | Tap the buttons to move the lamp and change the temperature. Reach 18 bubbles a minute without using any more light or temperature than you need.
+
+10 °C
+20 °C
+30 °C
+lamp
+pondweed
+oxygen
+Bubbles a minute
+0
+12
+24
+36
+1
+2
+3
+4
+5
+light
+aim
+The pondweed gives off oxygen as it makes its \ngenetics-1 | Tap a letter above or beside the square to change a parent. Make exactly one of the four boxes show white flowers.
+
+PP
+PP
+PP
+PP
+P
+P
+P
+P
+parent 1
+parent 2
+P purple flowers
+p white flowers
+Each box is one possible offspring. Capital shows over small.
+Parents
+PP × PP
+4 of the 4 boxe\ngenetics-2 | Parent 1 is fixed. Tap a letter beside the square to change parent 2. Make exactly two of the four boxes show short plants.
+
+TT
+Tt
+Tt
+tt
+T
+t
+T
+t
+parent 1 (fixed)
+parent 2
+T tall plants
+t short plants
+Each box is one possible offspring. Capital shows over small.
+Parents
+Tt × Tt
+3 \ngenetics-3 | Tap a DNA base to change it. Change just one base so that exactly one amino acid in the protein is different.
+
+G
+G
+A
+C
+T
+C
+C
+T
+C
+T
+T
+C
+C
+C
+U
+G
+A
+G
+G
+A
+G
+A
+A
+G
+Pro
+Glu
+Glu
+Lys
+DNA
+mRNA
+protein
+mRNA copies the DNA by pairing: A-U, T-A, C-G, G-C.
+A ring marks anything different from\ngenetics-4 | Tap a DNA base to change it. Change just one base so that the protein chain stops short.
+
+A
+A
+A
+C
+A
+C
+T
+T
+G
+G
+T
+T
+U
+U
+U
+G
+U
+G
+A
+A
+C
+C
+A
+A
+Phe
+Val
+Asn
+Gln
+DNA
+mRNA
+protein
+mRNA copies the DNA by pairing: A-U, T-A, C-G, G-C.
+A ring marks anything different from the start.
+Bases cha\nbody-flow-1 | Trace the blood from the body to the lungs.
+
+Tap each part the blood passes through, in order, until it reaches the lungs. Tap a part again to take it back.
+
+aorta
+body
+leftatrium
+leftventricle
+lungs
+pulmonaryartery
+pulmonaryvein
+rightatrium
+rightventricle
+vena cava
+start
+oxygena\nfood-web-1 | Draw the energy arrows in this pond food web.
+
+Tap an organism, then another, to draw an arrow from the first to the second. Tap the same two again to take it away.
+
+Stickleback
+Mayfly nymph
+Pike
+Algae
+Pond snail
+Heron
+Pondweed
+Water flea
+
+WHAT EACH ANIMAL FEEDS ON
+
+Heron	stickle\nfood-web-2 | Name the role of each organism in this woodland food web.
+
+Tap each organism to name its role in this web.
+
+Shrew
+Caterpillar
+Ladybird
+Aphid
+Oak tree
+Tawny owl
+Deer
+Bramble
+An arrow from the shrew to the tawny owl.
+An arrow from the caterpillar to the shrew.
+An arrow from the aph\nfood-web-3 | All the sticklebacks are taken out of the pond. Predict what happens to each animal marked.
+
+With the stickleback gone, will each of these rise or fall?
+
+Stickleback
+Taken out
+Mayfly nymph
+Pike
+Algae
+Pond snail
+Heron
+Pondweed
+Water flea
+An arrow from the stickleback to the pike.
+\nnumber-line-1 | Drag the pin to 3.47 and zoom in until its tick shows.
+
+Find
+3.47
+0
+1
+2
+3
+4
+5
+×1
+The shaded gap is what Zoom opens up.
+Zoom
+−
+×1
++
+Pin on 3, ticks 1 apart.
+Good
+Needs changes
+Redo
+Start again\nnumber-line-2 | Drag the pin to 3/4 and zoom in until its tick shows.
+
+Find
+3
+4
+0
+1
+2
+3
+4
+5
+×1
+The shaded gap is what Zoom opens up.
+Zoom
+−
+×1
++
+Pin on 3, ticks 1 apart.
+Good
+Needs changes
+Redo
+Start again\nnumber-line-3 | Drag the pin to -35.
+
+Find
+−35
+−40
+−20
+0
+20
+40
+×1
+The shaded gap is what Zoom opens up.
+Zoom
+−
+×1
++
+Pin on 0, ticks 10 apart.
+Good
+Needs changes
+Redo
+Start again\nnumber-line-4 | Drag the hopper to where 2 − (−3) lands.
+
+2 − (−3)= ?
+−6
+−4
+−2
+0
+2
+4
+6
+start
+The arc is the hop, from the dot to the hopper.
+Lands on
+−
+2
++
+Hopper on 2, a hop of no hop yet.
+Good
+Needs changes
+Redo
+Start again\ncounters-place-value-1 | Add 38 and 25 with the blocks.
+
+38
+Tens
+0
+−
++
+Ones
+0
+−
++
++ 25
+Tens
+0
+−
++
+Ones
+0
+−
++
+Put together
+
+Start again
+Good
+Needs changes
+Redo
+Start again\ncounters-place-value-2 | Take 17 away from 52.
+
+52
+Tens
+0
+−
++
+Ones
+0
+−
++
+Take away 17
+
+Start again
+Good
+Needs changes
+Redo
+Start again\ncounters-place-value-3 | Make 47 with the fewest blocks.
+
+1 ten → 10 ones
+10 ones → 1 ten
+Tens
+0
+−
++
+Ones
+0
+−
++
+
+Start again
+Good
+Needs changes
+Redo
+Start again\ncounters-place-value-4 | Show 34 using only 2 tens.
+
+1 ten → 10 ones
+10 ones → 1 ten
+Tens
+3
+Ones
+4
+Your number
+34
+
+Start again
+Good
+Needs changes
+Redo
+Start again\nbar-model-1 | Cut the lower bar into 6 equal parts and shade it to the same length as the top bar.
+
+Given: 2 of 3 parts shaded
+Yours
+Cut the lower strip, then tap its parts to shade them.
+Cut into equal parts
+−
+1
++
+
+shaded
+not shaded
+
+1 equal part
+Good
+Needs changes
+Redo
+Start again\nbar-model-2 | Cut and shade the bar to show 3/5 of the distance.
+
+Whole bar = 60 km
+Cut the strip, then tap parts to shade them.
+Cut into equal parts
+−
+1
++
+
+shaded
+not shaded
+
+1 equal part
+Good
+Needs changes
+Redo
+Start again\nbar-model-3 | Share the sweets between Asha and Ben in the ratio 2:3.
+
+Whole bar = 60 sweets
+Cut the strip, pick a name, then tap parts to give them out.
+Cut into equal parts
+−
+1
++
+Give parts to
+Asha
+Ben
+
+not given yet
+
+1 equal part
+Good
+Needs changes
+Redo
+Start again\narea-grid-1 | Expand (x + 3)(x + 5).
+
+x
+3
+x
+5
+Fill in each tile, then write the whole expression.
+Good
+Needs changes
+Redo
+Start again\narea-grid-2 | Complete the square for x² + 6x: cut the strip, then move its outer piece under the square.
+
+x²
+x
+6
+x
+Drag the cut along the strip, then turn the outer piece under the square.
+
+The strip is cut into 0.5 and 5.5.
+
+Good
+Needs changes
+Redo
+Start again\nalgebra-tiles-1 | Solve 3x + 2 = x + 8 on the balance.
+
+=
+
+3x + 2 = x + 8
+
+Take from both sides
+x
+1
+−x
+−1
+Add to both sides
+x
+1
+−x
+−1
+Share into
+2
+3
+4
+5
+6
+7
+8
+9
+10
+equal groups
+Share, keep one
+Remove zero pairs
+Undo
+Start again
+
+YOUR WORKING
+
+Start
+3x + 2 = x + 8
+Good
+Needs changes
+Redo
+Start agai\nalgebra-tiles-2 | Solve 2x - 3 = 7 - 3x: keep the pans level.
+
+=
+
+2x − 3 = −3x + 7
+
+Take from both sides
+x
+1
+−x
+−1
+Add to both sides
+x
+1
+−x
+−1
+Share into
+2
+3
+4
+5
+6
+7
+8
+9
+10
+equal groups
+Share, keep one
+Remove zero pairs
+Undo
+Start again
+
+YOUR WORKING
+
+Start
+2x − 3 = −3x + 7
+Good
+Needs changes
+Redo\nfunction-machine-1 | Tap + and − to feed numbers into the machine. Find the number to feed in so that the wanted number comes out.
+
+×3
++2
+0
+2
+0
+Input
+Output
+0
+step 1
+2
+step 2
+17
+Wanted
+The small tickets show the number after each step. The dashed ticket is the number wanted.
+Feed in
+−
+0
++
+0 fed in, 2\nfunction-machine-2 | Tap + and − to feed numbers into the machine. Find the number to feed in so that the wanted number comes out.
+
+−4
+÷3
+0
+−4/3
+0
+Input
+Output
+−4
+step 1
+−4/3
+step 2
+4
+Wanted
+The small tickets show the number after each step. The dashed ticket is the number wanted.
+Feed in
+−
+0
++
+0 fed\nfunction-machine-3 | Use Step to grow the pattern, and turn the Times and Add dials until the machine gives the number of tiles in every step.
+
+×1
++0
+1
+1
+1
+Step
+Output
+Step 1: 5 tiles
+The tray shows what your machine gives for this step.
+Step
+−
+1
++
+Times
+−
+1
++
+Add
+−
+0
++
+Step 1, 5 tiles, machine gives\nfunction-machine-4 | Use Step to grow the pattern, and turn the Times and Add dials until the machine gives the number of tiles in every step.
+
+×1
++0
+1
+1
+1
+Step
+Output
+Step 1: 3 tiles
+The tray shows what your machine gives for this step. A dashed square is a tile that is missing.
+Step
+−
+1
++
+Times
+−
+1\ncoordinate-plane-1 | Make the line y = 2x + 1.
+
+x
+y
+−6
+−6
+−5
+−5
+−4
+−4
+−3
+−3
+−2
+−2
+−1
+−1
+1
+1
+2
+2
+3
+3
+4
+4
+5
+5
+6
+6
+0
+run
+rise
+
+Your line goes through (−3, −2) and (3, 0).
+
+Drag a point, or Tab to it and use the arrow keys.
+
+Good
+Needs changes
+Redo
+Start again\ncoordinate-plane-2 | Tap the point where this line crosses the y-axis.
+
+x
+y
+−6
+−6
+−5
+−5
+−4
+−4
+−3
+−3
+−2
+−2
+−1
+−1
+1
+1
+2
+2
+3
+3
+4
+4
+5
+5
+6
+6
+0
+
+Tap a grid point, or use the arrow keys.
+
+Good
+Needs changes
+Redo
+Start again\ntransformations-1 | Slide the mirror line, or turn it with the direction buttons, until the reflected shape lands exactly on the dashed target.
+
+−6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+x
+y
+Each point and its image are equally far from the line.
+Shape
+Your image
+Target
+Mirror line
+\ntransformations-2 | Drag the pin to set the centre, and choose a turn, until the turned shape lands exactly on the dashed target.
+
+−6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+x
+y
+The image swings round the pin.
+Shape
+Your image
+Target
+Centre
+Turn
+↺ 90°
+180°
+↻ 90°
+Centre
+x
+−
+0
++
+y
+−
+0
+\ntransformations-3 | Drag the pin to set the centre, and choose the scale factor, until the new shape lands exactly on the dashed target.
+
+−6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+x
+y
+Each image point sits on a ray from the pin.
+Shape
+Your image
+Target
+Centre
+Centre
+x
+−
+0
++
+y
+−
+0
++
+\ntransformations-4 | Drag the arrow's head, or use the buttons, until the moved shape lands exactly on the dashed target.
+
+−6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+6
+−5
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+5
+x
+y
+Every point moves along the same arrow.
+Shape
+Your image
+Target
+Arrow head
+Across
+−
+0
++
+Up
+−
+0
++
+A grid from −6 to \ngeometry-construction-1 | Find the size of angle x and give a reason for your answer.
+
+125°
+x
+Drawn to scale. An arc marks each angle named; x is the angle to find.
+x =
+°
+
+Which fact did you use? Tick every fact you need.
+
+Alternate angles are equal
+Angles in a quadrilateral add up to 360°
+Angles in a tri\ngeometry-construction-2 | The two lines are parallel. Work out angle x and say which fact you used.
+
+65°
+x
+Drawn to scale. An arc marks each angle named; x is the angle to find.
+x =
+°
+
+Which fact did you use? Tick every fact you need.
+
+Alternate angles are equal
+Angles in a quadrilateral add up to 360°
+An\ngeometry-construction-3 | Drag the top corner to different places. What do the three angles always add up to?
+
+50°
+70°
+60°
+Drag the orange corner. The three angles are shown in degrees. Shapes made: 0. Make at least 3 different shapes.
+Try another shape
+The three angles always add up to
+°
+
+Good
+Needs chan\ngeometry-construction-4 | Find the sum of the interior angles of this polygon. Split it into triangles to help.
+
+A regular polygon: every side and every angle is equal. Tap a blue corner to draw a line to it from the orange corner.
+Split into triangles
+Clear the lines
+Sum of the interior angles =
+°
+
+Good
+\nmeasure-shape-1 | Read the level of the water in the measuring cylinder.
+
+0
+10
+20
+30
+40
+50
+ml
+Measuring cylinder, in ml
+Your reading
+ml
+
+Good
+Needs changes
+Redo
+Start again\nmeasure-shape-2 | Set the thermometer to -7 degrees C.
+
+−20
+−10
+0
+10
+20
+30
+°C
+Thermometer, in °C
+
+Set the top of the liquid to −7 °C
+
+Drag it, or click it and use the arrow keys.
+
+Good
+Needs changes
+Redo
+Start again\nmeasure-shape-3 | Shade squares to make one shape with area 6 squares and perimeter 12 units.
+
+Area: 6 squares
+Perimeter: 12 units
+Each square has sides 1 unit long. Click, tap or drag to shade squares.
+
+Clear the grid
+Good
+Needs changes
+Redo
+Start again\nmeasure-shape-4 | Both shapes cover the same area. Which has the larger perimeter?
+
+Which shape has the larger perimeter?
+
+Both shapes have an area of 8 squares. Each square has sides 1 unit long.
+
+Shape A
+Pick shape A
+Shape B
+Pick shape B
+Good
+Needs changes
+Redo
+Start again\nsolids-nets-1 | Move the orange square so the net folds into a cube. Tap a dotted outline to stick the square there, then pull the Fold slider to bend the card up and test it.
+
+1
+2
+3
+4
+5
+6
+Dashed = fold. Dotted = a place for the orange square.
+Fold
+0°
+Good
+Needs changes
+Redo
+Start again\nsolids-nets-2 | Add layers until the prism holds 30 cubic centimetres. Tap + to add a layer and − to take one away.
+
+1 cm
+Each layer is one square thick.
+Length
+−
+1 cm
++
+Good
+Needs changes
+Redo
+Start again\ntrig-circle-1 | Drag the foot of the ladder along the ground until its top just reaches the window sill.
+
+4 m
+5 m
+Drag the foot along the ground. The arc is the angle the ladder makes with it.
+Foot from the wall
+‹
+1.5 m
+›
+The ladder, 5 metres long, leans with its foot 1.5 metres from the wall an\ntrig-circle-2 | Drag the foot of the ladder along the ground until it stands on the painted line.
+
+3 m
+5 m
+Drag the foot along the ground. The arc is the angle the ladder makes with it.
+Top up the wall
+‹
+4.8 m
+›
+The ladder, 5 metres long, leans with its foot 1.5 metres from the wall and its top \ntrig-circle-3 | Drag the point round the circle to where sine is ½ and cosine is negative.
+
+sine against angle
+180°
+360°
+1
+−1
+cosine
+Drag the point round the circle. The curve is drawn from its height.
+Angle
+‹
+0°
+›
+
+Sine
+0.00
+
+Cosine
+1.00
+
+The point is at 0 degrees: sine 0.00, cosine 1.00.
+Good
+\ntrig-circle-4 | Drag the point round the circle to where cosine is √3/2.
+
+cosine against angle
+180°
+360°
+1
+−1
+cosine
+Drag the point round the circle. The curve is drawn from its distance across.
+Angle
+‹
+0°
+›
+
+Sine
+0.00
+
+Cosine
+1.00
+
+The point is at 0 degrees: sine 0.00, cosine 1.00.
+Good
+Needs c\ncalculus-grapher-1 | Slide the point along the curve until you find where it stops climbing.
+
+−15
+−10
+−5
+0
+−3
+−2
+−1
+0
+1
+2
+3
+−5
+0
+5
+−3
+−2
+−1
+0
+1
+2
+3
+The curve
+steepness of the tangent
+x
+x
+Drag the point along the curve. The ruler lies along the curve there; the lower graph records its steepness.
+Point\ncalculus-grapher-2 | Set the tangent at each mark so it follows the curve.
+
+−5
+0
+5
+−3
+−2
+−1
+0
+1
+2
+3
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+−3
+−2
+−1
+0
+1
+2
+3
+The curve
+steepness of each tangent
+x
+x
+Drag each dot up or down to tilt its ruler, so every ruler lies along the curve.
+
+mark 1: tangent level; mark 2: tangent l\ncalculus-grapher-3 | Sweep the line right until the area reaches the target.
+
+0
+0.5
+1
+1.5
+2
+0
+1
+2
+3
+4
+0
+2
+4
+0
+1
+2
+3
+4
+The curve
+area so far
+x
+x
+0
+target 4.5
+Drag the line right. The strips fill with area; the lower graph adds it up.
+Line
+‹
+x = 0
+›
+
+Line at x = 0. Area so far 0.
+
+Good
+Needs changes
+Re\nprobability-lab-1 | Tap a sector to colour it, and spin to test your spinner. Make a spinner where red has a 1/3 chance.
+
+Share of spins
+0
+1/2
+1
+1/3
+0
+10 spins
+Last spins
+Share of spins
+Chance asked for
+Last spins
+Spin
+×1
+×10
+×100
+Clear
+
+Spins
+0
+
+Red
+0
+
+Not spun yet.
+Good
+Needs changes
+Redo
+Start ag\nprobability-lab-2 | Tap a sector to colour it, and spin to test your spinner. Make a spinner where red has a 1/4 chance and blue has a 1/2 chance.
+
+Share of spins
+0
+1/2
+1
+1/4
+1/2
+0
+10 spins
+Last spins
+Share of spins
+Chance asked for
+Last spins
+Spin
+×1
+×10
+×100
+Clear
+
+Spins
+0
+
+Red
+0
+
+Blue
+0
+
+Not spun\nprobability-lab-3 | Tap a square to mark that pair of dice with a counter. Mark every pair that gives a total of 8.
+
+first die
+second die
+not rolled
+Marked pair
+Where the dice landed
+Dice
+Roll
+Clear
+
+Pairs in all
+36
+
+Marked
+0
+
+Not rolled yet.
+Good
+Needs changes
+Redo
+Start again\nprobability-lab-4 | Tap a square to mark that pair of dice with a counter. Mark every pair that makes doubles.
+
+first die
+second die
+not rolled
+Marked pair
+Where the dice landed
+Dice
+Roll
+Clear
+
+Pairs in all
+16
+
+Marked
+0
+
+Not rolled yet.
+Good
+Needs changes
+Redo
+Start again\nstats-explorer-1 | Place the dots to make a data set with a mean of 6 and a range of 8.
+
+6 dots
+Mean: 6
+Range: 8
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+Dots placed: 0 of 6. Not all the dots on one value. Tap the line to add a dot, drag a dot to move it, tap a dot to take it off.
+
+Clear the dots
+Good
+Needs cha\nstats-explorer-2 | One more value is added. Predict what happens to each measure.
+
+The change: a new value, 19, is added
+
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+Each dot is one value. The orange dashed dot is the new value.
+
+What happens to the mean?
+
+Goes up
+Stays the same
+Goes down
+
+What happens to the medi\nstats-explorer-3 | Which average should the estate agent use, and why?
+
+Eight houses on one street were sold this year. An estate agent wants one price to tell a new customer what a house on this street usually sells for.
+
+100
+200
+300
+400
+500
+One dot for each value. The line shows the price (£000s)\nchart-builder-1 | Drag the top of each bar up to its value in the table, reading the scale on the axis.
+
+Cats
+15
+Dogs
+35
+Fish
+25
+Birds
+10
+0
+10
+20
+30
+40
+50
+pupils
+Pets in Class 5
+0 of 4 raised.
+Good
+Needs changes
+Redo
+Start again\nchart-builder-2 | Drag the end of each row along to show its number in the table, using the key.
+
+Key
+= 2 pupils
+Bus
+12
+Walk
+8
+Car
+6
+Bike
+4
+Pictogram of the table
+0 of 4 raised.
+Good
+Needs changes
+Redo
+Start again\nchart-builder-3 | Use the plus and minus to choose how much each square is worth, so the chart is as tall as the paper allows and every bar ends exactly on a line.
+
+Ana
+15
+Ben
+35
+Cai
+25
+Dee
+40
+0
+20
+40
+60
+80
+100
+goals
+Bar chart of the table
+Each square is worth
+−
+10
++
+Each square is worth 10.
+Good
+\nchart-builder-4 | Use the plus and minus to move where the axis starts, so the bars show the numbers fairly.
+
+Shop A
+36
+Shop B
+39
+Shop C
+37
+30
+32
+34
+36
+38
+40
+pupils
+Pupils in each shop queue
+The axis starts at
+−
+30
++
+The axis starts at 30.
+Good
+Needs changes
+Redo
+Start again\nchart-builder-5 | Drag each point up to its value in the table, reading the scale on the axis.
+
+Mon
+20
+Tue
+50
+Wed
+30
+Thu
+60
+Fri
+40
+0
+20
+40
+60
+80
+100
+visitors
+Visitors each day
+0 of 5 raised.
+Good
+Needs changes
+Redo
+Start again\nalgorithm-tracer-1 | Complete the trace table for this linear search.
+
+Linear search
+
+TRACE TABLE
+
+This algorithm looks through Data for Target and outputs its position, or "Not found".
+
+4
+1
+9
+2
+2
+3
+7
+4
+5
+5
+Index
+–
+Found
+–
+OUTPUT
+–
+1
+DECLARE Data : ARRAY[1:5] OF INTEGER
+2
+DECLARE Target : INTEGER
+3
+D\nalgorithm-tracer-2 | Predict what Data holds after this pass.
+
+One pass of a bubble sort
+
+PREDICT THE OUTPUT
+
+This algorithm makes one pass of a bubble sort over Data, swapping neighbours that are out of order.
+
+4
+1
+9
+2
+2
+3
+7
+4
+5
+5
+1
+DECLARE Data : ARRAY[1:5] OF INTEGER
+2
+DECLARE Temp : INTEGER
+3
+DEC\nalgorithm-tracer-3 | This algorithm gives the wrong answer. Tap the faulty line.
+
+Counting
+
+FIND THE FAULT
+
+This algorithm counts the values in Data that are greater than Limit.
+
+4
+1
+9
+2
+5
+3
+7
+4
+2
+5
+1
+DECLARE Data : ARRAY[1:5] OF INTEGER
+2
+DECLARE Limit : INTEGER
+3
+DECLARE Count : INTEGER
+4
+DECLARE I\nflowchart-1 | Use the controls under the chart to set the inputs, and watch the token run. Make it finish at “Pass”.
+
+Start
+Input mark
+mark ≥ 16?
+Distinction
+mark ≥ 10?
+Pass
+Resit
+Yes
+No
+Yes
+No
+Token
+Path taken
+Mark out of 20
+−
+9
++
+
+Token ends at
+…
+
+The token ends at Resit.
+Good
+Needs changes
+\nflowchart-2 | Use the controls under the key to describe a specimen, and watch the token run down the key. Make the key name it “Spider”.
+
+Specimen
+has a shell?
+Snail
+8 legs?
+Spider
+has wings?
+Ant
+4 wings?
+Bee
+Housefly
+Yes
+No
+Yes
+No
+No
+Yes
+Yes
+No
+Token
+Path taken
+Shell
+No
+Yes
+Legs
+−
+6
++
+Wings
+\nflowchart-3 | Press the buttons under the chart to move the token from state to state. Get the machine into the state “open”.
+
+locked
+1 right
+2 right
+open
+2
+3
+1
+1, 3
+1, 2
+2, 3
+any
+Token
+Current state
+Press 1
+Press 2
+Press 3
+Start again
+
+Now in
+locked
+
+Presses
+0
+
+The machine is in locked.
+Good
+\nlogic-gates-1 | Tap a switch to flip it on or off. Find a way to light the lamp.
+
+A
+B
+C
+AND
+NOT
+AND
+Lamp
+Wire carrying 1
+Wire carrying 0
+A	0	0	0	0	1	1	1	1
+B	0	0	1	1	0	0	1	1
+C	0	1	0	1	0	1	0	1
+Lamp	0	·	·	·	·	·	·	·
+A off, B off, C off. The lamp is off.
+Good
+Needs changes
+Redo
+Start again\nlogic-gates-2 | Tap the arrows to change the gate, and tap the switches to test each setting. Make your lamp match the wanted row for every setting.
+
+A
+B
+Lamp
+Wire carrying 1
+Wire carrying 0
+Gate
+‹
+AND
+›
+A	0	0	1	1
+B	0	1	0	1
+Wanted	1	1	1	0
+Yours	0	·	·	·
+A off, B off. The lamp is off.
+Good
+Needs c\nlogic-gates-3 | Tap the arrows to change the gates, and tap the switches to test each setting. Make your lamp match the wanted row for every setting.
+
+A
+B
+C
+Gate 1
+Gate 2
+Lamp
+Wire carrying 1
+Wire carrying 0
+Gate 1
+‹
+AND
+›
+Gate 2
+‹
+AND
+›
+A	0	0	0	0	1	1	1	1
+B	0	0	1	1	0	0	1	1
+C	0	1	0	1	0	1	0	1
+Want\ndata-representation-1 | Tap the switches to flip them up and down until the total is 75.
+
+128
+0
+64
+0
+32
+0
+16
+0
+8
+0
+4
+0
+2
+0
+1
+0
+Up is 1. Each switch is worth double the one on its right.
+
+Total
+0
+
+No switch is up
+
+Switches up: none.
+Good
+Needs changes
+Redo
+Start again\ndata-representation-2 | Tap the switches to flip them up and down until the hex shows 4B.
+
+128
+0
+64
+0
+32
+0
+16
+0
+8
+0
+4
+0
+2
+0
+1
+0
+0
+0
+Up is 1. Each block of four switches makes one hex digit.
+
+Hex
+00
+
+0 in decimal
+
+Switches up: none.
+Good
+Needs changes
+Redo
+Start again\ndata-representation-3 | Tap the switches to flip them up and down until the character is K.
+
+64
+0
+32
+0
+16
+0
+8
+0
+4
+0
+2
+0
+1
+0
+Up is 1. Seven switches make a code, and each code is a character.
+
+Code
+0
+
+No switch is up
+
+Character
+–
+
+Switches up: none.
+Good
+Needs changes
+Redo
+Start again\ndata-representation-4 | Step the bits per pixel up or down until the picture can keep all 10 of its colours, using as few bits as you can.
+
+Original
+Stored
+Palette
+Colour in use
+Spare code
+Bits per pixel
+−
+1
++
+
+File size
+264 bits
+
+264 pixels × 1 bit
+
+1 bit per pixel: 2 codes, and 2 colours in the stored\ndata-representation-5 | Step the number of samples up or down until the wave rebuilt from the dots matches the real note, using as few samples as you can.
+
+Real note
+Sample
+Rebuilt from the samples
+Samples
+−
+4
++
+4 samples. The rebuilt wave has 1 cycles.
+Good
+Needs changes
+Redo
+Start again\nnetwork-sim-1 | Tap the cross on a cable to cut it, and tap again to mend it. Stop HELLO reaching the receiver with as few cuts as you can.
+
+5
+O
+3
+L
+sender
+receiver
+router
+Route in use
+Not in use
+Packet
+Arrived
+1
+H
+2
+E
+3
+L
+4
+L
+5
+O
+
+Routes in use
+3
+
+Cables cut
+0
+
+HELLO is reaching the receiver al\nnetwork-sim-2 | Tap the cross on a cable to cut it, and tap again to mend it. Stop HELLO reaching the receiver with as few cuts as you can.
+
+5
+O
+sender
+receiver
+switch
+computer
+Route in use
+Not in use
+Packet
+Arrived
+1
+H
+2
+E
+3
+L
+4
+L
+5
+O
+
+Routes in use
+1
+
+Cables cut
+0
+
+HELLO is reaching the receiv\nnetwork-sim-3 | Tap the plus on a dotted line to lay a cable, and tap again to take it up. Make it so PACKET still arrives if any one cable breaks, with as few new cables as you can.
+
+4
+K
+5
+E
+6
+T
+sender
+receiver
+router
+Only way
+Route
+Could lay
+Packet
+Arrived
+1
+P
+2
+A
+3
+C
+4
+K
+5
+E
+6
+T
+
+Routes in us\nmap-reader-1 | Put the cursor on the church.
+
+Church
+School
+Farm
+Station
+Mill
+Pond
+Shop
+Quarry
+Wood
+Stream
+20
+21
+22
+23
+24
+25
+26
+60
+61
+62
+63
+64
+65
+66
+22
+62
+Read along first, then up, to the square's bottom-left corner.
+Along
+−
+22
++
+Up
+−
+62
++
+Good
+Needs changes
+Redo
+Start again\nmap-reader-2 | Move the cursor onto the grid square shown at the top of the card.
+
+Church
+School
+Farm
+Station
+Mill
+Pond
+Shop
+Quarry
+Wood
+Stream
+20
+21
+22
+23
+24
+25
+26
+60
+61
+62
+63
+64
+65
+66
+23
+63
+Find square 2262
+Read along first, then up, to the square's bottom-left corner.
+Along
+−
+23
++
+Up
+−
+63
++
+\nmap-reader-3 | Turn the line so that the ground along it is as steep as it can be somewhere.
+
+20
+60
+100
+A
+B
+Ground along your line
+0
+60
+120
+A
+B
+Brown lines join ground of equal height, in metres.
+Turn the line
+−
+30°
++
+Good
+Needs changes
+Redo
+Start again\nmap-reader-4 | Turn the line so that the ground along it is as gentle as it can be everywhere.
+
+20
+60
+100
+A
+B
+Ground along your line
+0
+60
+120
+A
+B
+Brown lines join ground of equal height, in metres.
+Turn the line
+−
+30°
++
+Good
+Needs changes
+Redo
+Start again\ntectonics-1 | Choose how the two plates move, then step the time on, to make a deep ocean trench.
+
+Sea
+Oceanic crust
+Continent
+Mantle
+Earthquake focus
+Magma
+A plate is crust on a slab of stiff mantle
+Pull apart
+Slide past
+Push together
+Time passed
+Replay
+−
+0 of 4
++
+The plates are still.
+Good
+N\ntectonics-2 | Choose how the two plates move, then step the time on, so that earthquakes strike but no volcano erupts.
+
+Continental crust
+Mantle
+Earthquake focus
+Magma
+A plate is crust on a slab of stiff mantle
+Pull apart
+Slide past
+Push together
+Time passed
+Replay
+−
+0 of 4
++
+The plates are st\ntectonics-3 | Choose how the two plates move, then step the time on, to raise a range of fold mountains.
+
+Continental crust
+Mantle
+Earthquake focus
+Magma
+A plate is crust on a slab of stiff mantle
+Pull apart
+Slide past
+Push together
+Time passed
+Replay
+−
+0 of 4
++
+The plates are still.
+Good
+Need\ntectonics-4 | Choose how the two plates move, then step the time on, so that earthquakes start deep below the surface.
+
+Sea
+Oceanic crust
+Continent
+Mantle
+Earthquake focus
+Magma
+A plate is crust on a slab of stiff mantle
+Pull apart
+Slide past
+Push together
+Time passed
+Replay
+−
+0 of 4
++
+The pla\nriver-coast-1 | Tap a numbered plot to move the house there, and press the plus on Years to run the river forward. Choose a plot where the house is still on dry land after 200 years.
+
+1
+2
+3
+4
+6
+Flow
+Fast water
+Sand
+House
+Years
+−
+0
++
+Replay
+A river winds across a floodplain. At year 0 its bends h\nriver-coast-2 | Tap a dotted line to build a groyne there, and tap it again to take it away. Keep the beach in front of the hotel thick with sand for the next 20 years.
+
+Hotel
+Waves
+Pebble
+Groyne
+Sand
+Years
+−
+0
++
+Replay
+A beach seen from above, with waves arriving at a slant from the left. No gr\nclimate-station-1 | Drag the station around the globe, or use the arrows, until its graph matches the dashed graph.
+
+N
+S
+equator
+sunlight
+Station at 51.5° N
+-30
+-10
+10
+30
+0
+200
+400
+8 °C
+40 mm
+thermometer
+rain gauge
+-30
+-10
+10
+30
+0
+200
+400
+°C
+mm
+J
+F
+M
+A
+M
+J
+J
+A
+S
+O
+N
+D
+Temperature
+Rainfall
+Sun's patc\nclimate-station-2 | Here is the climate of London, UK. Use the month arrows, or tap the graph, to find its warmest month.
+
+N
+S
+equator
+sunlight
+London · 51.5° N
+0
+10
+20
+0
+25
+50
+75
+100
+5 °C
+55 mm
+thermometer
+rain gauge
+0
+10
+20
+0
+25
+50
+75
+100
+°C
+mm
+J
+F
+M
+A
+M
+J
+J
+A
+S
+O
+N
+D
+Temperature
+Rainfall
+Sun's pa\nclimate-station-3 | Here is the climate of Sydney, Australia. Use the month arrows, or tap the graph, to find its coldest month.
+
+N
+S
+equator
+sunlight
+Sydney · 34° S
+0
+10
+20
+30
+0
+50
+100
+150
+23 °C
+100 mm
+thermometer
+rain gauge
+0
+10
+20
+30
+0
+50
+100
+150
+°C
+mm
+J
+F
+M
+A
+M
+J
+J
+A
+S
+O
+N
+D
+Temperature
+Rainfall\npopulation-pyramid-1 | Drag the birth rate and death rate sliders until the pyramid, 50 years on, fills the dashed outline. Press Play to watch the people age.
+
+Men
+Women
+8
+8
+16
+16
+% of all people
+0–9
+10–19
+20–29
+30–39
+40–49
+50–59
+60–69
+70–79
+80+
+Alive at the start
+Born since
+Pyramid to fill
+
+Year
+4
+
+P\npopulation-pyramid-2 | Drag the birth rate and death rate sliders until the pyramid, 50 years on, fills the dashed outline. Press Play to watch the people age.
+
+Men
+Women
+6
+6
+12
+12
+% of all people
+0–9
+10–19
+20–29
+30–39
+40–49
+50–59
+60–69
+70–79
+80+
+Alive at the start
+Born since
+Pyramid to fill
+
+Year
+6
+
+P\npopulation-pyramid-3 | Drag the birth rate and death rate sliders so the country has about the same number of people 50 years on as it has now. Press Play to watch the people age.
+
+Men
+Women
+8
+8
+16
+16
+% of all people
+0–9
+10–19
+20–29
+30–39
+40–49
+50–59
+60–69
+70–79
+80+
+Alive at the start
+Born since
+
+Year
+\nstocks-flows-1 | Use the − and + buttons on Drain so that the water in the bath is still at its start line after 3 minutes.
+
+0
+50
+100
+Tap
+Drain
+Bath
+Start
+Where it started
+A wider stream runs faster
+Tap (fixed)
+30 L/min
+Drain
+−
+20 L/min
++
+Time
+3 minutes
+
+Water in the bath after 3 minutes
+80 L
+
+Wa\nstocks-flows-2 | Use the − and + buttons on Emissions to bring the carbon in the air to the aim line after 75 years.
+
+0
+500
+1000
+Emissions
+Uptake
+Air
+Start
+Aim
+Overflows
+Where it started
+Aim
+A wider stream runs faster
+Emissions
+−
+20 Gt/yr
++
+Uptake (fixed)
+12 Gt/yr
+Time
+75 years
+
+Carbon in the air\nstocks-flows-3 | Use the − and + buttons on Outflow to bring the water in the lake to the aim line after 3 years.
+
+0
+50
+100
+Rain and rivers
+Outflow
+Lake
+Start
+Aim
+Where it started
+Aim
+A wider stream runs faster
+Rain and rivers (fixed)
+40 km³/yr
+Outflow
+−
+40 km³/yr
++
+Time
+3 years
+
+Water in the lak\ntimeline-1 | Drag each event to when it happened.
+
+1100
+1200
+1300
+1400
+Battle of Agincourt
+1071
+Battle of Hastings
+1066
+Black Death
+1384
+Magna Carta
+1151
+233 years
+Drag each marker along its line to the date it happened.
+Good
+Needs changes
+Redo
+Start again\ntimeline-2 | Move the line to a year when Henry VIII and Francis I were both on the throne.
+
+1500
+1525
+1550
+1575
+1600
+Henry VIII
+Elizabeth I
+Francis I
+1495
+running in the line's year
+not running
+Drag the line along the ruler. Bars it crosses light up.
+Good
+Needs changes
+Redo
+Start again\ncause-chain-1 | The interest rate rises. Link what follows, and say how each changes the next.
+
+Tap a factor, then the factor it affects.
+
+Interest rate
+Consumer spending
+Inflation
+Borrowing
+START
+
+YOUR LINKS
+
+None yet.
+
+Good
+Needs changes
+Redo
+Start again\nclaim-evidence-1 | Tap a card, then tap the pan it belongs on: the left pan for evidence that supports the claim, the right pan for evidence against it. Leave off any card that does not bear on the claim.
+
+ClaimRationing was the best way to feed Britain in the war.
+
+Supports
+Against
+Dots and block \nsupply-demand-1 | What does this event do to the market? Shift the curve it moves.
+
+What happens in the market
+
+A rise in costs of production
+
+Drag the curve this moves sideways, or Tab to it and use the arrow keys.
+
+Price ($)
+Quantity
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+D
+S
+Pr\nsupply-demand-2 | The government sets this price. Set the line there, then say what happens and by how much.
+
+What happens in the market
+
+The government sets a maximum price of $4.
+
+Drag the price line to $4, or Tab to it and use the arrow keys. Then say what happens there.
+
+Price ($)
+Quantity
+0
+1\nmacro-board-1 | Tap the minus or plus on Interest rate and watch the water settle. Bring it back to the full-capacity mark.
+
+money going round: $80bn
+Investment
+Government
+Exports
+Saving
+Tax
+Imports
+workers
+prices
+full capacity
+Firms have stopped investing.
+Interest rate
+−
+5%
++
+
+Unemployment
+10%\nmacro-board-2 | Tap the minus or plus on Government spending and watch the water settle. Bring it back to the full-capacity mark.
+
+money going round: $125bn
+Investment
+Government
+Exports
+Saving
+Tax
+Imports
+workers
+prices
+full capacity
+People feel well off: they save less and spend more.
+Governme\nmacro-board-3 | Tap the minus or plus on Interest rate and watch the water settle. Bring it to the prices-steady mark, and see what happens to the workers.
+
+money going round: $83bn
+Investment
+Government
+Exports
+Saving
+Tax
+Imports
+workers
+prices
+full capacity
+prices steady
+The oil we import has \nbusiness-finance-1 | Drag the marker along the output axis to where the business breaks even.
+
+0
+100
+200
+300
+400
+500
+600
+700
+800
+0
+2,500
+5,000
+7,500
+10,000
+12,500
+15,000
+17,500
+20,000
+Costs and revenue ($)
+Output (units)
+TR
+TC
+FC
+TR total revenue: $25 per unit
+TC total costs: $4,000 + $15 per unit
+FC\nbusiness-finance-2 | The business plans to make 600 units. Read the chart, then write its margin of safety.
+
+0
+100
+200
+300
+400
+500
+600
+700
+800
+0
+500
+1,000
+1,500
+2,000
+2,500
+3,000
+3,500
+4,000
+Costs and revenue ($)
+Output (units)
+TR
+TC
+FC
+Planned
+TR total revenue: $5 per unit
+TC total costs: $800 + $3 \nbusiness-finance-3 | Change the price until the business breaks even at its target of 400 units.
+
+0
+100
+200
+300
+400
+500
+600
+700
+800
+0
+2,000
+4,000
+6,000
+8,000
+10,000
+Costs and revenue ($)
+Output (units)
+TC
+TR
+FC
+Target
+TR total revenue: $9 per unit
+TC total costs: $2,000 + $7 per unit
+FC fixed costs: \nledger-1 | Post each of Amira's transactions to the ledger.
+
+The business's ledger. Amira owns the business, but its books record the business only, kept apart from Amira's own money.
+
+1
+Amira puts $500 of personal savings into the business, in cash.
+Debit: — · 
+,
+Credit: —
+2
+The business b\nledger-2 | Balance each of Ben's accounts and enter the balances in the trial balance.
+
+The business's ledger. Ben owns the business, but its books record the business only, kept apart from Ben's own money.
+
+Bank
+
+Bank, debit side:
+Dr
+1 Capital
+600
+4 Lee
+90
+Bank, credit side:
+Cr
+2 Equipment\nledger-3 | One of Sara's transactions has been posted the wrong way round. Which one?
+
+The business's ledger. Sara owns the business, but its books record the business only, kept apart from Sara's own money.
+
+One transaction is posted the wrong way round, its debit and credit swapped. Tap i\nfair-test-1 | Tap the buttons to set up lane B as a fair test of whether the height of the ramp changes how far the car rolls. Lane A is already set up.
+
+Lane A
+Lane B
+0
+20
+40
+60
+80
+100
+cm
+
+Lane A stays as it is. Cars are let go, not pushed. Triangles on the ruler mark where each stopped.
+
+Let\nfair-test-2 | Lane B is set up to test whether the floor the car rolls along changes how far the car rolls, but the test is not fair yet. Tap the buttons to fix lane B.
+
+Lane A
+Lane B
+0
+20
+40
+60
+80
+100
+cm
+
+Lane A stays as it is. Cars are let go, not pushed. Triangles on the ruler mark where ea\nfair-test-3 | The lanes differ in the surface of the ramp. Tap Roll both cars to let both cars go, and keep rolling until you are sure which lane sends its car further.
+
+Lane A
+Lane B
+0
+20
+40
+60
+80
+100
+cm
+
+Each dot marks where a car stopped. Cars are let go, not pushed.
+
+Runs
+0
+
+Roll both cars\nmusic-staff-1 | Slide each note up or down until it sits on the letter under it, then press Play. What can you hear?
+
+treble clef
+G
+C
+C
+G
+G
+A
+A
+G
+Slide a note to hear it. The clef curls round the line for G.
+Play
+Note 1
+Good
+Needs changes
+Redo
+Start again\nmusic-staff-2 | Slide each note up or down so the notes spell CABBAGE, then press Play to hear your word.
+
+treble clef
+G
+C
+A
+B
+B
+A
+G
+E
+Slide a note to hear it. The clef curls round the line for G.
+Play
+Note 1
+Good
+Needs changes
+Redo
+Start again\nmusic-staff-3 | Tap a beat to start a new note there: each note rings until the next one starts. Write the notes listed, then press Play.
+
+treble clef
+4 beats
+in a bar
+beats
+1
+2
+3
+4
+Tap a beat to start a new note there.
+
+Write
+minim
+crotchet
+crotchet
+
+Play
+Good
+Needs changes
+Redo
+Start again\nmusic-staff-4 | Press plus or minus to move the metronome's weight so that this bar lasts 2 seconds. Press Play to watch it run.
+
+metronome
+treble clef
+4 beats in a bar
+The lower the weight, the faster the arm swings.
+Play
+Beats a minute
+−
+60
++
+
+One beat lasts
+1 s
+
+Good
+Needs changes
+Redo
+Start \nart-studio-1 | Tap a paint to add a dab, and watch it swirl into the mix on the palette. Mix the colour of the jug, until the bare patch disappears into the painting.
+
+white
+yellow
+red
+blue
+black
+your mix
+The bare patch on the jug shows your mix.
+In the mix
+Nothing yet
+Take back
+Wipe
+The palett\nart-studio-2 | Tap the cloth to press the block and print the motif, and tap one of your prints to lift it. Carry the pattern on until the cloth is full.
+
+ink
+block
+Each press leaves one print on a chalk cross.
+
+Your prints
+0
+
+0 prints of yours on the cloth.
+Good
+Needs changes
+Redo
+Start again\nart-studio-3 | Tap the cloth to press the block and print the motif, and tap one of your prints to lift it. Use the button to flip the block when you need to. Carry the pattern on until the cloth is full.
+
+ink
+block
+Each press leaves one print on a chalk cross.
+
+Your prints
+0
+
+Flip the block
+0 \nsets-logic-1 | Tap a region to shade it yellow, and tap again to unshade it. Shade every region for A ∪ B: in A or B, or both (union).
+
+A ∪ B
+in A or B, or both (union)
+ℰ universal set
+A: play football
+B: play tennis
+A only
+Both
+B only
+Neither
+In A? In B? Each region answers both.
+Good
+Needs ch\nsets-logic-2 | Tap a region to shade it yellow, and tap again to unshade it. Shade every region for (A ∪ B)′: not in A or B, neither.
+
+(A ∪ B)′
+not in A or B: neither
+ℰ universal set
+A: even numbers
+B: multiples of 3
+A only
+Both
+B only
+Neither
+In A? In B? Each region answers both.
+Good
+Needs ch\nsets-logic-3 | Use the − and + buttons to fill in A only, B only and neither. In 30 students, A has 12, B has 9, and 4 are in both. Count the overlap once.
+
+A total
+12
+
+B total
+9
+
+Both
+4
+
+ℰ total
+30
+
+ℰ universal set
+A: play football
+B: play tennis
+A only
+0
+Both
+4
+B only
+0
+Neither
+0
+A total = it\nelectrolysis-1 | Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Make hydrogen at the left electrode.
+
+NaCl(aq), concentrated
+Na⁺
+Cl⁻
+H⁺
+OH⁻
+Na⁺
+Cl⁻
+H⁺
+OH⁻
+6 V
+DC
++
+−
+left
+carbon
+right
+carbon
+positive ion
+negative ion
+Connect both leads to run the cell
+
+Good
+N\nelectrolysis-2 | Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Make copper at the right electrode.
+
+CuSO₄(aq)
+Cu²⁺
+SO₄²⁻
+H⁺
+OH⁻
+Cu²⁺
+SO₄²⁻
+H⁺
+OH⁻
+6 V
+DC
++
+−
+left
+carbon
+right
+carbon
+positive ion
+negative ion
+Connect both leads to run the cell
+
+Good
+Needs cha\nelectrolysis-3 | Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Purify the copper by coating the pure electrode on the left.
+
+CuSO₄(aq)
+impure copper
+pure copper
+Cu²⁺
+SO₄²⁻
+H⁺
+OH⁻
+Cu²⁺
+SO₄²⁻
+H⁺
+OH⁻
+6 V
+DC
++
+−
+left
+right
+positive ion
+negative ion
+Connect both \nelectrolysis-4 | Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Make aluminium at the right electrode.
+
+Al₂O₃ in molten cryolite
+Al³⁺
+O²⁻
+O²⁻
+Al³⁺
+O²⁻
+O²⁻
+6 V
+DC
++
+−
+left
+carbon
+right
+carbon
+positive ion
+negative ion
+Connect both leads to run the cell
+
+Good
+N\ncircle-theorems-1 | Drag C off the highlighted arc AB. Compare the live angles at O and C. You can also use the step buttons.
+
+120°
+O
+120°
+A
+B
+C
+Move C round the circle: the angle at O stays the same.
+
+Angle at O
+120°
+
+Angle at C
+120°
+
+Move C
+↺
+↻
+
+Circle with centre O. Fixed radii OA and OB make 120\ncircle-theorems-2 | Drag B around the circle until AB passes through the centre O. Watch the angle at C. You can also use the step buttons.
+
+90°
+O
+45°
+A
+C
+B
+A and C stay fixed
+Move B: make AB pass through O.
+
+Angle at O
+90°
+
+Angle at C
+45°
+
+Move B
+↺
+↻
+
+Circle with fixed points A and C and movable B.\ncircle-theorems-3 | Drag the blue handle to turn the line until it touches the circle only at P. Watch the angle at P. You can also use the step buttons.
+
+70°
+O
+P
+Q
+radius
+The line turns about P
+Turn the line: watch Q move towards P.
+
+Angle at P
+70°
+
+Circle crossings
+2
+
+Turn line
+↺
+↻
+
+Circle with ra\nnerve-impulses-1 | An impulse has reached the sending neurone. Tap vesicles to release neurotransmitter and start a new impulse in the receiving neurone.
+
+sending neurone
+electrical impulse
+vesicles
+synaptic gap
+receiving neurone
+receptors
+Neurotransmitter
+Next neurone quiet
+The receiving neurone i\nnerve-impulses-2 | Tap receptors to occupy them with the drug. Stop the new impulse in the receiving neurone.
+
+sending neurone
+electrical impulse
+synaptic gap
+receiving neurone
+receptors
+Neurotransmitter
+Blocking drug
+New impulse
+A new electrical impulse is visible in the receiving neurone.
+Good
+Ne\nloci-constructions-1 | Drag the pencil around the paper. Blue ink appears only where PA = PB. Trace the whole path. Arrow keys and the direction buttons also move it.
+
+PA 5.1 cm
+PB 12.1 cm
+A
+B
+PA 5.1 cm, PB 12.1 cm: not equal. It inks only where PA = PB.
+Path inked
+←
+↑
+↓
+→
+0%
+Good
+Needs changes
+Redo
+St\nloci-constructions-2 | Drag the pencil around the paper. Blue ink appears only where its distance from AB is 3 cm. Trace the whole path. Arrow keys and the direction buttons also move it.
+
+6 cm
+A
+B
+6 cm from AB: too far. It inks only near 3 cm.
+Path inked
+←
+↑
+↓
+→
+0%
+Good
+Needs changes
+Redo
+Start again\nloci-constructions-3 | Place equal-radius arcs from A and B, then tap their crossing to construct the perpendicular bisector. Leave the arcs visible.
+
+A
+B
+Tap a point, set the radius, place an arc; then tap a crossing.
+Compass A
+−
+8 cm
++
+Place arc
+Good
+Needs changes
+Redo
+Start again\nimmune-response-1 | Drag the Y-shaped antibody onto the bacterium whose antigen fits its tips. Watch what the phagocyte does.
+
+fluid around the cells
+square antigen
+triangle antigen
+round antigen
+bacteria
+lymphocyte
+phagocyte
+antibody
+Only a complementary antigen holds the antibody.
+Tagged bacteria
+\nimmune-response-2 | Drag the Y-shaped antibody onto the bacterium whose antigen fits its tips. Watch what the phagocyte does.
+
+fluid around the cells
+triangle antigen
+square antigen
+round antigen
+bacteria
+lymphocyte
+phagocyte
+antibody
+Only a complementary antigen holds the antibody.
+Tagged bacteria
+\nimmune-response-3 | Drag the Y-shaped antibody onto every bacterium whose antigen fits its tips, one at a time. Clear them with the phagocyte.
+
+fluid around the cells
+round antigen
+triangle antigen
+round antigen
+bacteria
+lymphocyte
+phagocyte
+antibody
+Only a complementary antigen holds the antibody.
+\nreactivity-series-1 | Drag the zinc strip into the copper(II) sulfate, or tap it. Watch what happens, then choose the observation that matches.
+
+Zinc strip
+copper(II)
+sulfate
+CuSO₄(aq)
+100
+50
+ml
+Dip the strip and watch what happens.
+The strip is above the liquid.
+Good
+Needs changes
+Redo
+Start again\nreactivity-series-2 | Drag the copper strip into the zinc sulfate, or tap it. Watch what happens, then choose the observation that matches.
+
+Copper strip
+zinc
+sulfate
+ZnSO₄(aq)
+100
+50
+ml
+Dip the strip and watch what happens.
+The strip is above the liquid.
+Good
+Needs changes
+Redo
+Start again\nreactivity-series-3 | Drag the copper strip into the silver nitrate, or tap it. Watch what happens, then choose the observation that matches.
+
+Copper strip
+silver
+nitrate
+AgNO₃(aq)
+100
+50
+ml
+Dip the strip and watch what happens.
+The strip is above the liquid.
+Good
+Needs changes
+Redo
+Start again\nreactivity-series-4 | Tap the emery paper to rub the aluminium strip, then drag it into the dilute hydrochloric acid, or tap it. Make gas bubbles appear.
+
+Aluminium strip
+Dilute
+hydrochloric acid
+HCl(aq)
+100
+50
+ml
+Emery paper
+Rub the dull surface, then dip the strip.
+The strip is above the liquid.
+Goo\nsimultaneous-equations-1 | Drag the ring to the point that satisfies both x + y = 5 and x - y = 1. You can also tap a grid point.
+
+x
+y
+−5
+−5
+−4
+−4
+−3
+−3
+−2
+−2
+−1
+−1
+1
+1
+2
+2
+3
+3
+4
+4
+5
+5
+0
+
+x + y = 5
+
+x − y = 1
+
+Each line is every point that fits its equation.
+Point 0, 0
+Good
+Needs changes
+Redo
+Start again\nsimultaneous-equations-2 | Use the − and + multiplier controls to combine 2x + y = 7 and x - y = 2. Make either the x or y term disappear.
+
+x
+y
+−5
+−5
+−4
+−4
+−3
+−3
+−2
+−2
+−1
+−1
+1
+1
+2
+2
+3
+3
+4
+4
+5
+5
+0
+
+2x + y = 7
+
+x − y = 2
+
+Combine the equations. Watch the orange line.
+First ×
+−
+1
++
+Second ×
+−
+−1
++
+
+x + 2y = 5\nsimultaneous-equations-3 | Look at 2x + y = 4 and 4x + 2y = 10 on the grid, then choose how many points satisfy both.
+
+x
+y
+−5
+−5
+−4
+−4
+−3
+−3
+−2
+−2
+−1
+−1
+1
+1
+2
+2
+3
+3
+4
+4
+5
+5
+0
+
+2x + y = 4
+
+4x + 2y = 10
+
+How many points satisfy both?
+No solutions
+Infinitely many
+Good
+Needs changes
+Redo
+Start again\nnatural-selection-1 | On soot-dark bark, be the bird. Tap 4 moths to eat them, then let the survivors reproduce. Eat the four that are easiest to spot.
+
+Soot-dark bark
+6 pale · 4 dark · 0 eaten
+Bird may eat 4 more
+Good
+Needs changes
+Redo
+Start again\nnatural-selection-2 | On pale lichen-covered bark, be the bird. Tap 4 moths to eat them, then let the survivors reproduce. Eat the four that are easiest to spot.
+
+Pale, lichen-covered bark
+6 pale · 4 dark · 0 eaten
+Bird may eat 4 more
+Good
+Needs changes
+Redo
+Start again\nnatural-selection-3 | Tap the antibiotic dose, then let the survivors reproduce. Watch what the next generation is made of.
+
+Resistant
+Susceptible
+Antibiotic
+Untreated population
+Give antibiotic dose
+Good
+Needs changes
+Redo
+Start again\norganic-chemistry-1 | Build ethene. Select a carbon and tap + carbon to join another, then tap the bond to change single/double.
+
+Displayed formula
+C has 4 bonds
+C
+H
+H
+H
+H
+Tap C to select · tap a bond to change it
+Unused carbon bonds carry H automatically.
+Carbon 1 selected
+−
+1
++
+Bond orders
+single ↔ \norganic-chemistry-2 | Drag the bromine water molecule onto C=C, or tap it then tap the double bond. Make the addition product and watch what happens.
+
+Alkene + reagent
+C=C double bond
+bromine water
+C
+C
+H
+H
+H
+H
+Br
+Br
+drag me onto C=C
+Or tap the reagent to add it: no careful aim needed.
+Bromine water
+or\norganic-chemistry-3 | Make one chain from all three ethene monomers. Tap each C=C to open it, then tap the glowing join between neighbouring monomers.
+
+Three monomers
+C
+C
+H
+H
+H
+H
+monomer 1
+C
+C
+H
+H
+H
+H
+monomer 2
+C
+C
+H
+H
+H
+H
+monomer 3
+join
+join
+Tap each C=C, then tap each join.
+Addition joins the whole \nnuclear-fission-1 | Drag the control rods down, or use the + and − buttons, until each generation has the same number of fissions.
+
+Cutaway reactor core
+Uranium-235
+Earlier split
+Previous
+fissions
+Grey block: graphite moderator
+Gold burst: energy released
+Blue: neutrons
+Rods absorb neutrons; the mod\nnuclear-fission-2 | Drag the steel press plates together, or use the + and − buttons, until each pair of nuclei joins.
+
+Deuterium fuel
+15 million °C
+Steel press plates
+Positive nuclei repel. Squeeze the hot fuel to make them join.
+Press closing
+−
+0
++
+Good
+Needs changes
+Redo
+Start again\nnuclear-fission-3 | Drag the control rods down, or use the + and − buttons, until no new fissions follow.
+
+Cutaway reactor core
+Uranium-235
+Earlier split
+Previous
+fissions
+Grey block: graphite moderator
+Gold burst: energy released
+Blue: neutrons
+Rods absorb neutrons; the moderator slows them.
+Contro\ninternational-trade-1 | Tap minus or plus to move workers between the two goods. Fill the order of 42 tables and 9 chairs exactly, with nobody idle.
+
+Avenia
+Tables · 6 each
+18 tables
+Chairs · 4 each
+12 chairs
+Bordia
+Tables · 2 each
+6 tables
+Chairs · 3 each
+9 chairs
+One figure is one worker. Output is pe\ninternational-trade-2 | Tap minus or plus to move workers between the two goods. Fill the order of 48 tonnes of wheat and 30 tonnes of vegetables exactly, with nobody idle.
+
+Avenia
+Wheat · 8 each
+24 tonnes
+Vegetables · 6 each
+18 tonnes
+Bordia
+Wheat · 3 each
+9 tonnes
+Vegetables · 5 each
+15 tonnes
+One fig\ninternational-trade-3 | Tap minus or plus on the tariff per bicycle. Make imports half their free-trade level.
+
+Imports
+Customs
+Home factory
+$0 each
+Price $40
+1 crate = 5 bicycles
+The gate stays open. A tariff is a tax on imports.
+Tariff per bicycle
+−
+$0
++
+
+Home price
+$40
+
+Home-made
+60 units
+
+Imports
+40\ninternational-trade-4 | Tap minus or plus on the tariff per bicycle. Find the rate that gives the government the most revenue.
+
+Imports
+Customs
+Home factory
+$0 each
+Price $40
+1 crate = 5 bicycles
+The gate stays open. A tariff is a tax on imports.
+Tariff per bicycle
+−
+$0
++
+
+Home price
+$40
+
+Home-made
+60 u\ncell-division-1 | Drag every copied chromosome onto the equator, then press “Divide the cell”.
+
+equator
+left pole
+right pole
+model: two chromosome pairs
+Blue homologue
+Ochre homologue
+X = copied chromosome
+Cell division
+Divide the cell
+Move every copied chromosome onto the equator.
+Good
+Needs chan\ncell-division-2 | Drag each copied chromosome left or right. Give each gamete one chromosome of each length, with different colour combinations, then press “Divide twice”.
+
+left pole
+right pole
+model: two chromosome pairs
+Blue homologue
+Ochre homologue
+X = copied chromosome
+First, then second divi\nplant-transport-1 | Tap + or − to change the wind speed. Make the water uptake as close to 1.00 mm/min as you can.
+
+fan
+0
+2
+4
+mm
+water vapour
+xylem
+water
+air bubble
+The bubble measures water uptake.
+Wind speed
+−
+0 m/s
++
+
+Water uptake
+0.55 mm/min
+
+From room
+0 steps
+
+Aim 1.00 ± 0.10 mm/min · Room: 0 m\nplant-transport-2 | Tap + or − to change the light intensity. Make the water uptake as close to 0.95 mm/min as you can.
+
+lamp
+0
+2
+4
+mm
+water vapour
+xylem
+water
+air bubble
+The bubble measures water uptake.
+Light intensity
+−
+250 lx
++
+
+Water uptake
+0.45 mm/min
+
+From room
+0 steps
+
+Aim 0.95 ± 0.10 mm/min\nplant-transport-3 | Tap + or − to change the temperature. Reach at least 1.20 mm/min of water uptake with as few steps from room conditions as you can.
+
+heater
+0
+2
+4
+mm
+water vapour
+xylem
+water
+air bubble
+The bubble measures water uptake.
+Temperature
+−
+20 °C
++
+
+Water uptake
+0.65 mm/min
+
+From room
+0 \nplant-transport-4 | Tap + or − to change the humidity. Reach at least 1.20 mm/min of water uptake with as few steps from room conditions as you can.
+
+humidity
+0
+2
+4
+mm
+water vapour
+xylem
+water
+air bubble
+The bubble measures water uptake.
+Humidity
+−
+60 %
++
+
+Water uptake
+0.75 mm/min
+
+From room
+0 steps\nhomeostasis-1 | A meal has raised the blood glucose. Choose what the pancreas releases to bring it back into the normal band.
+
+blood
+pancreas
+liver
+liver store: 2
+glucose
+Blood glucose
+0
+2
+4
+6
+8
+10
+12
+10.0
+mmol/L
+Bring the blue marker into the green normal band.
+Release insulin
+Release glucagon
+\nhomeostasis-2 | Exercise has lowered the blood glucose. Choose what the pancreas releases to bring it back into the normal band.
+
+blood
+pancreas
+liver
+liver store: 9
+glucose
+Blood glucose
+0
+2
+4
+6
+8
+10
+12
+3.0
+mmol/L
+Bring the blue marker into the green normal band.
+Release insulin
+Release glucago\nhomeostasis-3 | This person has type 1 diabetes and has just eaten. Bring the blood glucose back into the normal band.
+
+blood
+pancreas: no insulin
+liver
+liver store: 2
+glucose
+Blood glucose
+0
+2
+4
+6
+8
+10
+12
+10.0
+mmol/L
+Bring the blue marker into the green normal band.
+Inject insulin
+Release gluca\nhomeostasis-4 | A hot room has raised the core temperature. Choose the body’s responses to bring it back into the normal band.
+
+heat lost
+skin
+sweat gland
+blood vessel
+muscle
+Core temperature
+34
+35
+36
+37
+38
+39
+40
+39.0
+°C
+Bring the blue marker into the green normal band.
+Skin blood vessels
+Narrow\nhomeostasis-5 | A cold room has lowered the core temperature. Choose the body’s responses to bring it back into the normal band.
+
+heat lost
+skin
+sweat gland
+blood vessel
+muscle
+Core temperature
+34
+35
+36
+37
+38
+39
+40
+35.0
+°C
+Bring the blue marker into the green normal band.
+Skin blood vessels
+Narr\nperiodic-groups-1 | Drop the sample in and watch each stage. Then name the unknown alkali metal from what you see.
+
+Unknown sample
+Group I metal
+Cold water
+?
+Watch glass
+Glass trough
+Drop the sample in. Watch what it does.
+Test the sample
+Drop it in
+Good
+Needs changes
+Redo
+Start again\nperiodic-groups-2 | Drop the sample in and watch each stage. Then name the unknown alkali metal from what you see.
+
+Unknown sample
+Group I metal
+Cold water
+?
+Watch glass
+Glass trough
+Drop the sample in. Watch what it does.
+Test the sample
+Drop it in
+Good
+Needs changes
+Redo
+Start again\nperiodic-groups-3 | Choose a halogen water, add drops to the water control and then to the potassium bromide. Compare the wells and name the halogen in the original halide.
+
+Chlorine water
+Water control
+Potassium bromide
+Compare dilution
+Halide test
+Two drops each
+Test plain water first, then the ha\nperiodic-groups-4 | Choose a halogen water, add drops to the water control and then to the sodium iodide. Compare the wells and name the halogen in the original halide.
+
+Chlorine water
+Water control
+Sodium iodide
+Compare dilution
+Halide test
+Two drops each
+Test plain water first, then the halide.
+Ha\nchemical-tests-1 | Choose a reagent, then tap Add a drop until excess. Use fresh portions if you need them, watch what happens, and select the ion present.
+
+Sodium
+hydroxide
+unknown
+solution
+Nothing added yet: watch for a change.
+Reagent
+−
+Sodium hydroxide
++
+Add a drop
+Not added
+Ion present
+Choose \nchemical-tests-2 | Drag the wire loop into the blue flame, or tap it. Watch the flame, then select the metal ion present.
+
+Bunsen burner
+unknown
+sample
+Put the wire loop into the flame and watch.
+Ion present
+Choose after testing
+Calcium ions
+Copper(II) ions
+Lithium ions
+Potassium ions
+Sodium ions
+G\nchemical-tests-3 | Choose a test tool, tap to use it, then tap again to see the result. Watch, then select the gas present.
+
+unknown gas
+splint
+Choose a test tool and bring it to the gas.
+Test tool
+−
+Glowing splint
++
+Use glowing splint
+ready
+Gas present
+Choose after testing
+Ammonia
+Carbon dioxide
+C\nmotor-effect-1 | Use the current, supply and magnet controls to make the copper wire swing left at 2 A.
+
+d.c. supply
++
+−
+N
+N pole
+(behind)
+field
+S
+S pole
+(in front)
+copper rod
+The rod hangs in the field between the poles. It moves when current flows.
+
+Goal
+Swing left · 2 A
+
+Current
+−
+0 A
++
+Supply\nmotor-effect-2 | Use the current, supply and magnet controls to make the copper wire swing right at 3 A.
+
+d.c. supply
++
+−
+N
+N pole
+(behind)
+field
+S
+S pole
+(in front)
+copper rod
+The rod hangs in the field between the poles. It moves when current flows.
+
+Goal
+Swing right · 3 A
+
+Current
+−
+0 A
++
+Supp\nmotor-effect-3 | Try the contacts, then press Turn 90° to move the coil. Make the coil complete one full turn.
+
+N
+S
+slip rings
+d.c. supply
+force
+coil current
+Current flows: the forces push the right side up and the left side down.
+
+Coil turned
+0° of 360°
+
+Contacts
+Slip rings
+Split ring
+Coil
+Turn \nem-spectrum-1 | Drag the tuner, or use its + and − buttons, to find ultraviolet.
+
+Your goal
+Find ultraviolet
+one wavelength
+vacuum
+radio receiver
+long waves
+short waves
+spectrum tuner
+Slide the tuner: watch the wave and receiver change.
+Tune the spectrum
+−
+1 / 7
++
+
+Wavelength
+100 m
+
+Frequency
+3 \nem-spectrum-2 | Drag the tuner, or use its + and − buttons, to make the hidden security mark appear.
+
+Your goal
+Make the hidden security mark appear
+one wavelength
+vacuum
+banknote checker
+long waves
+short waves
+spectrum tuner
+Slide the tuner: watch the wave and receiver change.
+Tune the spectrum\nem-spectrum-3 | Drag the tuner, or use its + and − buttons, to switch on the television with its remote.
+
+Your goal
+Switch on the television with its remote
+one wavelength
+vacuum
+television and remote
+long waves
+short waves
+spectrum tuner
+Slide the tuner: watch the wave and receiver change.
+Tune\nbearings-1 | Drag the blue handle to set the course from A to B to 045°. The arrow keys turn it too.
+
+N
+E
+S
+W
+A
+B
+Set the course A → B
+Course from A
+−
+225°
++
+
+Clockwise from north
+three-figure bearing
+
+Good
+Needs changes
+Redo
+Start again\nbearings-2 | The outward course from A to B is 050°. Drag the blue handle at B to point the return course back to A. The arrow keys turn it too.
+
+N
+N
+A
+B
+outward A → B: 050°
+Turn the return course at B back to A
+Return course from B
+−
+050°
++
+
+Clockwise from north
+three-figure bearing
+
+Good
+Ne\nsimilarity-1 | Drag the blue corner until the blue triangle is similar to the grey one and its base is 8 cm. You can also use the length factor buttons.
+
+Parallel sides · equal angles
+Original
+10 cm
+12 cm
+Same angles. Every side grows by the same factor.
+Length factor
+−
+× 1
++
+Base now
+4 cm / 8 \nsimilarity-2 | Drag the blue corner until the larger square has area 36 cm². You can also use the length factor buttons.
+
+Original square
+9 cm²
+Grow to the dashed square
+Target area: 36 cm²
+Grow the blue square to the dashed outline.
+Length factor
+−
+× 1
++
+Area now
+9 cm² / 36 cm²
+Use the left an\nsimilarity-3 | Drag the blue corner until the larger cube has volume 64 cm³. You can also use the length factor buttons.
+
+Original cube
+8 cm³
+Grow to the dashed cube
+Target volume: 64 cm³
+Grow the blue cube to the dashed outline.
+Length factor
+−
+× 1
++
+Volume now
+8 cm³ / 64 cm³
+Use the left and \ncpu-cycle-1 | You are the control unit. Tap the part that must send next and watch each transfer. Run the ADD program through fetch, decode and execute until it stops.
+
+RAM: instructions and data together
+0
+ADD 4
+1
+HLT
+2
+0
+3
+0
+4
+4
+control bus
+address bus
+data bus
+CPU
+CU
+control unit
+ALU
+arithm\ncpu-cycle-2 | You are the control unit. Tap the part that must send next and watch each transfer. Run the STORE program through fetch, decode and execute until it stops.
+
+RAM: instructions and data together
+0
+STORE 4
+1
+HLT
+2
+0
+3
+0
+4
+0
+control bus
+address bus
+data bus
+CPU
+CU
+control unit
+ALU
+ar\nprice-elasticity-1 | Tap minus or plus on Price to move the cinema price tag. Find the price that earns the most total revenue.
+
+Cinema tickets
+Higher price, fewer shoppers
+$6
+P x Q
+2 shoppers
+$6
+shoppers
+total revenue
+$12
+price x shoppers
+Move the price: shoppers and revenue answer.
+Price per shoppe\nprice-elasticity-2 | Tap minus or plus on Price to move the petrol price tag. Find the price that earns the most total revenue.
+
+Petrol station
+Higher price, fewer shoppers
+$6
+P x Q
+6 shoppers
+$6
+shoppers
+total revenue
+$36
+price x shoppers
+Move the price: shoppers and revenue answer.
+Price per shoppe\nprice-elasticity-3 | Tap minus or plus on Stored boxes and Spare machines. Supply exactly 10 boxes to fill the order.
+
+Small box factory
+Price $5 to $8: a bigger order
+stored boxes
+spare machines: +2 each
+order
+10 boxes
+ready to send
+4 boxes already made
+4 supplied
+stock + machines
+Release stock and \nfood-tests-1 | Use the reagent selector and action button to test potato extract for starch. Follow each stage, then choose Present or Not detected.
+
+Iodine
+potato extract
+dropper bottle
+Next: add reagent
+Appearance
+pale food extract
+Pick up a reagent
+Iodine
+Benedict's
+Biuret
+Ethanol
+DCPIP
+Add \nfood-tests-2 | Use the reagent selector and action button to test glucose solution for reducing sugar. Follow each stage, then choose Present or Not detected.
+
+Iodine
+glucose solution
+dropper bottle
+Next: add reagent
+Appearance
+pale food extract
+Pick up a reagent
+Iodine
+Benedict's
+Biuret
+Ethano\nfood-tests-3 | Run all five tests on Food A using the reagent selector and action button. Finish each stage, then tick every nutrient the results show.
+
+Iodine
+Food A
+dropper bottle
+Next: add reagent
+Appearance
+pale food extract
+Pick up a reagent
+Iodine
+Benedict's
+Biuret
+Ethanol
+DCPIP
+Add Iodin\nstandard-form-1 | Slide the digit tape, or use the arrow buttons, to write 384000 in standard form.
+
+Place value
+10⁶
+10⁵
+10⁴
+10³
+10²
+10
+1
+1/10
+10⁻²
+10⁻³
+3
+8
+4
+0
+0
+0
+decimal point stays fixed
+digit tape
+slide
+The digits move past the fixed decimal point.
+384000
+=
+384000
+×
+100
+384000 × 10^0
+equals 3\nstandard-form-2 | Slide the digit tape, or use the arrow buttons, to write 0.0032 in standard form.
+
+Place value
+10⁵
+10⁴
+10³
+10²
+10
+1
+1/10
+10⁻²
+10⁻³
+10⁻⁴
+0
+0
+0
+3
+2
+decimal point stays fixed
+digit tape
+slide
+The digits move past the fixed decimal point.
+0.0032
+=
+0.0032
+×
+100
+0.0032 × 10^0
+equals 0.\nstandard-form-3 | Slide the digit tape, or use the arrow buttons, to write 3.84 × 10^5 as an ordinary number.
+
+Place value
+10⁷
+10⁶
+10⁵
+10⁴
+10³
+10²
+10
+1
+1/10
+10⁻²
+3
+8
+4
+decimal point stays fixed
+digit tape
+slide
+The digits move past the fixed decimal point.
+3.84
+×
+105
+3.84 × 10^5
+=
+3.84
+equals 3.84\nstandard-form-4 | Slide the digit tape, or use the arrow buttons, to write 9.1 × 10^-3 as an ordinary number.
+
+Place value
+10⁴
+10³
+10²
+10
+1
+1/10
+10⁻²
+10⁻³
+10⁻⁴
+10⁻⁵
+9
+1
+decimal point stays fixed
+digit tape
+slide
+The digits move past the fixed decimal point.
+9.1
+×
+10-3
+9.1 × 10^-3
+=
+9.1
+equals 9.1
+\nprime-factors-1 | Tap a composite tile, choose a factor with − and +, then press Split. Break 360 into primes.
+
+prime leaves: 0
+still to split: 1
+360
+Gold tiles are prime. Blue tiles can split.
+Factor of 360
+−
+2
++
+Split 360 into 2 × 180
+Good
+Needs changes
+Redo
+Start again\nprime-factors-2 | Tap a composite tile, choose a factor with − and +, then press Split. Break 84 into primes.
+
+prime leaves: 0
+still to split: 1
+84
+Gold tiles are prime. Blue tiles can split.
+Factor of 84
+−
+2
++
+Split 84 into 2 × 42
+Good
+Needs changes
+Redo
+Start again\nprime-factors-3 | Tap a prime in the 84 row, then an equal prime in the 180 row. Pair all the shared primes to find the HCF.
+
+shared pairs
+84
+180
+matching primes move here
+2
+2
+3
+7
+2
+2
+3
+3
+5
+Tap equal primes in each row. Tap the middle to undo.
+
+Shared pairs
+0
+
+Shared product
+1
+
+Good
+Needs changes
+\nprime-factors-4 | Tap a prime in the 84 row, then an equal prime in the 180 row. Pair all the shared primes to find the LCM.
+
+shared pairs
+84
+180
+matching primes move here
+2
+2
+3
+7
+2
+2
+3
+3
+5
+Tap equal primes in each row. Tap the middle to undo.
+
+Shared pairs
+0
+
+Primes, pairs once
+15120
+
+Good
+Needs \ntelling-time-1 | Drag the orange grip on the minute hand to set 3:30 pm. Use − or + for one minute at a time.
+
+Set 3:30 pm
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+short hour hand · long minute hand · orange grip
+Minute hand
+−
+1 minute
++
+Clock shows (12-hour)
+2:45 pm
+Good
+Needs changes
+Redo
+Start again\ntelling-time-2 | Drag the orange grip on the minute hand to set 15:45. Use − or + for one minute at a time.
+
+Set 15:45
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+short hour hand · long minute hand · orange grip
+Minute hand
+−
+1 minute
++
+Clock shows (24-hour)
+15:00
+Good
+Needs changes
+Redo
+Start again\ntelling-time-3 | Drag the orange grip on the minute hand forward from 09:45 to 11:20. Watch the time passed.
+
+From 09:45 to 11:20
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+short hour hand · long minute hand · orange grip
+Minute hand
+−
+1 minute
++
+Clock shows
+09:45
+Time passed
+0h
+0m
+Good
+Needs changes
+Redo
+Start\nshadows-1 | Drag the torch by its white grip, or use the distance buttons, to make the rabbit’s shadow 24 cm tall.
+
+Shadow bench
+front
+goal
+10
+15
+20
+25
+30
+torch to rabbit (cm)
+rabbit
+screen
+torch
+
+Shadow height
+16.0cm
+
+Goal
+24cm
+
+Torch distance
+−
+30 cm
++
+The puppet blocks the light; its outl\nshadows-2 | Drag the torch by its white grip, or use the distance buttons, to make the rabbit’s shadow 20 cm tall.
+
+Shadow bench
+front
+goal
+10
+15
+20
+25
+30
+torch to rabbit (cm)
+rabbit
+screen
+torch
+
+Shadow height
+16.0cm
+
+Goal
+20cm
+
+Torch distance
+−
+30 cm
++
+The puppet blocks the light; its outl\nshadows-3 | Drag the Sun along its path, or use the time buttons, to make the stick’s shadow as short as you can.
+
+Shadow stick
+west
+east
+stick
+shadow
+Sun
+
+Shadow length
+121cm
+
+Time of day
+−
+8:30 am
++
+Move the Sun: watch the shadow’s length and direction.
+Good
+Needs changes
+Redo
+Start again\ndissolving-1 | Drag the spoon sideways to stir, or use Stir once. Keep going until no solid is left, and watch the total mass.
+
+Stirring test
+20 g
+water
+20 °C
+Grains of sugar in 20 g of water
+Spoon
+Stir once
+
+Solid left
+10 g
+
+Total mass
+30 g
+
+Drag the spoon sideways, or press Stir once.
+
+Good
+N\ndissolving-2 | Drag the spoon sideways to stir, or use Stir once. Stir four times, then watch what settles at the bottom.
+
+Stirring test
+20 g
+water
+20 °C
+Grains of sand in 20 g of water
+Spoon
+Stir once
+
+Solid left
+10 g
+
+Total mass
+30 g
+
+Drag the spoon sideways, or press Stir once.
+
+Good
+Needs c\ndissolving-3 | Add 10 g spoonfuls until some sugar stays at the bottom of the cold water. Then use the temperature buttons to warm the water until no solid is left.
+
+Sugar and water
+20 g
+water
+20 °C
+sugar
+20 g of water · each spoonful is 10 g of sugar
+Sugar
+Add 10 g spoonful
+Water temperature
+−\npunctuation-1 | Drag the comma into the sentence, or tap it and then tap the gap. Make the sentence invite Grandma to eat.
+
+Let’s eat Grandma.
+
+Mia
+Grandma
+Who is eating, and who is being eaten?
+Grandma is on the serving dish. She sounds like the food.
+,
+comma
+
+Drag a mark into a gap, or tap a m\npunctuation-2 | Drag the apostrophe into the gap, or tap it and then tap the gap. Show that the bones belong to two dogs.
+
+The dogs bones are buried here.
+
+two dogs
+Two dogs. The bones belong to them.
+The owner word and the bone are not linked yet.
+’
+apostrophe
+
+Drag a mark into a gap, or tap a \npunctuation-3 | Drag the marks into the four gaps, or tap a mark and then a gap. Punctuate Maya’s exact words as direct speech.
+
+Maya said Where is my book
+
+Where is my book
+Maya’s exact words
+Maya
+The bubble holds Maya’s exact words.
+Maya’s exact words are not enclosed yet.
+,
+comma
+‘
+open speec\npunctuation-4 | This is two complete thoughts joined by a comma. Drag the full stop to where the first thought ends, or tap it and then that gap.
+
+The rain stopped, we went outside.
+
+The rain stopped,
+we went outside.
+Both sides are complete thoughts.
+One comma joins the two complete thoughts.
+,\nplant-growth-1 | Care for this bean for the next 7 days. Drag the watering can to the cotton wool, pull the blind cord to change the light, and set the air temperature. Make the bean sprout.
+
+Aim: make the bean sprout
+Air
+22°C
+Blind closed
+cotton wool
+After 7 days: a dry, unsprouted bean on cotto\nplant-growth-2 | Care for this plant for the next 3 weeks. Drag the watering can to the soil, pull the blind cord to change the light, and set the air temperature. Make it upright, green and growing well.
+
+Aim: green, upright growth
+Air
+22°C
+Blind closed
+soil
+After 3 weeks: a drooping plant in dr\nplant-growth-3 | Care for this plant for the next 3 weeks. Drag one feed bottle to the soil and see how the plant responds. Choose the feed that returns it to healthy green growth.
+
+Aim: green, upright growth
+Air
+22°C
+Blind open
+soil
+Nitrate
+Magnesium
+After 3 weeks: short growth and yellow older \nplant-growth-4 | Care for this plant for the next 3 weeks. Drag one feed bottle to the soil and see how the plant responds. Choose the feed that returns it to healthy green growth.
+
+Aim: green, upright growth
+Air
+22°C
+Blind open
+soil
+Nitrate
+Magnesium
+After 3 weeks: yellow patches between green l\nword-classes-1 | Tap a tile to swap it in for the amber word. Pick a word that does the same job, so the sentence still works.
+
+Swap the amber word, then read the sentence back.
+
+Mia took a 
+walk
+ to the shop.
+
+Same job in the sentence, and it still works.
+Word tiles
+happy
+quickly
+run
+swim
+they
+G\nword-classes-2 | Tap a tile to swap it in for the amber word. Pick a word that does the same job, so the sentence still works.
+
+Swap the amber word, then read the sentence back.
+
+He answered the question 
+politely
+.
+
+Same job in the sentence, and it still works.
+Word tiles
+calmly
+loudly
+tall
+teac\nword-classes-3 | Tap a socket, then tap a tile to fill it. Fill every socket with a word that does the job named under it.
+
+A pronoun stands in for a noun.
+
+ 
+pronoun
+ 
+verb
+ 
+preposition
+the
+ 
+noun
+.
+
+A word's class is its job, not its meaning.
+Word tiles
+climbed
+happy
+quickly
+she
+tree
+up
+Good
+N\nmultiplication-arrays-1 | Drag the round handle on the tray's corner, or use the Rows and In each row buttons, to make 4 rows with 3 cookies in each row. The Turn button gives the tray a quarter turn.
+
+1
+1
+Drag the round handle to resize the tray.
+Rows
+−
+1
++
+In each row
+−
+1
++
+Turn
+
+1 row of 1, 1 cookie in\nmultiplication-arrays-2 | Tap a plate to give it one cookie from the pile, or press Deal a round to give every plate one. Share 13 cookies equally between 4 plates.
+
+0
+0
+0
+0
+Cookies left in the pile
+13
+Tap a plate to deal it one cookie. The small minus takes one back.
+Deal a round
+Start again
+Good
+Needs c\nflower-reproduction-1 | Drag the bee to the part of the flower that makes pollen, then drag it to the part that must catch it.
+
+petal
+anther
+filament
+stigma
+style
+ovary
+ovule
+sepal
+A flower cut in half. A bee is hovering beside it.
+Pollen on the bee
+None
+Grains left on the flower
+0
+Start again
+Good
+Need\nflower-reproduction-2 | Drag the tip of each pollen grain's tube down into the flower, to the place where a seed will start.
+
+petal
+pollen grain
+stigma
+style
+ovary
+ovule
+A flower cut in half, with pollen grains sitting on top.
+Tubes in ovules
+0
+Start again
+Good
+Needs changes
+Redo
+Start again\norder-of-operations-1 | Tap the calculation you would work out next, and keep going until one number is left.
+
+2
++
+3
+×
+4
+Tap the calculation to work out next. Each step writes a new line.
+
+Steps done
+0 of 2
+
+Answer
+Not yet
+
+Undo
+Start again
+Working: 2 + 3 × 4. 0 of 2 calculations worked out.
+Good
+Needs \norder-of-operations-2 | Tap the calculation to do next, one step at a time, until one number is left.
+
+12
+÷
+2
+×
+3
+Tap the calculation to work out next. Each step writes a new line.
+
+Steps done
+0 of 2
+
+Answer
+Not yet
+
+Undo
+Start again
+Working: 12 ÷ 2 × 3. 0 of 2 calculations worked out.
+Good
+Needs change\norder-of-operations-3 | Tap an operation to put brackets round it. Make the sum come to 14.
+
+3
++
+4
+×
+2
+Tap an operation to put brackets round it and its two numbers. Tap again to take them off.
+
+Target
+14
+
+Your sum comes to
+11
+
+Take brackets off
+3 + 4 × 2. It comes to 11. The target is 14.
+Good
+Needs ch\nrocks-weathering-1 | Drag the magma up or down through the ground until the rock it cools into looks like the target, then check.
+
+Lava on the surface
+cools very fast
+Just under the surface
+cools fast
+1 km down
+cools slowly
+5 km down
+cools very slowly
+15 km down
+cools slowest
+Magma
+Your rock
+Target r\nrocks-weathering-2 | Tap Add acid on each rock to test it, then tap Wears away on the rocks that acid rain would slowly eat into.
+
+Limestone
+
+Not tested
+
+Add acid
+Wears away
+
+Granite
+
+Not tested
+
+Add acid
+Wears away
+
+Marble
+
+Not tested
+
+Add acid
+Wears away
+
+Basalt
+
+Not tested
+
+Add acid
+Wears away
+Aci\nday-night-1 | Drag the Earth round the way its arrow points, or tap the turn buttons. Stop when you see the Sun rise.
+
+Make it
+sunrise
+for you
+
+Sun
+sunlight
+day
+night
+east
+west
+your sky
+Seen from above the North Pole
+the way it spins
+you
+
+Hours turned
+0
+
+1 hour
+6 hours
+Good
+Needs changes
+Redo
+\nday-night-2 | Drag the Earth round the way its arrow points, or tap the turn buttons. Stop when it is midnight for you.
+
+Make it
+midnight
+for you
+
+Sun
+sunlight
+day
+night
+east
+west
+your sky
+Seen from above the North Pole
+the way it spins
+you
+
+Hours turned
+0
+
+1 hour
+6 hours
+Good
+Needs changes
+Re\nday-night-3 | Your curtains are closed, so use the globe. Drag the Earth round the way its arrow points, or tap the turn buttons, and stop when you think it is sunset for you.
+
+Make it
+sunset
+for you, with your curtains closed
+
+Sun
+sunlight
+day
+night
+east
+west
+your sky
+curtains closed
+Seen fro\nskeleton-muscles-1 | Tap a muscle to contract it, and tap it again to relax it. Straighten the arm at the elbow.
+
+biceps
+triceps
+tendon
+ball and socket joint
+hinge joint
+ligament
+goal
+The biceps is contracted, pulling on the forearm.
+Biceps
+Relaxed
+Contracted
+Triceps
+Relaxed
+Contracted
+
+Goal
+Straight\nskeleton-muscles-2 | Tap a muscle to contract it, and tap it again to relax it. Bend the arm at the elbow.
+
+biceps
+triceps
+tendon
+ball and socket joint
+hinge joint
+ligament
+goal
+The triceps is contracted, pulling on the forearm.
+Biceps
+Relaxed
+Contracted
+Triceps
+Relaxed
+Contracted
+
+Goal
+Bend the arm
+\nskeleton-muscles-3 | Tap a muscle to contract it, and tap it again to relax it. Bend the arm, then straighten it again.
+
+biceps
+triceps
+tendon
+ball and socket joint
+hinge joint
+ligament
+goal
+Both muscles are relaxed: nothing is pulling on the forearm.
+Biceps
+Relaxed
+Contracted
+Triceps
+Relaxed
+Contrac\nsymmetry-1 | Tap two dots to fold the rectangle along the line between them. Draw every line of symmetry, or say it has none.
+
+Rectangle cut from card. Tap two dots to fold it along the line between them.
+
+Lines of symmetry drawn
+0
+
+It has none
+0 pencil lines drawn.
+Good
+Needs changes
+Redo
+St\nsymmetry-2 | Tap two dots to fold the parallelogram along the line between them. Draw every line of symmetry, or say it has none.
+
+Parallelogram cut from card. Tap two dots to fold it along the line between them.
+
+Lines of symmetry drawn
+0
+
+It has none
+0 pencil lines drawn.
+Good
+Needs changes\nsymmetry-3 | Turn the tracing paper one full turn, by its tab or the turn buttons. Each time it fits the shape exactly, mark the card under the red dot.
+
+start
+tracing paper
+Parallelogram under tracing paper. Turn it one full turn, and mark under the red dot each time it fits.
+Turned
+0°
+
+Mark\nmoney-change-1 | Tap a coin in the till to count it out, and tap a coin on the counter to put it back. The book costs £3.40 and the customer pays with a £5 note. Count on from the price to give the right change.
+
+till
+1p
+2p
+5p
+10p
+20p
+50p
+£1
+£2
+book
+£3.40
+price
+£5
+paid
+£3.40
+Tap a coin in the til\nmoney-change-2 | Tap a coin in the till to count it out, and tap a coin on the counter to put it back. The ball costs $6.35 and the customer pays with a $10 note. Count on from the price to give the right change, with the fewest coins you can.
+
+till
+1c
+5c
+10c
+25c
+50c
+$1
+$2
+ball
+$6.35
+price
+$10
+pa\nmoney-change-3 | Tap one of your coins to put it on the counter, and tap a coin on the counter to take it back. The apple costs £1.05. Pay exactly that, with the fewest coins you can.
+
+your coins
+1p
+2p
+5p
+10p
+20p
+50p
+£1
+£2
+apple
+£1.05
+price
+0p
+Tap one of your coins to put it on the counter. Tap a\nfigurative-language-1 | Tap what a mirror is like to carry it into the reader's picture, and tap again to take it out. Carry across only what the writer meant.
+
+The lake was like a mirror.
+
+Aim:
+make the picture the writer meant.
+
+What a reader pictures
+What is a mirror like? Tap to carry it into the pi\nfigurative-language-2 | Tap what a dancer does to carry it into the reader's picture, and tap again to take it out. Carry across only what the writer meant.
+
+The leaves danced in the wind.
+
+Aim:
+make the picture the writer meant.
+
+What a reader pictures
+What does a dancer do? Tap to carry it into the pi\nfigurative-language-3 | Tap an ending to finish the sentence, and tap another to change it. Make the reader see snow so deep and soft that it covers everything, using a comparison.
+
+The snow was white.
+
+Aim:
+make the reader see snow so deep and soft that it covers everything, using a comparison.
+
+What a\nlife-cycles-1 | Drag the time slider, or tap + and −, and watch it grow. Stop when it eats leaves.
+
+Goal
+Stop when it eats leaves.
+
+egg
+parent
+flowers
+milkweed
+One monarch butterfly on a milkweed plant. Not to scale.
+Time
+−
++
+Day 0
+Day 0. A butterfly has just laid one tiny egg on a milkweed leaf\nlife-cycles-2 | Drag the time slider, or tap + and −, and watch it grow. Stop when the tadpole has changed into its next stage.
+
+Goal
+Stop when the tadpole has changed into its next stage.
+
+lily pad
+pond weed
+stone
+pond
+One common frog in a garden pond. Not to scale.
+Time
+−
++
+Week 3
+Week 3. A ti\nlife-cycles-3 | Drag the time slider, or tap + and −, and watch it grow. Stop when it grows its first root.
+
+Goal
+Stop when it grows its first root.
+
+soil
+seed
+One sunflower, with the soil cut away. Not to scale.
+Time
+−
++
+Day 0
+Day 0. One striped seed lies in the soil.
+Good
+Needs changes
+Redo
+St\neye-1 | Now look up at a tree far away. Pick a button for the ciliary muscle so the light from the tree meets on the retina.
+
+ciliary muscle
+suspensory ligaments
+iris
+lens
+cornea
+retina
+fovea
+blind spot
+optic nerve
+The ciliary muscle is contracted: the ligaments are slack and the lens is\neye-2 | The lights go down. Set the two iris muscles with their buttons, the way the reflex would, so you can still see.
+
+iris
+radial muscle
+pupil
+circular muscle
+The circular muscle is contracted, squeezing the pupil narrow.
+Circular muscle
+Relaxed
+Contracted
+Radial muscle
+Relaxed
+Contr\npendulum-1 | This pendulum swings a little too fast. Make it swing more slowly: change one thing, then press Release to time it.
+
+cm
+25
+50
+75
+100
+5°
+string
+wooden bob, 50 g
+0
+0
+s
+10 swings
+complete swings
+one swing = 14.2 ÷ 10 = 1.42 s
+string
+bob
+pull
+10 swings
+A wooden bob (50 g) hangs on a \ntree-diagrams-1 | Take out red, then red. Decide what to do with the first counter so that two reds have a chance of 9/25.
+
+first draw
+second draw
+chance of these draws
+0
+1
+3
+5
+2
+5
+3 red, 2 blue
+The bag holds 3 red and 2 blue counters. Take one out.
+Take out
+Red
+Blue
+Bag
+Put it back
+Start again
+
+G\ntransformers-1 | Wind turns onto the secondary coil until the 6 V lamp glows at its proper brightness.
+
+A
+12 V a.c.
+12 V battery
+6 V
+V
+laminated iron core
+primary
+6 turns
+secondary
+1 turn
+magnetic field
+The lamp gets 2 V, less than the 6 V it is made for, so it glows dimly.
+Secondary
+−
+1 turn
++
+
+\nencryption-1 | You and Bo agreed on key 3. Turn the wheel to lock your note, then send it past Eve.
+
+Eve
+Bo
+3
+Bo's key
+M
+E
+E
+T
+A
+T
+T
+E
+N
+ciphertext
+plaintext
+M
+E
+E
+T
+A
+T
+T
+E
+N
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+key
+0
+plain let\nrusting-1 | Use the buttons to set up a tube where this nail will rust, then leave it for a week.
+
+Day 0 of 7
+dry air
+nail
+stopper
+cotton wool
+drying agent
+The nail sits on cotton wool over a drying agent, which soaks up water from the air. The stopper keeps damp room air out.
+Water
+None
+Tap\nenergy-resources-1 | Keep every home lit at noon and in the evening, with no more than 6 units of CO2. Build with the + buttons, then tap each time of day to watch.
+
+wind turbines
+solar panels
+coal power stations
+Noon, still and clear. Nothing is built yet, so the town has no power. Each station make\nrespiration-1 | Use the pace buttons and Next 5 seconds. Make lactic acid, then get its reading back to 0.
+
+Resting — 0 s
+one muscle cell
+no lactic acid yet
+blood
+blue discs: oxygen
+muscle needs 2
+Exercise the muscle, then let it recover.
+Exercise pace
+−
+Rest
++
+Lactic acid
+0
+
+Breathing
+Calm
+
+Nex\nrespiration-2 | Tap Add glucose, then Wait 1 minute. Watch the bubbles and limewater. Get clear evidence that the yeast is respiring.
+
+Ready to investigate
+oil keeps
+oxygen out
+yeast mixture
+warm water
+limewater: clear
+Watch the bubbles reach the limewater.
+Glucose
+0 spoons
+Add glucose
+Time with\nopportunity-cost-1 | You choose Café shift. Tap the next-best activity you give up, or drag it into the Give up tray.
+
+One free afternoon · your choice
+
+Café shift
+
+Your next-best alternative
+Give up tray
+one activity here
+Tap an activity, or drag it to the tray.
+Cinema
+with friends
+Football
+in the p\nopportunity-cost-2 | You choose Study. Tap the next-best activity you give up, or drag it into the Give up tray.
+
+One free Saturday · your choice
+
+Study
+
+Your next-best alternative
+Give up tray
+one activity here
+Tap an activity, or drag it to the tray.
+Café shift
+4 pm to 7 pm
+Cinema
+with friends
+Foot\nopportunity-cost-3 | Tap minus or plus to move workers between the crops. Fill the order: 30 tonnes of wheat and 30 tonnes of vegetables.
+
+Wheat field
+Vegetable field
+Fixed land
+6 workers
+Production possibilities
+Wheat
+Veg
+tonnes
+Order
+30 t wheat · 30 t veg
+Wheat
+0 tonnes
+Vegetables
+42 tonnes
+Move on\nopportunity-cost-4 | Tap minus or plus to move workers between the crops. Fill the order: 36 tonnes of wheat and 22 tonnes of vegetables.
+
+Wheat field
+Vegetable field
+Fixed land
+6 workers
+Production possibilities
+Wheat
+Veg
+tonnes
+Order
+36 t wheat · 22 t veg
+Wheat
+0 tonnes
+Vegetables
+42 tonnes
+Move on\nspecific-heat-1 | Drag each energy slider until both thermometers reach 40 °C. Use − or + for small steps.
+
+Temperature (°C)
+40
+80
+120
+160
+40
+80
+120
+160
+Al
+Water
+Aluminium
+1 kg
+1 kg
+Water
+20 °C
+Aluminium
+20 °C
+Energy to water
+−
+0 kJ
++
+Energy to aluminium
+−
+0 kJ
++
+
+Goal: both at 40 °C. Heat each sa\nspecific-heat-2 | Drag each energy slider until both thermometers reach 30 °C. Use − or + for small steps.
+
+Temperature (°C)
+40
+80
+120
+160
+40
+80
+120
+160
+Al
+Water
+Aluminium
+2 kg
+2 kg
+Water
+20 °C
+Aluminium
+20 °C
+Energy to water
+−
+0 kJ
++
+Energy to aluminium
+−
+0 kJ
++
+
+Goal: both at 30 °C. Heat each sa\nspecific-heat-3 | Drag the energy slider until the water reaches 40 °C. Both samples get the same energy; use − or + for small steps.
+
+Temperature (°C)
+40
+80
+120
+160
+40
+80
+120
+160
+Al
+Water
+Aluminium
+1 kg
+1 kg
+Water
+20 °C
+Aluminium
+20 °C
+Energy to each sample
+−
+0 kJ
++
+
+Goal: water at 40 °C. Both ge\nspecific-heat-4 | Drag the energy slider until the aluminium reaches 60 °C. Both samples get the same energy; use − or + for small steps.
+
+Temperature (°C)
+40
+80
+120
+160
+40
+80
+120
+160
+Al
+Water
+Aluminium
+2 kg
+2 kg
+Water
+20 °C
+Aluminium
+20 °C
+Energy to each sample
+−
+0 kJ
++
+
+Goal: aluminium at 60 °C.\nstory-structure-1 | Drag each event up or down to change the reader’s tension. Shape a story mountain: start calmly, build to one highest climax, then let the resolution and ending settle. Or tap an event and use its + and − buttons.
+
+Reader’s tension
+low to high
+Kite by sea
+Wind to
+rocks
+Mia turns
+\nstory-structure-2 | Drag each event up or down to change the reader’s tension. Shape a story mountain: start calmly, build to one highest climax, then let the resolution and ending settle. Or tap an event and use its + and − buttons.
+
+Reader’s tension
+low to high
+Nia builds
+Robot rolls
+Nia stops it
+\nstory-structure-3 | Drag each event up or down to change the reader’s tension. Mend the story mountain: build to one highest climax, then let the resolution and ending settle. Or tap an event and use its + and − buttons.
+
+Reader’s tension
+low to high
+Sam checks
+Lamp fails
+Sam turns
+crank
+Boat sees
+l

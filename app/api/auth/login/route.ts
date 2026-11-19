@@ -15,7 +15,12 @@ function normalizeStudentId(value: unknown) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    let body: Record<string, unknown>
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ error: 'A valid JSON body is required' }, { status: 400 })
+    }
     const identifier = String(body.identifier ?? body.email ?? body.studentId ?? '').trim()
     const password = String(body.password ?? '')
 

@@ -5,7 +5,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-
 
 export async function GET(request: NextRequest) {
   const userId = String(request.nextUrl.searchParams.get('user_id') ?? '').trim()
-  const limit = Math.min(50, Math.max(1, Number(request.nextUrl.searchParams.get('limit') ?? 30)))
+  const limit = Math.min(1000, Math.max(1, Number(request.nextUrl.searchParams.get('limit') ?? 1000)))
 
   if (!UUID_RE.test(userId)) {
     return NextResponse.json({ error: 'Valid user_id required' }, { status: 400 })

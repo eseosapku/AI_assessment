@@ -1,0 +1,229 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "description": "Explain to the user that they have opened the website in a secure web browser.",
+      "message": "You have opened the site in the HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "description": "Warn the user that they may be visiting an unsafe website.",
+      "message": "This site could host potential threats:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "description": "Explain to the user that they have opened the PDF file in a secure web browser.",
+      "message": "You have opened the PDF file in the HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "description": "Warn the user that they may be about to view an unsafe PDF file.",
+      "message": "The PDF file from this site could host potential threats:"
+   },
+   "blockedPageContinue": {
+      "description": "Button to continue using the original web browser.",
+      "message": "Continue in this browser"
+   },
+   "blockedPageContinueV2": {
+      "description": "Button to continue using the original web browser.",
+      "message": "Continue in {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "description": "Help link text.",
+      "message": "Learn More"
+   },
+   "blockedPageRemember": {
+      "description": "Checkbox to remember the user's choice.",
+      "message": "Remember my decision for this site"
+   },
+   "blockedPageSecure": {
+      "description": "Button to open the website in a secure web browser.",
+      "message": "Open in HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "description": "Explain the Secure Browser to the user.",
+      "message": "HP Sure Click Secure Browser helps protect your PC from websites and files infected with malware, ransomware or viruses."
+   },
+   "blockedPageUntrustedTooltip": {
+      "description": "Tooltip explaining why an untrusted site has been blocked.",
+      "message": "Untrusted website detected by HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "description": "Tooltip explaining why a site has been blocked.",
+      "message": "Unidentified website detected by HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "description": "Context menu item to open a link in a secure web browser.",
+      "message": "Open in Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "description": "Description when blocking a site by domain age.",
+      "message": "The age of this site ({DOMAIN_AGE_DAYS} days) is below the configured minimum."
+   },
+   "extDescription": {
+      "description": "Web browser extension description.",
+      "message": "Safe internet browsing with HP Wolf Security."
+   },
+   "extName": {
+      "description": "Web browser extension name.",
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "en"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "description": "Inform the user that the extension has opened the site in a secure web browser.",
+      "message": "The site has been opened in the HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "description": "Inform the user that the extension has opened the PDF file in a secure web browser.",
+      "message": "The PDF file has been opened in the HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "description": "Text for a button to close the current tab.",
+      "message": "Close tab"
+   },
+   "launchedPageGoBack": {
+      "description": "Text for a button to navigate back to the previous website.",
+      "message": "Go back"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "description": "Text displayed when there are no allowed domains.",
+      "message": "This list is currently empty"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "description": "Section header for a list of websites for which credential entry has been allowed",
+      "message": "Sites where credential entry is allowed:"
+   },
+   "optionsPageLoggingToggle": {
+      "description": "Text beside a toggle to enable / disable logging.",
+      "message": "Enable logging"
+   },
+   "optionsPageNoOptions": {
+      "description": "Message telling the user that there's nothing for them to configure on the options page.",
+      "message": "You don't have any options to configure."
+   },
+   "overlayBlacklistBrand_Description": {
+      "description": "Description when blocking a site which uses a trusted brand on an unrelated domain or website.",
+      "message": "HP AI Credential Protection has detected the use of a trusted brand on an unrelated domain or website. This could be a phishing site trying to steal your credentials."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "description": "Description of the warning",
+      "message": "HP Credential Protection has blocked a new site that is below the configured minimum age threshold."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "description": "Description when blocking a site which uses a trusted brand on an unrelated domain or website.",
+      "message": "HP Credential Protection has detected the use of a trusted brand {BRAND} on an unrelated domain or website. This could be a phishing site trying to steal your credentials."
+   },
+   "overlayBlacklist_Description": {
+      "description": "Description of the warning",
+      "message": "HP Credential Protection has blocked a known phishing site."
+   },
+   "overlayBlacklist_Title": {
+      "description": "Title of the warning message to display to the user",
+      "message": "Warning: Credential Theft Blocked"
+   },
+   "overlayBlockedFile_Description": {
+      "description": "Description of the warning when blocking a file URL",
+      "message": "HP Credential Protection has blocked a potentially malicious file."
+   },
+   "overlayHttpBlacklist_Description": {
+      "description": "Description of the warning when blocking an HTTP site",
+      "message": "HP Credential Protection has blocked a site sending credentials over the internet without encryption."
+   },
+   "overlayHttpBlacklist_Title": {
+      "description": "Title of the warning.",
+      "message": "Warning: Insecure Login Page Blocked"
+   },
+   "overlayManagedUnknown_Title": {
+      "description": "Title of the warning.",
+      "message": "Warning: Potential Credential Theft Blocked"
+   },
+   "overlayNormalUnknown_Description": {
+      "description": "Description for an unknown site.",
+      "message": "HP Credential Protection has blocked an unknown site which could be trying to steal your credentials."
+   },
+   "overlayNormalUnknown_Title": {
+      "description": "Title of the warning.",
+      "message": "Warning: Potential Credential Theft"
+   },
+   "overlay_AllowInputButton": {
+      "description": "Button text informing the user they can continue in full interactive mode.",
+      "message": "I trust this site, continue"
+   },
+   "overlay_BackToSafetyButton": {
+      "description": "A button for the user to click to get back to safety",
+      "message": "Back to safety"
+   },
+   "overlay_BlameAdmin": {
+      "description": "Notice to the user that they should contact their administrator if they think there's a mistake.",
+      "message": "If you believe this to be incorrect, please contact your HP Wolf Security administrator."
+   },
+   "overlay_ViewPageLinkButton": {
+      "description": "A button for the user to continue to view the page with login disabled",
+      "message": "Continue with login disabled"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "description": "Button to forget all decisions remembered by the extension.",
+      "message": "Clear sites"
+   },
+   "popupClearRememberedDecisionsText": {
+      "description": "Message explaining that popupClearRememberedDecisionsButton forgets all decisions remembered by the extension.",
+      "message": "HP Wolf Security Extension remembers which sites you have chosen to access safely using the HP Sure Click Secure Browser and which sites you have chosen to open using the default browser. Select the button below to clear these choices."
+   },
+   "popupDisabled": {
+      "description": "Message displayed when the extension is disabled.",
+      "message": "HP Wolf Security Extension is disabled."
+   },
+   "popupGenericError": {
+      "description": "Message displayed when there is an unknown error.",
+      "message": "HP Wolf Security has encountered an error. Please restart the browser."
+   },
+   "popupHelpLinkText": {
+      "description": "Text which links to the help page.",
+      "message": "Get more information"
+   },
+   "popupMissingHelper": {
+      "description": "Message displayed when there is an error because the product is not installed.",
+      "message": "The extension cannot connect to HP Wolf Security. Please check that a compatible version of HP Wolf Security has been installed and is running."
+   },
+   "popupNoError": {
+      "description": "Message displayed when there are no errors.",
+      "message": "You are being protected by HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "description": "Button to open a new Secure Browser window.",
+      "message": "Open new Secure Browser window"
+   },
+   "popupSureClickInitRequired": {
+      "description": "Message displayed when the product requires initialization.",
+      "message": "HP Sure Click requires initialization."
+   },
+   "popupSureClickUnconfigured": {
+      "description": "Message displayed to a consumer customer when the product is unlicensed.",
+      "message": "HP Sure Click is awaiting configuration and has been disabled."
+   },
+   "popupSureClickUnlicensed": {
+      "description": "Message displayed to an enterprise customer when the product is unlicensed.",
+      "message": "HP Sure Click is unlicensed and has been disabled."
+   },
+   "ufOverlayDescriptionMany": {
+      "description": "Description when blocking a site which matches more than one blocked category.",
+      "message": "This address belongs to blocked categories: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "description": "Description when blocking a site which matches one blocked category.",
+      "message": "This address belongs to a blocked category: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "description": "Title of the warning.",
+      "message": "Blocked by HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "description": "Description when blocking a site which failed statusCode check with more than one statusMsg.",
+      "message": "This address is unsafe for the following reasons: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "description": "Description when blocking a site which failed statusCode check with no statusMsg.",
+      "message": "This address is unsafe."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "description": "Description when blocking a site which failed statusCode check with one statusMsg.",
+      "message": "This address is unsafe for the following reason: {STATUSMSG}"
+   }
+}

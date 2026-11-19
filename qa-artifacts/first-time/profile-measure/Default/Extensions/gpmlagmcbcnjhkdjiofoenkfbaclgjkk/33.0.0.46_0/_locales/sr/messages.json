@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Otvorili ste sajt u HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Ovaj sajt može sadržati pretnje:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Otvorili ste PDF datoteku u HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "PDF datoteka sa ovog sajta može sadržati pretnje:"
+   },
+   "blockedPageContinue": {
+      "message": "Nastavi u ovom pregledaču"
+   },
+   "blockedPageContinueV2": {
+      "message": "Nastavi u {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Saznajte više"
+   },
+   "blockedPageRemember": {
+      "message": "Zapamti moj izbor za ovaj sajt"
+   },
+   "blockedPageSecure": {
+      "message": "Otvorite u HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser pomaže da se zaštiti vaš računar od veb-sajtova i datoteka zaraženih zlonamernim softverom, ransomverom ili virusima."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Nepouzdan veb-sajt detektovan od strane HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Neidentifikovan veb-sajt detektovan od strane HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Otvorite u Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Starost ovog sajta ({DOMAIN_AGE_DAYS} dana) je ispod konfigurisanog minimuma."
+   },
+   "extDescription": {
+      "message": "Bezbedno pregledanje interneta pomoću HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "sr"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Sajt je otvoren u HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "PDF datoteka je otvorena u HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Zatvori karticu"
+   },
+   "launchedPageGoBack": {
+      "message": "Vrati se nazad"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Ova lista je trenutno prazna"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Sajtovi na kojima je dozvoljen unos akreditiva:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Omogući evidentiranje"
+   },
+   "optionsPageNoOptions": {
+      "message": "Nemate opcije za konfigurisanje."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection je detektovala upotrebu brenda od poverenja na nepovezanom domenu ili veb-sajtu. Ovo može biti sajt koji krade podatke i koji pokušava da ukrade vaše akreditive."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection je blokirao novi sajt koji je ispod konfigurisane minimalne granične vrednosti u pogledu starosti."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection je detektovao upotrebu brenda od poverenja {BRAND} na nepovezanom domenu ili veb-sajtu. Ovo može biti sajt koji krade podatke i koji pokušava da ukrade vaše akreditive."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection je blokirao sajt koji je poznat po phishing-u."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Upozorenje: Krađa akreditiva blokirana"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection je blokirao potencijalno zlonamernu datoteku."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection je blokirao sajt koji šalje akreditive preko interneta bez šifrovanja."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Upozorenje: Strana sa nebezbednom prijavom blokirana"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Upozorenje: Potencijalna krađa akreditiva blokirana"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection je blokirao nepoznat sajt koji možda pokušava da ukrade vaše akreditive."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Upozorenje: Potencijalna krađa akreditiva"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Imam poverenja u ovaj sajt, nastavi"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Povratak na bezbednost"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Ako smatrate da je ovo netačno, obratite se svom administratoru HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Nastavi sa onemogućenom prijavom"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Izbriši sajtove"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension pamti koje sajtove ste izabrali za bezbedan pristup pomoću HP Sure Click Secure Browser i koje sajtove ste izabrali da otvarate pomoću podrazumevanog pregledača. Izaberite dugme u nastavku za brisanje ovih izbora."
+   },
+   "popupDisabled": {
+      "message": "Proširenje HP Wolf Security Extension je onemogućeno."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security je naišao na grešku. Ponovo pokrenite pregledač."
+   },
+   "popupHelpLinkText": {
+      "message": "Nabavite više informacija"
+   },
+   "popupMissingHelper": {
+      "message": "Proširenje ne može da se poveže sa HP Wolf Security. Proverite da i je kompatibilna verzija HP Wolf Security instalirana i pokrenuta."
+   },
+   "popupNoError": {
+      "message": "Štiti vas HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Otvorite novi prozor Secure Browser"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click zahteva inicijalizaciju."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click čeka na konfiguraciju i onemogućen je."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click je bez licence i onemogućen je."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Ova adresa pripada blokiranim kategorijama: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Ova adresa pripada blokiranoj kategoriji: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Blokirano od strane HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Ova adresa nije bezbedna iz sledećih razloga: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Ova adresa nije bezbedna."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Ova adresa nije bezbedna iz sledećeg razloga: {STATUSMSG}"
+   }
+}

@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Avasite saidi brauseris HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "See sait võib sisaldada ohte:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Avasite PDF-faili brauseris HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "PDF-fail sellel saidil võib sisaldada ohte:"
+   },
+   "blockedPageContinue": {
+      "message": "Jätkake selles brauseris"
+   },
+   "blockedPageContinueV2": {
+      "message": "Jätkake {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Lisateave"
+   },
+   "blockedPageRemember": {
+      "message": "Pea meeles minu otsus selle saidi jaoks"
+   },
+   "blockedPageSecure": {
+      "message": "Avage brauseris HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser aitab kaitsta teie arvutit veebisaitide ja failide eest, mis on nakatanud ründevara, lunavara või viirustega."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "HP Wolf Security tuvastas ebausaldusväärse veebisaidi"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "HP Wolf Security tuvastas tundmatu veebisaidi"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Avage Secure Browseris"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Selle saidi vanuse alampiir ({DOMAIN_AGE_DAYS} päeva) on alla konfigureeritud miinimumi."
+   },
+   "extDescription": {
+      "message": "Ohutu veebisirvimine tootega HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "et"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Sait avati brauseris HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "PDF-fail avati brauseris HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Sulge vahekaart"
+   },
+   "launchedPageGoBack": {
+      "message": "Mine tagasi"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "See loend on hetkel tühi"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Saidid, kus on lubatud identimisteabe sisestamine:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Luba logimine"
+   },
+   "optionsPageNoOptions": {
+      "message": "Teil puuduvad suvandid, mida konfigureerida."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection tuvastas usaldusväärse kaubamärgi kasutamise sellega mitteseotud domeenil või veebisaidil. Tegemist võib olla andmepüügisaidiga, mis üritab teie kasutajatunnuseid varastada."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection blokeeris uue saidi, mis on alla konfigureeritud vanuse alampiiri."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection tuvastas usaldusväärse kaubamärgi {BRAND} kasutamise sellega mitteseotud domeenil või veebilehel. Tegemist võib olla andmepüügisaidiga, mis üritab teie kasutajatunnuseid varastada."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection blokeeris tuntud õngitsemissaidi."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Hoiatus! Identimisteabe vargus on blokeeritud"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection blokeeris võimaliku ründefaili."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection blokeeris saidi, mis saadab identimisteavet ilma krüpteerimata üle interneti."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Hoiatus! Ebaturvaline sisselogimisleht blokeeriti"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Hoiatus! Võimalik identimisteabe vargus blokeeriti"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection blokeeris tundmatu saidi, mis võib üritada varastada teie identimisteavet."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Hoiatus! Võimalik identimisteabe vargus"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Ma usaldan seda saiti, jätka"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Tagasi ohutusse keskkonda"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Kui arvate, et see ei ole õige, võtke ühendust oma HP Wolf Security administraatoriga."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Jätkake nii, et sisselogimine on keelatud"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Kustuta saidid"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension jätab meelde, millistele saitidele olete otsustanud turvaliselt ligi pääseda, kasutades brauserit HP Sure Click Secure Browser ja milliseid saite olete otsustanud avada oma vaikebrauseriga. Nende valikute tühjendamiseks vajutage allolevale nupule."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension on keelatud."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security tekkis tõrge. Taaskäivitage brauser."
+   },
+   "popupHelpLinkText": {
+      "message": "Lugege lisaks"
+   },
+   "popupMissingHelper": {
+      "message": "See laiendus ei saa ühendust tootega HP Wolf Security. Veenduge, et on installitud toote HP Wolf Security ühilduv versioon ja et see töötab."
+   },
+   "popupNoError": {
+      "message": "Teid kaitseb HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Avage uus Secure Browseri aken"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click nõuab lähtestamist."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click on konfigureerimise ootel ja on keelatud."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click on litsentsita ja on keelatud."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "See aadress kuulub blokeeritud kategooriatele: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "See aadress kuulub blokeeritud kategooriale: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Blokeeritud HP Wolf URL Filtering poolt"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "See aadress ei ole turvaline järgmistel põhjustel: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "See aadress ei ole turvaline."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "See aadress ei ole turvaline järgmisel põhjusel: {STATUSMSG}"
+   }
+}

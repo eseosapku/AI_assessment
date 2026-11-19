@@ -1,0 +1,36 @@
+{
+  "host": "http://localhost:3000",
+  "impatienceChecksSurvived": true,
+  "homeBurst": {
+    "statuses": [200, 200, 200, 200, 200],
+    "ms": [245, 79, 85, 70, 77],
+    "screenshot": "home-last.png"
+  },
+  "backForward": {
+    "urls": ["/signup", "/", "/signup"],
+    "statuses": [200, 200, 200],
+    "ms": [6438, 160, 135],
+    "eachWasHtmlWithTitle": true
+  },
+  "loginRedirect": {
+    "attempts": 2,
+    "eachChain": ["307 Location: /", "200 /"],
+    "loop": false,
+    "hitFiveRedirectCap": false
+  },
+  "parallelFailedLogin": {
+    "statuses": [401, 401],
+    "either500": false,
+    "error": "Invalid credentials",
+    "userObject": false
+  },
+  "signupHeadless": {
+    "profiles": 2,
+    "navStatus": 200,
+    "crash": false,
+    "consoleErrors": [],
+    "formVisibleAfterMs": [4098, 5009],
+    "formComplete": true,
+    "screenshots": ["signup-visible-a.png", "signup-visible-b.png"]
+  }
+}

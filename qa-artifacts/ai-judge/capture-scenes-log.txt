@@ -1,0 +1,34 @@
+2026-11-19T10:16:41.497Z shot 05b-after-demo
+2026-11-19T10:16:41.530Z demo trace http://localhost:3000/
+2026-11-19T10:16:54.450Z header 3658ms sections 12892ms count 333
+2026-11-19T10:16:55.246Z shot 07-scenes-loaded
+2026-11-19T10:16:55.710Z shot scene-000-light-1
+2026-11-19T10:16:55.736Z scanned 1/333 shots 1
+2026-11-19T10:17:00.965Z scanned 21/333 shots 1
+2026-11-19T10:17:07.274Z scanned 41/333 shots 1
+2026-11-19T10:17:07.674Z shot scene-041-atom-1
+2026-11-19T10:17:10.406Z shot scene-051-cell-lab-1
+2026-11-19T10:17:12.679Z scanned 61/333 shots 3
+2026-11-19T10:17:14.513Z shot scene-067-number-line-1
+2026-11-19T10:17:19.319Z scanned 81/333 shots 4
+2026-11-19T10:17:24.557Z scanned 101/333 shots 4
+2026-11-19T10:17:31.699Z scanned 121/333 shots 4
+2026-11-19T10:17:32.083Z shot scene-121-algorithm-tracer-1
+2026-11-19T10:17:32.436Z shot scene-122-algorithm-tracer-2
+2026-11-19T10:17:37.310Z shot scene-138-map-reader-1
+2026-11-19T10:17:37.973Z scanned 141/333 shots 7
+2026-11-19T10:17:42.917Z shot scene-157-timeline-1
+2026-11-19T10:17:43.788Z scanned 161/333 shots 8
+2026-11-19T10:17:44.502Z shot scene-161-supply-demand-1
+2026-11-19T10:17:47.691Z shot scene-172-fair-test-1
+2026-11-19T10:17:48.563Z shot scene-175-music-staff-1
+2026-11-19T10:17:50.019Z scanned 181/333 shots 11
+2026-11-19T10:17:50.668Z shot scene-182-sets-logic-1
+2026-11-19T10:17:55.017Z scanned 201/333 shots 12
+2026-11-19T10:17:59.893Z scanned 221/333 shots 12
+2026-11-19T10:18:04.812Z scanned 241/333 shots 12
+2026-11-19T10:18:09.758Z scanned 261/333 shots 12
+2026-11-19T10:18:14.644Z scanned 281/333 shots 12
+2026-11-19T10:18:19.518Z scanned 301/333 shots 12
+2026-11-19T10:18:24.861Z scanned 321/333 shots 12
+2026-11-19T10:18:28.091Z done 333 shots 12

@@ -112,8 +112,8 @@ export function NextStepCard({
 
             <div className="min-w-0">
               <p className="text-[12px] font-black uppercase tracking-[0.14em]" style={{ color: tone }}>
-                Do this next
-                <span className="ml-2 font-bold normal-case tracking-normal text-ss-slate">{stage.label}</span>
+                Do this next <span aria-hidden className="text-ss-slate">·</span>{' '}
+                <span className="font-bold normal-case tracking-normal text-ss-slate">{stage.label}</span>
               </p>
               <h2
                 id="next-step-title"

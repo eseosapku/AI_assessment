@@ -1,0 +1,43 @@
+{
+  "startedAt": "2026-11-19T10:51:37.999Z",
+  "writes": [
+    {
+      "t": 1795085500137,
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    }
+  ],
+  "blocked": [],
+  "hit": {
+    "tag": "BUTTON",
+    "text": "Create assessment",
+    "tour": "hero-cta"
+  },
+  "doubleClicked": true,
+  "clicks": [
+    {
+      "tag": "BUTTON",
+      "text": "Create assessment"
+    },
+    {
+      "tag": "",
+      "text": ""
+    }
+  ],
+  "caused": [],
+  "duplicateWrites": [],
+  "after": {
+    "href": "http://localhost:3000/dashboard",
+    "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the q",
+    "builder": true,
+    "signedIn": true
+  },
+  "screenshot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\08-double-click.png"
+}

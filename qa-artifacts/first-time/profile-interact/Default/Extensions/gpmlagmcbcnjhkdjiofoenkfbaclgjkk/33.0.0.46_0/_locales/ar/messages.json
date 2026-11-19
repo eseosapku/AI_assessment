@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "لقد فتحت الموقع في HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "يمكن أن يستضيف هذا الموقع تهديدات محتملة:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "لقد فتحت ملف PDF في HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "يمكن أن يستضيف ملف PDF من هذا الموقع تهديدات محتملة:"
+   },
+   "blockedPageContinue": {
+      "message": "تواصل في هذا المتصفح"
+   },
+   "blockedPageContinueV2": {
+      "message": "استمر في {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "معرفة المزيد"
+   },
+   "blockedPageRemember": {
+      "message": "تذكر قراري لهذا الموقع"
+   },
+   "blockedPageSecure": {
+      "message": "فتح في HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "يساعد HP Sure Click Secure Browser على حماية جهاز الكمبيوتر الخاص بك من مواقع الويب والملفات المصابة بالبرامج الضارة أو برامج الفدية أو الفيروسات."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "اكتشف HP Wolf Security موقع ويب غير موثوق به"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "اكتشف HP Wolf Security موقع ويب غير معروف"
+   },
+   "contextMenuOpenSecure": {
+      "message": "الفتح في Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "عمر هذا الموقع ({DOMAIN_AGE_DAYS} من الأيام) أقل من الحد الأدنى الذي تم تكوينه."
+   },
+   "extDescription": {
+      "message": "التصفح الآمن للإنترنت باستخدام HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "ar"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "تم فتح الموقع في HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "تم فتح ملف PDF في HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "إغلاق علامة التبويب"
+   },
+   "launchedPageGoBack": {
+      "message": "الرجوع"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "هذه القائمة فارغة حاليًا"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "المواقع التي يُسمح فيها بإدخال بيانات الاعتماد:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "تمكين التسجيل"
+   },
+   "optionsPageNoOptions": {
+      "message": "ليس لديك أي خيارات للتكوين."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "اكتشف HP AI Credential Protection استخدام علامة تجارية موثوق بها على مجال أو موقع ويب غير ذي صلة. قد يكون هذا موقع تصيد احتيالي يحاول سرقة بيانات اعتمادك."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "قام HP Credential Protection بحظر موقع جديد ينحدر إلى ما دون الحد الأدنى للعمر الذي تم تكوينه."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "اكتشف HP Credential Protection استخدام علامة تجارية موثوقة بها{BRAND} على مجال أو موقع ويب غير ذي صلة. قد يكون هذا موقع تصيد احتيالي يحاول سرقة بيانات اعتمادك."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection حظر موقعًا معروفًا للتصيد الاحتيالي."
+   },
+   "overlayBlacklist_Title": {
+      "message": "تحذير: تم حظر سرقة بيانات الاعتماد"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "قام HP Credential Protection بحظر ملف يُحتمل أن يكون ضارًا."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "قام HP Credential Protection بمنع أحد المواقع من إرسال بيانات الاعتماد عبر الإنترنت بدون تشفير."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "تحذير: تم حظر صفحة تسجيل الدخول غير الآمنة"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "تحذير: حظر السرقة المحتملة لبيانات الاعتماد"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "قام HP Credential Protection بحظر موقع غير معروف ربما يحاول سرقة بيانات اعتمادك."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "تحذير: سرقة محتملة لبيانات الاعتماد"
+   },
+   "overlay_AllowInputButton": {
+      "message": "أنا أثق في هذا الموقع، استمر"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "العودة إلى بر الأمان"
+   },
+   "overlay_BlameAdmin": {
+      "message": "إذا كنت تعتقد أن هذا غير صحيح، فيرجى الاتصال بمسؤول HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "المواصلة مع تعطيل تسجيل الدخول"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "مسح المواقع"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "يتذكر HP Wolf Security Extension المواقع التي اخترت الوصول إليها بأمان باستخدام HP Sure Click Secure Browser والمواقع التي اخترت فتحها باستخدام المتصفح الافتراضي. حدد الزر أدناه لمسح هذه الاختيارات."
+   },
+   "popupDisabled": {
+      "message": "تم تعطيل HP Wolf Security Extension."
+   },
+   "popupGenericError": {
+      "message": "واجه HP Wolf Security خطأ. الرجاء إعادة تشغيل المتصفح."
+   },
+   "popupHelpLinkText": {
+      "message": "الحصول على مزيد من المعلومات"
+   },
+   "popupMissingHelper": {
+      "message": "لا يمكن للامتداد الاتصال بـ HP Wolf Security. الرجاء التحقق من تثبيت إصدار متوافق من HP Wolf Security وتشغيله."
+   },
+   "popupNoError": {
+      "message": "أنت محمي بواسطة HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "افتح نافذة Secure Browser جديدة"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click يتطلب تهيئة."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click ينتظر التكوين وقد تم تعطيله."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click غير مرخص وتم تعطيله."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "ينتمي هذا العنوان إلى فئات محظورة: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "ينتمي هذا العنوان إلى فئة محظورة: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "محظورة من قِبل HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "هذا العنوان غير آمن للأسباب الآتية: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "هذا العنوان غير آمن."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "هذا العنوان غير آمن للسبب الآتي: {STATUSMSG}"
+   }
+}

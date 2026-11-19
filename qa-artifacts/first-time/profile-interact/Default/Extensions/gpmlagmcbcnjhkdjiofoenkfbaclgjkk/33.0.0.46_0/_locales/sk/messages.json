@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "Stránku ste otvorili v prehliadači HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Táto stránka môže hostiť potenciálne hrozby:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "Súbor PDF ste otvorili v prehliadači HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Súbor PDF z tejto stránky môže hostiť potenciálne hrozby:"
+   },
+   "blockedPageContinue": {
+      "message": "Pokračovať v tomto prehliadači"
+   },
+   "blockedPageContinueV2": {
+      "message": "Pokračovať v {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Ďalšie informácie"
+   },
+   "blockedPageRemember": {
+      "message": "Zapamätať si moje rozhodnutie pre túto stránku"
+   },
+   "blockedPageSecure": {
+      "message": "Otvoriť v prehliadači HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser pomáha chrániť počítač pred webovými stránkami a súbormi infikovanými malvérom, ransomvérom alebo vírusmi."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Softvér HP Wolf Security zistil nedôveryhodnú webovú stránku"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Softvér HP Wolf Security zistil neidentifikovanú webovú stránku"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Otvoriť v prehliadači Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "Vek tejto lokality (počet dní: {DOMAIN_AGE_DAYS}) nedosahuje nakonfigurované minimum."
+   },
+   "extDescription": {
+      "message": "Bezpečné prehliadanie internetu so softvérom HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "sk"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "Stránka sa otvorila v prehliadači HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "Súbor PDF sa otvoril v prehliadači HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Zavrieť kartu"
+   },
+   "launchedPageGoBack": {
+      "message": "Vrátiť sa"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Tento zoznam je momentálne prázdny"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Stránky, na ktorých je povolený vstup pomocou poverení:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Povoliť zapisovanie do denníkov"
+   },
+   "optionsPageNoOptions": {
+      "message": "Nemáte žiadne možnosti na konfiguráciu."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "Funkcia HP AI Credential Protection zistila používanie dôveryhodnej značky v nesúvisiacej doméne alebo na webovej stránke. Môže ísť o phishingovú stránku, ktorá sa pokúša ukradnúť vaše poverenia."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "Funkcia HP Credential Protection zablokovala novú lokalitu, ktorá nedosahuje nakonfigurovanú minimálnu vekovú hranicu."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "Funkcia HP Credential Protection zistila používanie dôveryhodnej značky {BRAND} v nesúvisiacej doméne alebo na webovej stránke. Môže ísť o phishingovú stránku, ktorá sa pokúša ukradnúť vaše poverenia."
+   },
+   "overlayBlacklist_Description": {
+      "message": "Funkcia HP Credential Protection zablokovala známu phishingovú stránku."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Výstraha: Krádež poverení zablokovaná"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "Funkcia HP Credential Protection zablokovala potenciálne škodlivý súbor."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "Funkcia HP Credential Protection zablokovala stránku odosielajúcu poverenia cez internet bez šifrovania."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Výstraha: Nezabezpečená prihlasovacia stránka zablokovaná"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Výstraha: Potenciálna krádež poverení zablokovaná"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "Funkcia HP Credential Protection zablokovala neznámu stránku, ktorá by sa mohla pokúsiť ukradnúť vaše poverenia."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Výstraha: Potenciálna krádež poverení"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Tejto stránke dôverujem, pokračovať"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Späť do bezpečia"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Ak si myslíte, že je to nesprávne, obráťte sa na správcu softvéru HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Pokračovať so zakázaným prihlásením"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Vymazať stránky"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension si pamätá, na ktoré stránky ste sa rozhodli bezpečne pristupovať pomocou prehliadača HP Sure Click Secure Browser a ktoré stránky ste sa rozhodli otvárať pomocou predvoleného prehliadača. Výberom tlačidla nižšie tieto voľby vymažete."
+   },
+   "popupDisabled": {
+      "message": "Doplnok HP Wolf Security Extension je deaktivovaný."
+   },
+   "popupGenericError": {
+      "message": "Vyskytla sa chyba softvéru HP Wolf Security. Reštartujte prehliadač."
+   },
+   "popupHelpLinkText": {
+      "message": "Získať ďalšie informácie"
+   },
+   "popupMissingHelper": {
+      "message": "Rozšírenie sa nemôže pripojiť k softvéru HP Wolf Security. Skontrolujte, či je nainštalovaná a spustená kompatibilná verzia softvéru HP Wolf Security."
+   },
+   "popupNoError": {
+      "message": "Chráni vás HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Otvoriť nové okno prehliadača Secure Browser"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click vyžaduje inicializáciu."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "Softvér HP Sure Click čaká na konfiguráciu a bol zakázaný."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "Softvér HP Sure Click nemá licenciu a bol zakázaný."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Táto adresa patrí do zablokovaných kategórií: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Táto adresa patrí do zablokovanej kategórie: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Blokuje HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Táto adresa je nebezpečná z nasledujúcich dôvodov: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Táto adresa je nebezpečná."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Táto adresa je nebezpečná z nasledujúceho dôvodu: {STATUSMSG}"
+   }
+}

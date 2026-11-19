@@ -1,0 +1,173 @@
+{
+   "blockedLinkPageOpenedSecureExplanation": {
+      "message": "U hebt de site geopend in de HP Sure Click Secure Browser."
+   },
+   "blockedLinkPageTitle": {
+      "message": "Deze site kan potentiële bedreigingen bevatten:"
+   },
+   "blockedPDFPageOpenedSecureExplanation": {
+      "message": "U hebt het pdf-bestand geopend in de HP Sure Click Secure Browser."
+   },
+   "blockedPDFPageTitle": {
+      "message": "Het pdf-bestand van deze site kan potentiële bedreigingen bevatten:"
+   },
+   "blockedPageContinue": {
+      "message": "Doorgaan in deze browser"
+   },
+   "blockedPageContinueV2": {
+      "message": "Doorgaan in {THIS_BROWSER}"
+   },
+   "blockedPageHelpLink": {
+      "message": "Meer informatie"
+   },
+   "blockedPageRemember": {
+      "message": "Onthoud mijn beslissing voor deze site"
+   },
+   "blockedPageSecure": {
+      "message": "Openen in HP Sure Click Secure Browser"
+   },
+   "blockedPageSecureBrowserExplanation": {
+      "message": "HP Sure Click Secure Browser beschermt uw pc tegen websites en bestanden die geïnfecteerd zijn met malware, ransomware of virussen."
+   },
+   "blockedPageUntrustedTooltip": {
+      "message": "Niet-vertrouwde website gedetecteerd door HP Wolf Security"
+   },
+   "blockedPageWarningTooltip": {
+      "message": "Niet-geïdentificeerde website gedetecteerd door HP Wolf Security"
+   },
+   "contextMenuOpenSecure": {
+      "message": "Openen in Secure Browser"
+   },
+   "daufOverlayDescriptionDomainAgeDays": {
+      "message": "De leeftijd van deze site ({DOMAIN_AGE_DAYS} dagen) is lager dan het geconfigureerde minimum."
+   },
+   "extDescription": {
+      "message": "Veilig browsen op internet met HP Wolf Security."
+   },
+   "extName": {
+      "message": "HP Wolf Security Extension"
+   },
+   "helpLinkLocale": {
+      "message": "nl"
+   },
+   "launchedLinkPageOpenedSecureExplanation": {
+      "message": "De site is geopend in de HP Sure Click Secure Browser."
+   },
+   "launchedPDFPageOpenedSecureExplanation": {
+      "message": "Het pdf-bestand is geopend in de HP Sure Click Secure Browser."
+   },
+   "launchedPageCloseTab": {
+      "message": "Tabblad sluiten"
+   },
+   "launchedPageGoBack": {
+      "message": "Terug"
+   },
+   "optionsAllowedDomainsEmpty": {
+      "message": "Deze lijst is momenteel leeg"
+   },
+   "optionsAllowedDomainsSectionHeader": {
+      "message": "Sites waar het invoeren van referenties is toegestaan:"
+   },
+   "optionsPageLoggingToggle": {
+      "message": "Logboekregistratie inschakelen"
+   },
+   "optionsPageNoOptions": {
+      "message": "U hebt geen opties om te configureren."
+   },
+   "overlayBlacklistBrand_Description": {
+      "message": "HP AI Credential Protection heeft het gebruik gedetecteerd van een vertrouwd merk op een niet-gerelateerd domein of niet-gerelateerde website. Mogelijk is dit een phishing-site die uw aanmeldingsgegevens probeert te stelen."
+   },
+   "overlayBlacklistDomainAge_Description": {
+      "message": "HP Credential Protection heeft een nieuwe site geblokkeerd die onder de drempelwaarde van de geconfigureerde minimumleeftijd ligt."
+   },
+   "overlayBlacklistProtectedBrand_Description": {
+      "message": "HP Credential Protection heeft het gebruik gedetecteerd van een vertrouwd merk {BRAND} op een niet-gerelateerd domein of niet-gerelateerde website. Mogelijk is dit een phishing-site die uw aanmeldingsgegevens probeert te stelen."
+   },
+   "overlayBlacklist_Description": {
+      "message": "HP Credential Protection heeft een bekende phishing-site geblokkeerd."
+   },
+   "overlayBlacklist_Title": {
+      "message": "Waarschuwing: Credential diefstal geblokkeerd"
+   },
+   "overlayBlockedFile_Description": {
+      "message": "HP Credential Protection heeft een mogelijk kwaadaardig bestand geblokkeerd."
+   },
+   "overlayHttpBlacklist_Description": {
+      "message": "HP Credential Protection heeft een site geblokkeerd die referenties onversleuteld over internet verstuurt."
+   },
+   "overlayHttpBlacklist_Title": {
+      "message": "Waarschuwing: Onveilige aanmeldingspagina geblokkeerd"
+   },
+   "overlayManagedUnknown_Title": {
+      "message": "Waarschuwing: Mogelijke diefstal van referenties geblokkeerd"
+   },
+   "overlayNormalUnknown_Description": {
+      "message": "HP Credential Protection heeft een onbekende site geblokkeerd die uw referenties zou kunnen hebben proberen te stelen."
+   },
+   "overlayNormalUnknown_Title": {
+      "message": "Waarschuwing: Mogelijke diefstal van referenties"
+   },
+   "overlay_AllowInputButton": {
+      "message": "Ik vertrouw deze site, doorgaan"
+   },
+   "overlay_BackToSafetyButton": {
+      "message": "Terug naar beveiliging"
+   },
+   "overlay_BlameAdmin": {
+      "message": "Als u denkt dat dit niet juist is, neem dan contact op met de beheerder van HP Wolf Security."
+   },
+   "overlay_ViewPageLinkButton": {
+      "message": "Doorgaan met aanmelden uitgeschakeld"
+   },
+   "popupClearRememberedDecisionsButton": {
+      "message": "Sites wissen"
+   },
+   "popupClearRememberedDecisionsText": {
+      "message": "HP Wolf Security Extension onthoudt welke sites u hebt gekozen om veilig te openen met de HP Sure Click Secure Browser en welke sites u hebt gekozen om te openen met de standaardbrowser. Selecteer de knop hieronder om deze keuzes te wissen."
+   },
+   "popupDisabled": {
+      "message": "HP Wolf Security Extension is uitgeschakeld."
+   },
+   "popupGenericError": {
+      "message": "HP Wolf Security heeft een fout aangetroffen. Start de browser opnieuw."
+   },
+   "popupHelpLinkText": {
+      "message": "Meer informatie"
+   },
+   "popupMissingHelper": {
+      "message": "De extensie kan geen verbinding maken met HP Wolf Security. Controleer of een compatibele versie van HP Wolf Security is geïnstalleerd en actief is."
+   },
+   "popupNoError": {
+      "message": "U wordt beschermd door HP Wolf Security."
+   },
+   "popupSecureBrowserWindowButton": {
+      "message": "Open een nieuw venster van de Secure Browser"
+   },
+   "popupSureClickInitRequired": {
+      "message": "HP Sure Click vereist initialisatie."
+   },
+   "popupSureClickUnconfigured": {
+      "message": "HP Sure Click wacht op configuratie en is uitgeschakeld."
+   },
+   "popupSureClickUnlicensed": {
+      "message": "HP Sure Click heeft geen licentie en is uitgeschakeld."
+   },
+   "ufOverlayDescriptionMany": {
+      "message": "Dit adres behoort bij geblokkeerde categorieën: {LIST_OF_CATEGORIES}"
+   },
+   "ufOverlayDescriptionOne": {
+      "message": "Dit adres behoort bij een geblokkeerde categorie: {CATEGORY}"
+   },
+   "ufOverlayTitle": {
+      "message": "Geblokkeerd door HP Wolf URL Filtering"
+   },
+   "ufStatusMsgOverlayDescriptionMany": {
+      "message": "Dit adres is onveilig om de volgende redenen: {LIST_OF_STATUSMSG}"
+   },
+   "ufStatusMsgOverlayDescriptionNone": {
+      "message": "Dit adres is onveilig."
+   },
+   "ufStatusMsgOverlayDescriptionOne": {
+      "message": "Dit adres is onveilig om de volgende reden: {STATUSMSG}"
+   }
+}

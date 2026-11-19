@@ -13,13 +13,6 @@ import type { WeakArea } from '@/lib/assessment-weak-areas'
  * the weak areas, or prove it by retaking the paper.
  */
 
-/** Colour the bar by how far under water the area is. */
-function barColor(accuracy: number): string {
-  if (accuracy >= 70) return 'var(--ss-ok, #16B67A)'
-  if (accuracy >= 40) return 'var(--ss-warn, #F0A93E)'
-  return 'var(--ss-bad, #E2645F)'
-}
-
 function gapMapHref(subject: string, focus?: string, assessmentId?: string): string {
   const params = new URLSearchParams()
   if (subject) params.set('subject', subject)
@@ -40,23 +33,8 @@ function AreaRow({
 }) {
   return (
     <div className="rounded-2xl border border-ss-line bg-ss-panel p-3.5">
-      <div className="flex items-baseline justify-between gap-3">
-        <p className="min-w-0 flex-1 truncate text-[13.5px] font-bold text-ss-ink">{area.label}</p>
-        <p className="shrink-0 text-[12.5px] font-extrabold" style={{ color: barColor(area.accuracy) }}>
-          {area.accuracy}%
-        </p>
-      </div>
-
-      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[color:var(--ss-ink)]/8">
-        <div
-          className="h-full rounded-full transition-[width] duration-500"
-          style={{ width: `${Math.max(area.accuracy, 2)}%`, background: barColor(area.accuracy) }}
-        />
-      </div>
-
-      <p className="mt-2 text-[13px] font-semibold text-ss-slate">
-        {area.correct} of {area.total} correct
-      </p>
+      <p className="text-[13.5px] font-bold text-ss-ink">{area.label}</p>
+      <p className="mt-1 text-[13px] font-semibold text-ss-slate">Questions to review</p>
 
       {area.missedQuestions.length > 0 && (
         <div className="mt-2 flex flex-wrap items-center gap-1.5">

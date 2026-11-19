@@ -1,0 +1,171 @@
+{
+  "startedAt": "2026-11-19T10:46:17.830Z",
+  "writes": [
+    {
+      "t": 1795085180285,
+      "phase": "open",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    },
+    {
+      "t": 1795085195255,
+      "phase": "to-progress",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    },
+    {
+      "t": 1795085195657,
+      "phase": "back",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    },
+    {
+      "t": 1795085195988,
+      "phase": "forward",
+      "method": "POST",
+      "path": "/api/user/onboarding",
+      "bytes": 66,
+      "hash": "5ad122038f32",
+      "keys": [
+        "userId",
+        "completed"
+      ],
+      "status": 200
+    }
+  ],
+  "phase": "forward",
+  "opened": {
+    "href": "http://localhost:3000/dashboard",
+    "path": "/dashboard",
+    "signedIn": true,
+    "email": "b.sumba@alustudent.com",
+    "spinners": [
+      {
+        "w": 53,
+        "h": 53,
+        "shown": true
+      }
+    ],
+    "text": "",
+    "builder": false,
+    "tour": false,
+    "signIn": false,
+    "screenshot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\05-dashboard-ready.png"
+  },
+  "arrivedProgress": {
+    "url": "http://localhost:3000/progress",
+    "href": "http://localhost:3000/progress",
+    "path": "/progress",
+    "signedIn": true,
+    "email": "b.sumba@alustudent.com",
+    "spinners": [],
+    "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 6 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card — Total tests — AVERAGE Across all subjects — Subjects tracked — Latest grade RECENT RESULTS No results yet Start practicing MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with th",
+    "builder": false,
+    "tour": true,
+    "signIn": false,
+    "screenshot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\06-progress.png"
+  },
+  "immediateBack": {
+    "url": "http://localhost:3000/dashboard",
+    "href": "http://localhost:3000/dashboard",
+    "path": "/dashboard",
+    "signedIn": true,
+    "email": "b.sumba@alustudent.com",
+    "spinners": [],
+    "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 6 Sumba YOUR CURRICULUM, YOUR PACE Build an assessment and find your gaps Create assessment Your recent quizzes Open one to see every question and why each answer was marked the way it was. All progress Nothing to review yet Finished quizzes land here, so you can go back over the questions you got wrong. Take your first quiz Sumba No quizzes yet MAKE A QUIZ 0 / 3 This button is t",
+    "builder": false,
+    "tour": true,
+    "signIn": false
+  },
+  "immediateForward": {
+    "url": "http://localhost:3000/progress",
+    "href": "http://localhost:3000/progress",
+    "path": "/progress",
+    "signedIn": true,
+    "email": "b.sumba@alustudent.com",
+    "spinners": [],
+    "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 6 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card — Total tests — AVERAGE Across all subjects — Subjects tracked — Latest grade RECENT RESULTS No results yet Start practicing MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with th",
+    "builder": false,
+    "tour": true,
+    "signIn": false
+  },
+  "historySamples": [
+    {
+      "atMs": 515,
+      "href": "http://localhost:3000/progress",
+      "path": "/progress",
+      "signedIn": true,
+      "email": "b.sumba@alustudent.com",
+      "spinners": [],
+      "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card — Total tests — AVERAGE Across all subjects — Subjects tracked — Latest grade RECENT RESULTS No results yet Start practicing MAKE A QUIZ 1 / 4 This button is the whole product Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with th",
+      "builder": false,
+      "tour": true,
+      "signIn": false
+    },
+    {
+      "atMs": 2025,
+      "href": "http://localhost:3000/progress",
+      "path": "/progress",
+      "signedIn": true,
+      "email": "b.sumba@alustudent.com",
+      "spinners": [],
+      "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card — Total tests — AVERAGE Across all subjects — Subjects tracked — Latest grade RECENT RESULTS No results yet Start practicing WHERE YOU STAND 1 / 2 Your average, and which way it is going Across every quiz you have finished. One bad quiz moves this less than you would think, so judge it ove",
+      "builder": false,
+      "tour": true,
+      "signIn": false
+    },
+    {
+      "atMs": 5032,
+      "href": "http://localhost:3000/progress",
+      "path": "/progress",
+      "signedIn": true,
+      "email": "b.sumba@alustudent.com",
+      "spinners": [],
+      "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card — Total tests — AVERAGE Across all subjects — Subjects tracked — Latest grade RECENT RESULTS No results yet Start practicing WHERE YOU STAND 1 / 2 Your average, and which way it is going Across every quiz you have finished. One bad quiz moves this less than you would think, so judge it ove",
+      "builder": false,
+      "tour": true,
+      "signIn": false
+    },
+    {
+      "atMs": 10058,
+      "href": "http://localhost:3000/progress",
+      "path": "/progress",
+      "signedIn": true,
+      "email": "b.sumba@alustudent.com",
+      "spinners": [],
+      "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 7 Sumba PROGRESS Your results Every test, subject and grade in one place. Build report card — Total tests — AVERAGE Across all subjects — Subjects tracked — Latest grade RECENT RESULTS No results yet Start practicing WHERE YOU STAND 1 / 2 Your average, and which way it is going Across every quiz you have finished. One bad quiz moves this less than you would think, so judge it ove",
+      "builder": false,
+      "tour": true,
+      "signIn": false
+    }
+  ],
+  "historyShot": "c:\\Users\\hp\\Desktop\\update\\AI_assessment\\qa-artifacts\\logged-in-impatient\\07-after-forward.png",
+  "history": {
+    "backUrl": "http://localhost:3000/dashboard",
+    "forwardUrl": "http://localhost:3000/progress",
+    "settledPath": "/progress",
+    "spinnerNeverEnded": false,
+    "loggedOut": false
+  }
+}

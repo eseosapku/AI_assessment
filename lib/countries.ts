@@ -250,7 +250,7 @@ export function classOptionsForCountry(country: CountryCode): { value: string; l
   if (country === 'RW') {
     return [
       { value: 'Grade1', label: 'Grade 1' },
-      ...[6, 7, 8, 9, 10, 11, 12].map((n) => ({ value: `Grade ${n}`, label: `Grade ${n}` })),
+      ...[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => ({ value: `Grade ${n}`, label: `Grade ${n}` })),
     ]
   }
 

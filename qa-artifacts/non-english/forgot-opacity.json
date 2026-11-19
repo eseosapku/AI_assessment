@@ -1,0 +1,12 @@
+﻿{
+    "opacity":  "1",
+    "transform":  "none",
+    "inline":  "opacity: 1; transform: none;",
+    "reduced":  false,
+    "anims":  [
+
+              ],
+    "textSample":  "Forgot password?\n\nEnter your email and we\u0027ll send you a 6-digit verification code\n\nEmail address\nSend verification code\nBack to Login",
+    "vw":  1440,
+    "vh":  900
+}

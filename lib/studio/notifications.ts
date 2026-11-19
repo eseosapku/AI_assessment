@@ -3,6 +3,7 @@
 // upcoming class assignments, and a practice nudge — and persist read-state per
 // user in localStorage. Swap buildNotifications' inputs for a server feed later
 // without changing the bell UI.
+import { quizDisplayTitle } from '@/lib/quiz-display-title'
 
 export type NotificationKind = 'graded' | 'due' | 'streak'
 
@@ -72,7 +73,7 @@ export function buildNotifications(data: {
     out.push({
       id: `graded:${a.id}`,
       kind: 'graded',
-      title: `${a.subject} graded — ${a.grade}`,
+      title: `${quizDisplayTitle(a.subject)} graded — ${a.grade}`,
       body: `${pct}% · ${a.topic || 'Assessment'}`,
       href: `/results/${a.id}`,
       ts,

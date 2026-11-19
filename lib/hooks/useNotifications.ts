@@ -13,10 +13,10 @@ type NotifUser = {
 } | null
 
 export function useNotifications(user: NotifUser) {
-  const { recentAssessments, classrooms } = useStudentDashboard(user)
+  const { recentAssessments, classrooms, loading } = useStudentDashboard(user)
   const items: AppNotification[] = useMemo(
-    () => buildNotifications({ recentAssessments, classrooms }),
-    [recentAssessments, classrooms],
+    () => loading ? [] : buildNotifications({ recentAssessments, classrooms }),
+    [recentAssessments, classrooms, loading],
   )
 
   const [readIds, setReadIds] = useState<Set<string>>(new Set())

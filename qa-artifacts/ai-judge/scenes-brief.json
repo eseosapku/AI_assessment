@@ -1,0 +1,3332 @@
+[
+  {
+    "id": "light-1",
+    "group": "Physics",
+    "title": "light\nwritten by Opus 5.5",
+    "chars": 181,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-000-light-1.png",
+    "text": "Turn the mirror by its white knob until the light from the lamp reaches the eye.\n\nlamp\neye\nmirror\nnormal\nin\nout\nThe light does not reach the eye.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "light-2",
+    "group": "Physics",
+    "title": "light\nwritten by Opus 5.5",
+    "chars": 213,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Swing the lamp round the ring by its white knob until its light reaches the eye on the far side of the glass.\n\nlamp\neye\nnormal\nair\nglass\nin\nout\nThe light does not reach the eye.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "light-3",
+    "group": "Physics",
+    "title": "light\nwritten by Opus 5.5",
+    "chars": 222,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Swing the lamp round under the water by its white knob until its light comes out of the flat face and reaches the eye.\n\nlamp\neye\nnormal\nair\nwater\nin\nout\nThe light does not reach the eye.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "light-4",
+    "group": "Physics",
+    "title": "light\nwritten by Opus 5.5",
+    "chars": 191,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Swing the lamp round under the glass by its white knob until its light reaches the eye.\n\nlamp\neye\nnormal\nair\nglass\nin\nout\nThe light does not reach the eye.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "light-5",
+    "group": "Physics",
+    "title": "light\nwritten by Opus 5.5",
+    "chars": 175,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide the candle along by its white knob until the picture on the screen is sharp.\n\ncandle\nlens\nscreen\nThe picture on the screen is a blur.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "waves-1",
+    "group": "Physics",
+    "title": "waves\nwritten by Sonnet 5.5",
+    "chars": 246,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Shake the end of the rope so the wave matches the dashed green wave.\n\nmake this wave\none wave\nhand\norange dot\nrope\nShake the handle: the wave runs down the rope.\nHow fast you shake\n−\n5\n+\nHow far you shake\n−\n4\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "waves-2",
+    "group": "Physics",
+    "title": "waves\nwritten by Sonnet 5.5",
+    "chars": 293,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The rope gets thicker part way along. Shake the end so the wave on the thick part matches the dashed green wave.\n\nmake this wave\none wave\nhand\norange dot\norange dot\nthin rope\nthick rope\nShake the handle: the wave runs down the rope.\nHow fast you shake\n−\n4\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "forces-1",
+    "group": "Physics",
+    "title": "forces\nwritten by Opus 4.6",
+    "chars": 487,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Find the resultant force on the car, then say what happens to its motion.\n\nStarts moving to the right\nDriving force\n1200 N\nAir resistance\n600 N\nFriction\n1000 N\n= 800 N\nArrows are drawn to the scale shown. Only the forces along the line are drawn: up and down, the weight and the support balance. Drag the green handle to set the resultant force.\n\nLeft\nZero\nRight\n\nWhat happens to its motion?\n\nStays at rest or keeps a steady speed\nSpeeds up\nSlows down\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "forces-2",
+    "group": "Physics",
+    "title": "forces\nwritten by Opus 4.6",
+    "chars": 441,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the end of the push arrow until the forces on the box are balanced.\n\nStarts moving to the right\nAim: balanced forces: a resultant of 0 N\nPush\n15 N\nFriction\n30 N\n= 20 N\nArrows are drawn to the scale shown. Only the forces along the line are drawn: up and down, the weight and the support balance. Drag the handle on the push arrow, or click it and use the arrow keys (one step is 5 N).\n\nShorter\nLonger\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "forces-3",
+    "group": "Physics",
+    "title": "forces\nwritten by Opus 4.6",
+    "chars": 300,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "A resultant force acts on the car. Work out its acceleration.\n\nMass: 1200 kg\nResultant force: 1200 N\nResultant force\n1200 N\nThe arrow shows the resultant force on it.\nAcceleration (m/s²)\nm/s²\n\nType a number. You may add m/s².\n\nAnswer in metres per second squared.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "forces-4",
+    "group": "Physics",
+    "title": "forces\nwritten by Opus 4.6",
+    "chars": 179,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Work out the weight of the box.\n\nMass: 2 kg\ng = 9.8 N/kg\nOnly the object is drawn.\nWeight (N)\nN\n\nType a number of newtons.\n\nAnswer in newtons.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "motion-1",
+    "group": "Physics",
+    "title": "motion\nwritten by Sonnet 5.5",
+    "chars": 242,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Hold the runner and move it so your graph follows the dashed path.\n\n0\n2\n4\n6\n0 m\n0\n1\n2\n3\n4\n5\n6\n7\n8\n0\n2\n4\n6\nTime (s)\nDistance (m)\nHold the runner and slide it; the clock runs while you hold it.\nClock\n0 of 8 s\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "motion-2",
+    "group": "Physics",
+    "title": "motion\nwritten by Sonnet 5.5",
+    "chars": 235,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "How fast is the runner in the bold part of the journey?\n\n0\n2\n4\n6\n8\n10\n12\n0 m\n0\n1\n2\n3\n4\n5\n6\n0\n2\n4\n6\n8\n10\n12\nTime (s)\nDistance (m)\nPlace the flags on the bold line, then read the speed.\nSpeed\n−\n? m/s\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "energy-track-1",
+    "group": "Physics",
+    "title": "energy-track\nwritten by Sonnet 5.5",
+    "chars": 265,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Press the + and − buttons to raise or lower the ball until it just reaches the flag.\n\nball\nflag\nfloor\nheight\nmotion\nheat\ntotal\nRaise or lower the ball so it just climbs to the flag.\nBall height\n−\n+\nThe ball climbs above the flag.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "energy-track-2",
+    "group": "Physics",
+    "title": "energy-track\nwritten by Sonnet 5.5",
+    "chars": 263,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Press the + and − buttons to change the floor until the ball just reaches the flag.\n\nflag\nfloor\nheight\nmotion\nheat\ntotal\nRoughen or smooth the floor so the ball just climbs to the flag.\nFloor\n−\n+\nThe ball climbs above the flag.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "moments-machines-1",
+    "group": "Physics",
+    "title": "moments-machines\nwritten by Opus 5.5",
+    "chars": 268,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the brass stack along the rule, or use the buttons, until the rule sits level.\n\n6 N\n3 N\n50\n40\n30\n20\n10\n20\n30\n40\n50\n10\npivot\nMarks are cm from the pivot. Each disc is 1 N.\nBrass stack from the pivot\n−\n10 cm\n+\nThe rule tips left.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "moments-machines-2",
+    "group": "Physics",
+    "title": "moments-machines\nwritten by Opus 5.5",
+    "chars": 323,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the fulcrum along the ground, or use the buttons. Lift the 600 N rock with your 150 N push, as high as it will go.\n\n600 N\nyour push\nfulcrum\nThe bar rests on the rock until your push is enough.\nPush needed\nyour push 150 N\nFulcrum from the rock\n−\n80 cm\n+\nThe rock stays on the ground.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "moments-machines-3",
+    "group": "Physics",
+    "title": "moments-machines\nwritten by Opus 5.5",
+    "chars": 459,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the buttons to change the strands and to pull the rope. Raise the crate to the shelf without pulling harder than 200 N, using as little rope as you can.\n\nshelf 2 m up\n600 N\n1\nyour pull\nrope pulled\nThe crate will not move: that is more pull than you have.\nPull needed\nyour pull 200 N\nStrands holding the crate\n−\n1\n+\nRope pulled\n−\n0 m\n+\nOne strand holds the crate. It will not move: the pull needed is more than you have.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "moments-machines-4",
+    "group": "Physics",
+    "title": "moments-machines\nwritten by Opus 5.5",
+    "chars": 506,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Change the output gear with the buttons, then drag the handle round or press Turn once to watch it. Make the output gear turn 3 times for each turn of the handle, the same way as the handle.\n\nhandle gear, 24 teeth\noutput gear, 24 teeth\nRed marks count the turns. Arrows show which way each goes.\nOutput gear\n−\n24 teeth\n+\nIdler gear between them\nAdd\n\nHandle turns\n0\n\nTurn once\n\nOutput turns\n0\n\nHandle turned 0 times, output turned 0 times, the opposite way to the handle.\nGood\nNeeds changes\nRedo\nStart"
+  },
+  {
+    "id": "moments-machines-5",
+    "group": "Physics",
+    "title": "moments-machines\nwritten by Opus 5.5",
+    "chars": 258,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the stand along the bench, or use the buttons, until the rule sits level.\n\n1 N\n4 N\n0\n10\n20\n30\n40\n50\n60\n70\n80\n90\n100\npivot\nMarks are cm along the rule. Each disc is 1 N.\nStand on the rule\n‹\n50 cm\n›\nThe rule tips right.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "density-pressure-1",
+    "group": "Physics",
+    "title": "density-pressure\nwritten by Sonnet 5.5",
+    "chars": 350,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + to stack weights on the pine block, and − to take one off. Load it with as many weights as it can carry and still float.\n\npine 500 g\nwater\nweights\n150 g each\nPine block, 20 × 10 × 5 cm, 500 g. Water: 1 g per cm³.\nWeights, 150 g each\n−\n0\n+\n\nTotal mass on the water\n500 g\n\n0 weights on the block, 500 g in all.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "density-pressure-2",
+    "group": "Physics",
+    "title": "density-pressure\nwritten by Sonnet 5.5",
+    "chars": 347,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + to stack weights on the ice block, and − to take one off. Load it with as many weights as it can carry and still float.\n\nice 917 g\nbrine\nweights\n80 g each\nIce block, 20 × 10 × 5 cm, 917 g. Brine: 1.2 g per cm³.\nWeights, 80 g each\n−\n0\n+\n\nTotal mass on the water\n917 g\n\n0 weights on the block, 917 g in all.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "density-pressure-3",
+    "group": "Physics",
+    "title": "density-pressure\nwritten by Sonnet 5.5",
+    "chars": 413,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the arrows to turn the brick onto another face, and + or − to add or take away a brick. Press the foam in to the dashed line, using as few bricks as you can.\n\n2.0 kg\nscale\nfoam\ntarget dent\n20 cm\n5 cm\nBrick 20 × 10 × 5 cm, 2 kg each. The foam dents in proportion to the pressure.\nResting on\n‹\n20 × 10 cm\n›\nBricks\n−\n1\n+\n1 brick on the 20 × 10 cm face. The scale reads 2.0 kg.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "density-pressure-4",
+    "group": "Physics",
+    "title": "density-pressure\nwritten by Sonnet 5.5",
+    "chars": 434,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + to lower the capsule into the brine, and − to raise it. In water the needle stopped at the orange tab: lower the capsule until the needle reaches it here.\n\n0 cm\n10 cm\n20 cm\n30 cm\n0\n1\n2\n3\n4\nkPa\nbrine\n1.2 g/cm³\ncapsule\nOrange tab: where the needle stopped in water. g = 10 N/kg.\nDepth of the capsule\n−\n0 cm\n+\n\nGauge reads\n0.00 kPa\n\nThe capsule is 0 cm deep and the gauge reads 0.00 kilopascals.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "thermal-transfer-1",
+    "group": "Physics",
+    "title": "thermal-transfer\nwritten by Sonnet 5.5",
+    "chars": 385,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Heat the rods and watch the balls drop, then put the metals in order, best conductor first.\n\niron\nbrass\ncopper\nboiling water\nEach ball hangs 10 cm from the bath on a dab of wax. Redder means hotter.\nHeat the rods\nElapsed\n0:00\nOrder, best conductor first\n1\niron\n2\nbrass\n3\ncopper\n\nTap one metal, then another, to swap them.\n\n0 of 3 balls have dropped.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "thermal-transfer-2",
+    "group": "Physics",
+    "title": "thermal-transfer\nwritten by Sonnet 5.5",
+    "chars": 425,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add wool, a lid or foil to the cup. Keep the water above 50 °C for 30 minutes, with as few parts as you can.\n\nconduction\nconvection\nradiation\nwater\n0\n20\n40\n60\n80\n100\ntarget\nOrange arrows: heat leaving the water. Thicker means more.\nWool layers\n−\n0\n+\nLid\nOff\nShiny foil\nOff\nTime\n10 min\n\nWater\n57.9 °C\n\nBare cup\n57.9 °C\n\nAfter 10 minutes the water reads 57.9 °C and a bare cup reads 57.9 °C.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "thermal-transfer-3",
+    "group": "Physics",
+    "title": "thermal-transfer\nwritten by Sonnet 5.5",
+    "chars": 420,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add wool, a lid or foil to the cup. Keep the drink below 10 °C for 30 minutes, with as few parts as you can.\n\nconduction\nconvection\nradiation\nwater\n0\n20\n40\n60\n80\n100\ntarget\nOrange arrows: heat entering the drink. Thicker means more.\nWool layers\n−\n0\n+\nLid\nOff\nShiny foil\nOff\nTime\n7 min\n\nDrink\n9.2 °C\n\nBare cup\n9.2 °C\n\nAfter 7 minutes the drink reads 9.2 °C and a bare cup reads 9.2 °C.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "springs-oscillators-1",
+    "group": "Physics",
+    "title": "springs-oscillators\nwritten by Sonnet 5.5",
+    "chars": 280,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Hang weights on the spring with the + and − buttons until it stretches to the dashed line.\n\ntarget\nclamp\nspring\nhanger\nHang weights on the spring until the stack reaches the dashed line.\nWeights hung\n−\n0\n+\nThe spring has not reached the target.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "half-life-1",
+    "group": "Physics",
+    "title": "half-life\nwritten by Opus 5.5",
+    "chars": 345,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the clock handle along the time line, or tap + and -, until half of the nuclei have gone.\n\nnot yet decayed\ndecayed\nnuclei left\n16\n32\n48\n64\n0\n10\n20\n30\n40\ntime (minutes)\nEach nucleus goes all at once, and nobody can say when.\nTime\n−\n0 min\n+\n\nNuclei left\n64\n\nNew sample\nTime 0 minutes. 64 of 64 nuclei left.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "half-life-2",
+    "group": "Physics",
+    "title": "half-life\nwritten by Opus 5.5",
+    "chars": 394,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The half-life of technetium-99m is 6 hours. Drag the clock handle along the time line, or tap + and -, until only an eighth of the nuclei are left.\n\ntechnetium-99m\ntechnetium-99\nnuclei left\n16\n32\n48\n64\n0\n10\n20\n30\ntime (hours)\nEach nucleus goes all at once, and nobody can say when.\nTime\n−\n0 h\n+\n\nNuclei left\n64\n\nNew sample\nTime 0 hours. 64 of 64 nuclei left.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "half-life-3",
+    "group": "Physics",
+    "title": "half-life\nwritten by Opus 5.5",
+    "chars": 436,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The dashed line is the background count. Drag the clock handle along the time line, or tap + and -, until half of the source's nuclei have decayed.\n\nnot yet decayed\ndecayed\ncounts/min\n35\n70\n105\n140\n0\n20\n40\n60\ntime (minutes)\nbackground 20\nGM tube\n140\ncounts/min\nThe background is there with no source at all.\nTime\n−\n0 min\n+\n\nCount rate\n140 counts/min\n\nNew sample\nTime 0 minutes. The counter reads 140.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "half-life-4",
+    "group": "Physics",
+    "title": "half-life\nwritten by Opus 5.5",
+    "chars": 333,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Before it runs, drag each bead up or down to show how many nuclei are left after that many half-lives.\n\nnot yet decayed\ndecayed\nnuclei left\n0\n16\n32\n48\n64\nhalf-lives\nleft\n0\n64\n1\n64\n2\n64\n3\n64\n4\n64\nThe tray shows the last bead you moved.\nYour beads say 64 after 1, 64 after 2, 64 after 3, 64 after 4.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "magnetism-1",
+    "group": "Physics",
+    "title": "magnetism\nwritten by Opus 4.6",
+    "chars": 318,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Turn each compass so the red end of its needle shows the way the magnetic field points at that spot.\n\nN\nS\n1\n2\n3\nA bar magnet, with a plotting compass at each numbered point.\n\nThe red end of a needle is its north-seeking end. Drag a needle round, or click it and use the arrow keys.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "magnetism-2",
+    "group": "Physics",
+    "title": "magnetism\nwritten by Opus 4.6",
+    "chars": 278,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The field lines of these two magnets are drawn. Name each end of the magnets a north pole or a south pole.\n\nA\ntap\nB\ntap\nC\ntap\nD\ntap\nTwo bar magnets end to end. An arrow on a field line shows which way the field points. Tap an end to name it.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "magnetism-3",
+    "group": "Physics",
+    "title": "magnetism\nwritten by Opus 4.6",
+    "chars": 513,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Predict what the meter needle does in the second case. Which way does it swing, and how far compared with the reference?\n\nReference\nS\nN\npushed in\n0\n\nThe magnet has its north pole pointing into the coil, and is pushed in at a steady speed. The needle swings to the left.\n\nPredict\nN\nS\npulled out, faster\n0\n\nThe magnet has its south pole pointing into the coil, and is pulled out faster than in the reference. Drag the needle to your prediction. The triangle marks the reference.\n\nGood\nNeeds changes\nRed"
+  },
+  {
+    "id": "circuit-1",
+    "group": "Physics",
+    "title": "circuit\nwritten by Sonnet 5.5",
+    "chars": 145,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Switch the circuit so bulb B is lit and bulb A is out.\n\n6 V\nA\nB\n\nBulb A is glowing brightly. Bulb B is dark.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "circuit-2",
+    "group": "Physics",
+    "title": "circuit\nwritten by Sonnet 5.5",
+    "chars": 198,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add the second bulb so bulb A stays as bright as it was on its own: tap a slot to put it there.\n\n6 V\nA\n\nBulb A is glowing brightly. Bulb B is not in the circuit.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "circuit-3",
+    "group": "Physics",
+    "title": "circuit\nwritten by Sonnet 5.5",
+    "chars": 113,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Make both bulbs light.\n\n6 V\nA\nB\n\nBulb A is glowing brightly. Bulb B is dark.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "circuit-4",
+    "group": "Physics",
+    "title": "circuit\nwritten by Sonnet 5.5",
+    "chars": 167,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add the second bulb so bulb A dims: tap a slot to put it there.\n\n12 V\nA\n\nBulb A is glowing brightly. Bulb B is not in the circuit.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "orbit-1",
+    "group": "Physics",
+    "title": "orbit\nwritten by Opus",
+    "chars": 122,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Move the Moon to where we see a first quarter.\n\nSunlight\nEarth\nSeen from Earth\n50% lit\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "particles-1",
+    "group": "Physics",
+    "title": "particles\nwritten by Opus",
+    "chars": 177,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Heat the wax until it is a liquid.\n\nWax\n\nParticles packed in a regular pattern, each vibrating in its place\n\nTEMPERATURE\n-5 °C\nParticle speed\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "atom-1",
+    "group": "Chemistry",
+    "title": "atom\nwritten by Opus",
+    "chars": 278,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-041-atom-1.png",
+    "text": "Build an atom of sodium-23: its protons, its neutrons, and its electrons in their shells.\n\n1\n2\n3\n4\nProton\nNeutron\nElectron\n\nNUCLEUS\n\nProtons\n−\n0\n+\nNeutrons\n−\n0\n+\n\nELECTRONS\n0\n\nShell 1\n−\n0\n+\nShell 2\n−\n0\n+\nShell 3\n−\n0\n+\nShell 4\n−\n0\n+\n\nCHARGE\n0\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "bonding-1",
+    "group": "Chemistry",
+    "title": "bonding\nwritten by Opus",
+    "chars": 251,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Make magnesium chloride: move electrons until every atom has a full outer shell.\n\nMg\n2,8,2\nCl\n2,8,7\nCl\n2,8,7\n\nDrag an electron from one atom to another, or pick an atom and then where its electron goes.\n\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "bonding-2",
+    "group": "Chemistry",
+    "title": "bonding\nwritten by Opus",
+    "chars": 262,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Make a water molecule: share electrons until every shell is full.\n\nO\nH\nH\n\nDrag from one atom to the next, or pick one and then the other, to share a pair: one electron from each. Tap a shared pair to take it back.\n\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "equation-balancer-1",
+    "group": "Chemistry",
+    "title": "equation-balancer\nwritten by Sonnet 5.5",
+    "chars": 490,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Balance the equation using the smallest whole numbers.\n\nThe equation, then each molecule drawn as touching atom spheres in the usual model colours with its symbol, a plus and a minus beside each formula, and a bar for each element on each side.\n\nFe\n+\nO2\n→\nFe2O3\n\nFe\n−\n1\n+\nFe\nO2\n−\n1\n+\nO\nO\n\nproducts\n\nFe2O3\n−\n1\n+\nFe\nFe\nO\nO\nO\nreactant atoms\nproduct atoms\n1\nFe\n2\n2\nO\n3\nChange the number in front of a formula: whole molecules come and go.\n1 Fe, 1 O2, 1 Fe2O3\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "equation-balancer-2",
+    "group": "Chemistry",
+    "title": "equation-balancer\nwritten by Sonnet 5.5",
+    "chars": 440,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Run the reaction as many times as the molecules allow.\n\nThe balanced equation, a tray of reactant molecules drawn as touching atom spheres with their symbols, the products made, and a plus and a minus for how many times the reaction runs.\n\n2H2\n+\nO2\n→\n2H2O\n\nwe have\n\nH2\nH\nH\nH\nH\nH\nH\nH\nH\nH\nH\nO2\nO\nO\nO\nO\nO\nO\n\nmade\n\nH2O\nEach run uses up molecules on the left and makes the products.\nTimes it runs\n−\n0\n+\n0 runs\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "rates-equilibrium-1",
+    "group": "Chemistry",
+    "title": "rates-equilibrium\nwritten by Sonnet 5.5",
+    "chars": 259,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Change the temperature so the reaction goes faster.\n\nEach ring marks a collision hard enough to react.\nthiosulfate\nacid\nshare of collisions\nenough to react\nenergy needed\nenergy of a collision\nTemperature\n40 °C\nCooler\nHotter\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "rates-equilibrium-2",
+    "group": "Chemistry",
+    "title": "rates-equilibrium\nwritten by Sonnet 5.5",
+    "chars": 220,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the pressure lid to make more ammonia in the mixture.\n\nA solid ring marks one change; a dashed ring, the opposite.\nN2\nnitrogen\n+\n3\nH2\nhydrogen\n⇌\n2\nNH3\nammonia\nPressure\nLower\nHigher\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "solutions-ph-1",
+    "group": "Chemistry",
+    "title": "solutions-ph\nwritten by Sonnet 5.5",
+    "chars": 548,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Open the tap to let the burette run into the flask: use the buttons to add titrant, a few cm³ at a time and then a drop at a time. Stop as soon as the indicator has changed colour.\n\n0\n10\n20\n30\n40\n50\nburette\n0.200 mol/dm³\nsodium hydroxide\ntap\nconical flask\n25.0 cm³ of 0.100 mol/dm³\nhydrochloric acid\nwith phenolphthalein\nOne drop is 0.05 cm³. Read the burette at the bottom of the curve.\nOpen the tap\n+5 cm³\n+1 cm³\n+1 drop\n\nBurette reading\n0.00 cm³\n\nStart again\nBurette reading 0.00 cm³. The flask is"
+  },
+  {
+    "id": "solutions-ph-2",
+    "group": "Chemistry",
+    "title": "solutions-ph\nwritten by Sonnet 5.5",
+    "chars": 400,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add tubes to the rack: each new tube is 1 cm³ of the one before made up to 10 cm³ with water. Keep going until the last tube is the colour of pH 5 on the chart.\n\nstart\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\ntarget\nStart: 0.1 mol/dm³ hydrochloric acid. Each new tube is 1 cm³ of the one before, with water to 10 cm³.\nTubes added\n−\n0\n+\n0 tubes added. The last tube is red.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "lab-bench-1",
+    "group": "Chemistry",
+    "title": "lab-bench\nwritten by Opus",
+    "chars": 311,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Get the salt out of this salt water.\n\nMixture: salt water\nGet: the salt\nThe mixture\n\nPick apparatus from the shelf to try it on the mixture.\n\nFilter funnel and paper\nEvaporating basin and Bunsen\nDistillation set-up\nFractionating column\nChromatography paper and solvent\nMagnet\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "cell-lab-1",
+    "group": "Biology",
+    "title": "cell-lab\nwritten by Sonnet 5.5",
+    "chars": 221,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-051-cell-lab-1.png",
+    "text": "Add or take away solute on the left so that, overall, solute particles move from the left to the right.\n\nleft\nright\nsolute passes\nsolute on the left\n−\n4\n+\n4 solute particles on the left\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "cell-lab-2",
+    "group": "Biology",
+    "title": "cell-lab\nwritten by Sonnet 5.5",
+    "chars": 234,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The membrane lets only water through. Add or take away solute on the left so that no water moves across overall.\n\nleft\nright\nonly water passes\nsolute on the left\n−\n3\n+\n3 solute particles on the left\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "cell-lab-3",
+    "group": "Biology",
+    "title": "cell-lab\nwritten by Sonnet 5.5",
+    "chars": 243,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Cut the block into equal cubes so that each has at least 3 times the block's surface area for its volume.\n\n1 cube\nskin\ninside\nCut the block into more pieces and watch the two bars.\nCuts along each edge\n−\n1\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "enzyme-rate-1",
+    "group": "Biology",
+    "title": "enzyme-rate\nwritten by Opus 5.5",
+    "chars": 502,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the buttons to change the water bath, and take a fresh tube whenever you want one. Test hotter and colder to find the fastest catalase can go, then leave a tube running at that rate.\n\n0\n20\n40\n60\nfoam\nliver\nenzyme\nactive site\nsubstrate\nFoam in a minute, mm\n0\n50\n100\n0\n10\n20\n30\n40\n50\n60\n70\n°C\nCatalase splits hydrogen peroxide. The oxygen makes foam.\n\nRate\n24 mm a minute\n\nHottest this tube\n20 °C\n\nWater bath\n−\n20 °C\n+\nFresh tube\n20 °C. The rate is 24 mm a minute.\nGood\nNeeds changes\nRedo\nStart aga"
+  },
+  {
+    "id": "enzyme-rate-2",
+    "group": "Biology",
+    "title": "enzyme-rate\nwritten by Opus 5.5",
+    "chars": 515,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the buttons to change the pH, and take a fresh tube whenever you want one. Test higher and lower to find the fastest pepsin can go, then leave a tube running at that rate.\n\n0\n20\n40\n60\npH\npaper\negg white\nenzyme\nactive site\nsubstrate\nEgg white gone in a minute, %\n0\n50\n100\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\npH\nPepsin digests the protein in egg white, and the cubes shrink.\n\nRate\n24% a minute\n\nTube has seen\npH 4\n\npH of the buffer\n−\npH 4\n+\nFresh tube\npH 4. The rate is 24% a minute.\nGood\nNeeds changes\nR"
+  },
+  {
+    "id": "enzyme-rate-3",
+    "group": "Biology",
+    "title": "enzyme-rate\nwritten by Opus 5.5",
+    "chars": 408,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the buttons to change the hydrogen peroxide. Get the top rate from catalase, without using any more hydrogen peroxide than you need.\n\n0\n20\n40\n60\n1%\nfoam\nliver\nenzyme\nactive site\nsubstrate\nFoam in a minute, mm\n0\n50\n100\n1\n2\n3\n4\n5\n6\n%\nCatalase splits hydrogen peroxide. The oxygen makes foam.\n\nRate\n20 mm a minute\n\nHydrogen peroxide\n−\n1%\n+\n1%. The rate is 20 mm a minute.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "enzyme-rate-4",
+    "group": "Biology",
+    "title": "enzyme-rate\nwritten by Opus 5.5",
+    "chars": 454,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the buttons to move the lamp and change the carbon dioxide. Reach 24 bubbles a minute without using any more light or carbon dioxide than you need.\n\nCO₂\nlamp\npondweed\noxygen\nBubbles a minute\n0\n12\n24\n36\n1\n2\n3\n4\n5\nlight\naim\nThe pondweed gives off oxygen as it makes its food.\n\nBubbles a minute\n6\n\nAim\n24\n\nLamp, nearer for more light\n−\n1\n+\nCarbon dioxide\n−\n1\n+\nLamp at step 1, carbon dioxide at 1. 6 bubbles a minute.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "enzyme-rate-5",
+    "group": "Biology",
+    "title": "enzyme-rate\nwritten by Opus 5.5",
+    "chars": 464,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the buttons to move the lamp and change the temperature. Reach 18 bubbles a minute without using any more light or temperature than you need.\n\n10 °C\n20 °C\n30 °C\nlamp\npondweed\noxygen\nBubbles a minute\n0\n12\n24\n36\n1\n2\n3\n4\n5\nlight\naim\nThe pondweed gives off oxygen as it makes its food.\n\nBubbles a minute\n6\n\nAim\n18\n\nLamp, nearer for more light\n−\n1\n+\nTemperature\n−\n10 °C\n+\nLamp at step 1, temperature at 10 °C. 6 bubbles a minute.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "genetics-1",
+    "group": "Biology",
+    "title": "genetics\nwritten by Sonnet 5.5",
+    "chars": 356,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a letter above or beside the square to change a parent. Make exactly one of the four boxes show white flowers.\n\nPP\nPP\nPP\nPP\nP\nP\nP\nP\nparent 1\nparent 2\nP purple flowers\np white flowers\nEach box is one possible offspring. Capital shows over small.\nParents\nPP × PP\n4 of the 4 boxes show purple flowers, and 0 show white.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "genetics-2",
+    "group": "Biology",
+    "title": "genetics\nwritten by Sonnet 5.5",
+    "chars": 366,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Parent 1 is fixed. Tap a letter beside the square to change parent 2. Make exactly two of the four boxes show short plants.\n\nTT\nTt\nTt\ntt\nT\nt\nT\nt\nparent 1 (fixed)\nparent 2\nT tall plants\nt short plants\nEach box is one possible offspring. Capital shows over small.\nParents\nTt × Tt\n3 of the 4 boxes show tall plants, and 1 show short.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "genetics-3",
+    "group": "Biology",
+    "title": "genetics\nwritten by Sonnet 5.5",
+    "chars": 401,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a DNA base to change it. Change just one base so that exactly one amino acid in the protein is different.\n\nG\nG\nA\nC\nT\nC\nC\nT\nC\nT\nT\nC\nC\nC\nU\nG\nA\nG\nG\nA\nG\nA\nA\nG\nPro\nGlu\nGlu\nLys\nDNA\nmRNA\nprotein\nmRNA copies the DNA by pairing: A-U, T-A, C-G, G-C.\nA ring marks anything different from the start.\nBases changed\n0\nThe protein chain is Pro, Glu, Glu, Lys. 0 bases changed.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "genetics-4",
+    "group": "Biology",
+    "title": "genetics\nwritten by Sonnet 5.5",
+    "chars": 380,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a DNA base to change it. Change just one base so that the protein chain stops short.\n\nA\nA\nA\nC\nA\nC\nT\nT\nG\nG\nT\nT\nU\nU\nU\nG\nU\nG\nA\nA\nC\nC\nA\nA\nPhe\nVal\nAsn\nGln\nDNA\nmRNA\nprotein\nmRNA copies the DNA by pairing: A-U, T-A, C-G, G-C.\nA ring marks anything different from the start.\nBases changed\n0\nThe protein chain is Phe, Val, Asn, Gln. 0 bases changed.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "body-flow-1",
+    "group": "Biology",
+    "title": "body-flow\nwritten by Opus",
+    "chars": 374,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Trace the blood from the body to the lungs.\n\nTap each part the blood passes through, in order, until it reaches the lungs. Tap a part again to take it back.\n\naorta\nbody\nleftatrium\nleftventricle\nlungs\npulmonaryartery\npulmonaryvein\nrightatrium\nrightventricle\nvena cava\nstart\noxygenated blood\ndeoxygenated blood\nstart: body\nUndo\nStart again\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "food-web-1",
+    "group": "Biology",
+    "title": "food-web\nwritten by Opus",
+    "chars": 472,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Draw the energy arrows in this pond food web.\n\nTap an organism, then another, to draw an arrow from the first to the second. Tap the same two again to take it away.\n\nStickleback\nMayfly nymph\nPike\nAlgae\nPond snail\nHeron\nPondweed\nWater flea\n\nWHAT EACH ANIMAL FEEDS ON\n\nHeron\tsticklebacks\nMayfly nymph\talgae\nPike\tsticklebacks\nPond snail\talgae and pondweed\nStickleback\tmayfly nymphs and water fleas\nWater flea\talgae\n\nYOUR ARROWS\n\nNone yet.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "food-web-2",
+    "group": "Biology",
+    "title": "food-web\nwritten by Opus",
+    "chars": 503,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Name the role of each organism in this woodland food web.\n\nTap each organism to name its role in this web.\n\nShrew\nCaterpillar\nLadybird\nAphid\nOak tree\nTawny owl\nDeer\nBramble\nAn arrow from the shrew to the tawny owl.\nAn arrow from the caterpillar to the shrew.\nAn arrow from the aphid to the ladybird.\nAn arrow from the oak tree to the caterpillar.\nAn arrow from the oak tree to the aphid.\nAn arrow from the oak tree to the deer.\nAn arrow from the bramble to the deer.\n\nGood\nNeeds changes\nRedo\nStart ag"
+  },
+  {
+    "id": "food-web-3",
+    "group": "Biology",
+    "title": "food-web\nwritten by Opus",
+    "chars": 736,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "All the sticklebacks are taken out of the pond. Predict what happens to each animal marked.\n\nWith the stickleback gone, will each of these rise or fall?\n\nStickleback\nTaken out\nMayfly nymph\nPike\nAlgae\nPond snail\nHeron\nPondweed\nWater flea\nAn arrow from the stickleback to the pike.\nAn arrow from the stickleback to the heron.\nAn arrow from the mayfly nymph to the stickleback.\nAn arrow from the algae to the mayfly nymph.\nAn arrow from the algae to the pond snail.\nAn arrow from the algae to the water "
+  },
+  {
+    "id": "number-line-1",
+    "group": "Mathematics",
+    "title": "number-line\nwritten by Sonnet 5.5",
+    "chars": 191,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-067-number-line-1.png",
+    "text": "Drag the pin to 3.47 and zoom in until its tick shows.\n\nFind\n3.47\n0\n1\n2\n3\n4\n5\n×1\nThe shaded gap is what Zoom opens up.\nZoom\n−\n×1\n+\nPin on 3, ticks 1 apart.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "number-line-2",
+    "group": "Mathematics",
+    "title": "number-line\nwritten by Sonnet 5.5",
+    "chars": 189,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the pin to 3/4 and zoom in until its tick shows.\n\nFind\n3\n4\n0\n1\n2\n3\n4\n5\n×1\nThe shaded gap is what Zoom opens up.\nZoom\n−\n×1\n+\nPin on 3, ticks 1 apart.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "number-line-3",
+    "group": "Mathematics",
+    "title": "number-line\nwritten by Sonnet 5.5",
+    "chars": 161,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the pin to -35.\n\nFind\n−35\n−40\n−20\n0\n20\n40\n×1\nThe shaded gap is what Zoom opens up.\nZoom\n−\n×1\n+\nPin on 0, ticks 10 apart.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "number-line-4",
+    "group": "Mathematics",
+    "title": "number-line\nwritten by Sonnet 5.5",
+    "chars": 209,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the hopper to where 2 − (−3) lands.\n\n2 − (−3)= ?\n−6\n−4\n−2\n0\n2\n4\n6\nstart\nThe arc is the hop, from the dot to the hopper.\nLands on\n−\n2\n+\nHopper on 2, a hop of no hop yet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "counters-place-value-1",
+    "group": "Mathematics",
+    "title": "counters-place-value\nwritten by Opus",
+    "chars": 145,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add 38 and 25 with the blocks.\n\n38\nTens\n0\n−\n+\nOnes\n0\n−\n+\n+ 25\nTens\n0\n−\n+\nOnes\n0\n−\n+\nPut together\n\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "counters-place-value-2",
+    "group": "Mathematics",
+    "title": "counters-place-value\nwritten by Opus",
+    "chars": 109,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Take 17 away from 52.\n\n52\nTens\n0\n−\n+\nOnes\n0\n−\n+\nTake away 17\n\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "counters-place-value-3",
+    "group": "Mathematics",
+    "title": "counters-place-value\nwritten by Opus",
+    "chars": 135,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Make 47 with the fewest blocks.\n\n1 ten → 10 ones\n10 ones → 1 ten\nTens\n0\n−\n+\nOnes\n0\n−\n+\n\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "counters-place-value-4",
+    "group": "Mathematics",
+    "title": "counters-place-value\nwritten by Opus",
+    "chars": 137,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Show 34 using only 2 tens.\n\n1 ten → 10 ones\n10 ones → 1 ten\nTens\n3\nOnes\n4\nYour number\n34\n\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "bar-model-1",
+    "group": "Mathematics",
+    "title": "bar-model\nwritten by Sonnet 5.5",
+    "chars": 269,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Cut the lower bar into 6 equal parts and shade it to the same length as the top bar.\n\nGiven: 2 of 3 parts shaded\nYours\nCut the lower strip, then tap its parts to shade them.\nCut into equal parts\n−\n1\n+\n\nshaded\nnot shaded\n\n1 equal part\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "bar-model-2",
+    "group": "Mathematics",
+    "title": "bar-model\nwritten by Sonnet 5.5",
+    "chars": 210,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Cut and shade the bar to show 3/5 of the distance.\n\nWhole bar = 60 km\nCut the strip, then tap parts to shade them.\nCut into equal parts\n−\n1\n+\n\nshaded\nnot shaded\n\n1 equal part\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "bar-model-3",
+    "group": "Mathematics",
+    "title": "bar-model\nwritten by Sonnet 5.5",
+    "chars": 254,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Share the sweets between Asha and Ben in the ratio 2:3.\n\nWhole bar = 60 sweets\nCut the strip, pick a name, then tap parts to give them out.\nCut into equal parts\n−\n1\n+\nGive parts to\nAsha\nBen\n\nnot given yet\n\n1 equal part\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "area-grid-1",
+    "group": "Mathematics",
+    "title": "area-grid\nwritten by Sonnet 5.5",
+    "chars": 119,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Expand (x + 3)(x + 5).\n\nx\n3\nx\n5\nFill in each tile, then write the whole expression.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "area-grid-2",
+    "group": "Mathematics",
+    "title": "area-grid\nwritten by Sonnet 5.5",
+    "chars": 248,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Complete the square for x² + 6x: cut the strip, then move its outer piece under the square.\n\nx²\nx\n6\nx\nDrag the cut along the strip, then turn the outer piece under the square.\n\nThe strip is cut into 0.5 and 5.5.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "algebra-tiles-1",
+    "group": "Mathematics",
+    "title": "algebra-tiles\nwritten by Opus",
+    "chars": 281,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Solve 3x + 2 = x + 8 on the balance.\n\n=\n\n3x + 2 = x + 8\n\nTake from both sides\nx\n1\n−x\n−1\nAdd to both sides\nx\n1\n−x\n−1\nShare into\n2\n3\n4\n5\n6\n7\n8\n9\n10\nequal groups\nShare, keep one\nRemove zero pairs\nUndo\nStart again\n\nYOUR WORKING\n\nStart\n3x + 2 = x + 8\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "algebra-tiles-2",
+    "group": "Mathematics",
+    "title": "algebra-tiles\nwritten by Opus",
+    "chars": 292,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Solve 2x - 3 = 7 - 3x: keep the pans level.\n\n=\n\n2x − 3 = −3x + 7\n\nTake from both sides\nx\n1\n−x\n−1\nAdd to both sides\nx\n1\n−x\n−1\nShare into\n2\n3\n4\n5\n6\n7\n8\n9\n10\nequal groups\nShare, keep one\nRemove zero pairs\nUndo\nStart again\n\nYOUR WORKING\n\nStart\n2x − 3 = −3x + 7\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "function-machine-1",
+    "group": "Mathematics",
+    "title": "function-machine\nwritten by Sonnet 5.5",
+    "chars": 332,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + and − to feed numbers into the machine. Find the number to feed in so that the wanted number comes out.\n\n×3\n+2\n0\n2\n0\nInput\nOutput\n0\nstep 1\n2\nstep 2\n17\nWanted\nThe small tickets show the number after each step. The dashed ticket is the number wanted.\nFeed in\n−\n0\n+\n0 fed in, 2 out, 17 wanted.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "function-machine-2",
+    "group": "Mathematics",
+    "title": "function-machine\nwritten by Sonnet 5.5",
+    "chars": 340,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + and − to feed numbers into the machine. Find the number to feed in so that the wanted number comes out.\n\n−4\n÷3\n0\n−4/3\n0\nInput\nOutput\n−4\nstep 1\n−4/3\nstep 2\n4\nWanted\nThe small tickets show the number after each step. The dashed ticket is the number wanted.\nFeed in\n−\n0\n+\n0 fed in, −4/3 out, 4 wanted.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "function-machine-3",
+    "group": "Mathematics",
+    "title": "function-machine\nwritten by Sonnet 5.5",
+    "chars": 319,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use Step to grow the pattern, and turn the Times and Add dials until the machine gives the number of tiles in every step.\n\n×1\n+0\n1\n1\n1\nStep\nOutput\nStep 1: 5 tiles\nThe tray shows what your machine gives for this step.\nStep\n−\n1\n+\nTimes\n−\n1\n+\nAdd\n−\n0\n+\nStep 1, 5 tiles, machine gives 1.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "function-machine-4",
+    "group": "Mathematics",
+    "title": "function-machine\nwritten by Sonnet 5.5",
+    "chars": 362,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use Step to grow the pattern, and turn the Times and Add dials until the machine gives the number of tiles in every step.\n\n×1\n+0\n1\n1\n1\nStep\nOutput\nStep 1: 3 tiles\nThe tray shows what your machine gives for this step. A dashed square is a tile that is missing.\nStep\n−\n1\n+\nTimes\n−\n1\n+\nAdd\n−\n0\n+\nStep 1, 3 tiles, machine gives 1.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "coordinate-plane-1",
+    "group": "Mathematics",
+    "title": "coordinate-plane\nwritten by Opus",
+    "chars": 235,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Make the line y = 2x + 1.\n\nx\ny\n−6\n−6\n−5\n−5\n−4\n−4\n−3\n−3\n−2\n−2\n−1\n−1\n1\n1\n2\n2\n3\n3\n4\n4\n5\n5\n6\n6\n0\nrun\nrise\n\nYour line goes through (−3, −2) and (3, 0).\n\nDrag a point, or Tab to it and use the arrow keys.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "coordinate-plane-2",
+    "group": "Mathematics",
+    "title": "coordinate-plane\nwritten by Opus",
+    "chars": 195,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the point where this line crosses the y-axis.\n\nx\ny\n−6\n−6\n−5\n−5\n−4\n−4\n−3\n−3\n−2\n−2\n−1\n−1\n1\n1\n2\n2\n3\n3\n4\n4\n5\n5\n6\n6\n0\n\nTap a grid point, or use the arrow keys.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "transformations-1",
+    "group": "Mathematics",
+    "title": "transformations\nwritten by Sonnet 5.5",
+    "chars": 530,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide the mirror line, or turn it with the direction buttons, until the reflected shape lands exactly on the dashed target.\n\n−6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\n6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\nx\ny\nEach point and its image are equally far from the line.\nShape\nYour image\nTarget\nMirror line\nMirror line\nLine\n−\nx = 0\n+\nA grid from −6 to 6 across and −5 to 5 up shows a grey shape, a dashed blue target shape, and an orange image of the grey shape. The image is the shape reflected in the mirror line x = 0.\nGood\n"
+  },
+  {
+    "id": "transformations-2",
+    "group": "Mathematics",
+    "title": "transformations\nwritten by Sonnet 5.5",
+    "chars": 510,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the pin to set the centre, and choose a turn, until the turned shape lands exactly on the dashed target.\n\n−6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\n6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\nx\ny\nThe image swings round the pin.\nShape\nYour image\nTarget\nCentre\nTurn\n↺ 90°\n180°\n↻ 90°\nCentre\nx\n−\n0\n+\ny\n−\n0\n+\nA grid from −6 to 6 across and −5 to 5 up shows a grey shape, a dashed blue target shape, and an orange image of the grey shape. The image is the shape turned about the pin at (0, 0): no turn.\nGood\nNeeds changes\nRedo\nS"
+  },
+  {
+    "id": "transformations-3",
+    "group": "Mathematics",
+    "title": "transformations\nwritten by Sonnet 5.5",
+    "chars": 540,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the pin to set the centre, and choose the scale factor, until the new shape lands exactly on the dashed target.\n\n−6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\n6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\nx\ny\nEach image point sits on a ray from the pin.\nShape\nYour image\nTarget\nCentre\nCentre\nx\n−\n0\n+\ny\n−\n0\n+\nScale factor\n−\n×1\n+\nA grid from −6 to 6 across and −5 to 5 up shows a grey shape, a dashed blue target shape, and an orange image of the grey shape. The image is the shape enlarged from the pin at (0, 0) with scale facto"
+  },
+  {
+    "id": "transformations-4",
+    "group": "Mathematics",
+    "title": "transformations\nwritten by Sonnet 5.5",
+    "chars": 477,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the arrow's head, or use the buttons, until the moved shape lands exactly on the dashed target.\n\n−6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\n6\n−5\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\nx\ny\nEvery point moves along the same arrow.\nShape\nYour image\nTarget\nArrow head\nAcross\n−\n0\n+\nUp\n−\n0\n+\nA grid from −6 to 6 across and −5 to 5 up shows a grey shape, a dashed blue target shape, and an orange image of the grey shape. The image is the shape moved by the vector (0, 0).\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "geometry-construction-1",
+    "group": "Mathematics",
+    "title": "geometry-construction\nwritten by Sonnet 5.5",
+    "chars": 562,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Find the size of angle x and give a reason for your answer.\n\n125°\nx\nDrawn to scale. An arc marks each angle named; x is the angle to find.\nx =\n°\n\nWhich fact did you use? Tick every fact you need.\n\nAlternate angles are equal\nAngles in a quadrilateral add up to 360°\nAngles in a triangle add up to 180°\nAngles on a straight line add up to 180°\nAngles round a point add up to 360°\nBase angles of an isosceles triangle are equal\nCo-interior angles add up to 180°\nCorresponding angles are equal\nVertically"
+  },
+  {
+    "id": "geometry-construction-2",
+    "group": "Mathematics",
+    "title": "geometry-construction\nwritten by Sonnet 5.5",
+    "chars": 575,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The two lines are parallel. Work out angle x and say which fact you used.\n\n65°\nx\nDrawn to scale. An arc marks each angle named; x is the angle to find.\nx =\n°\n\nWhich fact did you use? Tick every fact you need.\n\nAlternate angles are equal\nAngles in a quadrilateral add up to 360°\nAngles in a triangle add up to 180°\nAngles on a straight line add up to 180°\nAngles round a point add up to 360°\nBase angles of an isosceles triangle are equal\nCo-interior angles add up to 180°\nCorresponding angles are equ"
+  },
+  {
+    "id": "geometry-construction-3",
+    "group": "Mathematics",
+    "title": "geometry-construction\nwritten by Sonnet 5.5",
+    "chars": 300,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the top corner to different places. What do the three angles always add up to?\n\n50°\n70°\n60°\nDrag the orange corner. The three angles are shown in degrees. Shapes made: 0. Make at least 3 different shapes.\nTry another shape\nThe three angles always add up to\n°\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "geometry-construction-4",
+    "group": "Mathematics",
+    "title": "geometry-construction\nwritten by Sonnet 5.5",
+    "chars": 310,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Find the sum of the interior angles of this polygon. Split it into triangles to help.\n\nA regular polygon: every side and every angle is equal. Tap a blue corner to draw a line to it from the orange corner.\nSplit into triangles\nClear the lines\nSum of the interior angles =\n°\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "measure-shape-1",
+    "group": "Mathematics",
+    "title": "measure-shape\nwritten by Sonnet 5.5",
+    "chars": 154,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Read the level of the water in the measuring cylinder.\n\n0\n10\n20\n30\n40\n50\nml\nMeasuring cylinder, in ml\nYour reading\nml\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "measure-shape-2",
+    "group": "Mathematics",
+    "title": "measure-shape\nwritten by Sonnet 5.5",
+    "chars": 197,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Set the thermometer to -7 degrees C.\n\n−20\n−10\n0\n10\n20\n30\n°C\nThermometer, in °C\n\nSet the top of the liquid to −7 °C\n\nDrag it, or click it and use the arrow keys.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "measure-shape-3",
+    "group": "Mathematics",
+    "title": "measure-shape\nwritten by Sonnet 5.5",
+    "chars": 236,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Shade squares to make one shape with area 6 squares and perimeter 12 units.\n\nArea: 6 squares\nPerimeter: 12 units\nEach square has sides 1 unit long. Click, tap or drag to shade squares.\n\nClear the grid\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "measure-shape-4",
+    "group": "Mathematics",
+    "title": "measure-shape\nwritten by Sonnet 5.5",
+    "chars": 257,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Both shapes cover the same area. Which has the larger perimeter?\n\nWhich shape has the larger perimeter?\n\nBoth shapes have an area of 8 squares. Each square has sides 1 unit long.\n\nShape A\nPick shape A\nShape B\nPick shape B\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "solids-nets-1",
+    "group": "Mathematics",
+    "title": "solids-nets\nwritten by Sonnet 5.5",
+    "chars": 271,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Move the orange square so the net folds into a cube. Tap a dotted outline to stick the square there, then pull the Fold slider to bend the card up and test it.\n\n1\n2\n3\n4\n5\n6\nDashed = fold. Dotted = a place for the orange square.\nFold\n0°\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "solids-nets-2",
+    "group": "Mathematics",
+    "title": "solids-nets\nwritten by Sonnet 5.5",
+    "chars": 189,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add layers until the prism holds 30 cubic centimetres. Tap + to add a layer and − to take one away.\n\n1 cm\nEach layer is one square thick.\nLength\n−\n1 cm\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "trig-circle-1",
+    "group": "Mathematics",
+    "title": "trig-circle\nwritten by Sonnet 5.5",
+    "chars": 343,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the foot of the ladder along the ground until its top just reaches the window sill.\n\n4 m\n5 m\nDrag the foot along the ground. The arc is the angle the ladder makes with it.\nFoot from the wall\n‹\n1.5 m\n›\nThe ladder, 5 metres long, leans with its foot 1.5 metres from the wall and its top 4.8 metres up it.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "trig-circle-2",
+    "group": "Mathematics",
+    "title": "trig-circle\nwritten by Sonnet 5.5",
+    "chars": 333,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the foot of the ladder along the ground until it stands on the painted line.\n\n3 m\n5 m\nDrag the foot along the ground. The arc is the angle the ladder makes with it.\nTop up the wall\n‹\n4.8 m\n›\nThe ladder, 5 metres long, leans with its foot 1.5 metres from the wall and its top 4.8 metres up it.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "trig-circle-3",
+    "group": "Mathematics",
+    "title": "trig-circle\nwritten by Sonnet 5.5",
+    "chars": 310,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the point round the circle to where sine is ½ and cosine is negative.\n\nsine against angle\n180°\n360°\n1\n−1\ncosine\nDrag the point round the circle. The curve is drawn from its height.\nAngle\n‹\n0°\n›\n\nSine\n0.00\n\nCosine\n1.00\n\nThe point is at 0 degrees: sine 0.00, cosine 1.00.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "trig-circle-4",
+    "group": "Mathematics",
+    "title": "trig-circle\nwritten by Sonnet 5.5",
+    "chars": 303,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the point round the circle to where cosine is √3/2.\n\ncosine against angle\n180°\n360°\n1\n−1\ncosine\nDrag the point round the circle. The curve is drawn from its distance across.\nAngle\n‹\n0°\n›\n\nSine\n0.00\n\nCosine\n1.00\n\nThe point is at 0 degrees: sine 0.00, cosine 1.00.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "calculus-grapher-1",
+    "group": "Mathematics",
+    "title": "calculus-grapher\nwritten by Sonnet 5.5",
+    "chars": 379,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide the point along the curve until you find where it stops climbing.\n\n−15\n−10\n−5\n0\n−3\n−2\n−1\n0\n1\n2\n3\n−5\n0\n5\n−3\n−2\n−1\n0\n1\n2\n3\nThe curve\nsteepness of the tangent\nx\nx\nDrag the point along the curve. The ruler lies along the curve there; the lower graph records its steepness.\nPoint\n‹\nx = −3\n›\n\nPoint at x = −3. The tangent is climbing steeply.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "calculus-grapher-2",
+    "group": "Mathematics",
+    "title": "calculus-grapher\nwritten by Sonnet 5.5",
+    "chars": 390,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Set the tangent at each mark so it follows the curve.\n\n−5\n0\n5\n−3\n−2\n−1\n0\n1\n2\n3\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n−3\n−2\n−1\n0\n1\n2\n3\nThe curve\nsteepness of each tangent\nx\nx\nDrag each dot up or down to tilt its ruler, so every ruler lies along the curve.\n\nmark 1: tangent level; mark 2: tangent level; mark 3: tangent level; mark 4: tangent level; mark 5: tangent level\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "calculus-grapher-3",
+    "group": "Mathematics",
+    "title": "calculus-grapher\nwritten by Sonnet 5.5",
+    "chars": 294,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Sweep the line right until the area reaches the target.\n\n0\n0.5\n1\n1.5\n2\n0\n1\n2\n3\n4\n0\n2\n4\n0\n1\n2\n3\n4\nThe curve\narea so far\nx\nx\n0\ntarget 4.5\nDrag the line right. The strips fill with area; the lower graph adds it up.\nLine\n‹\nx = 0\n›\n\nLine at x = 0. Area so far 0.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "probability-lab-1",
+    "group": "Mathematics",
+    "title": "probability-lab\nwritten by Sonnet 5.5",
+    "chars": 283,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a sector to colour it, and spin to test your spinner. Make a spinner where red has a 1/3 chance.\n\nShare of spins\n0\n1/2\n1\n1/3\n0\n10 spins\nLast spins\nShare of spins\nChance asked for\nLast spins\nSpin\n×1\n×10\n×100\nClear\n\nSpins\n0\n\nRed\n0\n\nNot spun yet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "probability-lab-2",
+    "group": "Mathematics",
+    "title": "probability-lab\nwritten by Sonnet 5.5",
+    "chars": 321,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a sector to colour it, and spin to test your spinner. Make a spinner where red has a 1/4 chance and blue has a 1/2 chance.\n\nShare of spins\n0\n1/2\n1\n1/4\n1/2\n0\n10 spins\nLast spins\nShare of spins\nChance asked for\nLast spins\nSpin\n×1\n×10\n×100\nClear\n\nSpins\n0\n\nRed\n0\n\nBlue\n0\n\nNot spun yet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "probability-lab-3",
+    "group": "Mathematics",
+    "title": "probability-lab\nwritten by Sonnet 5.5",
+    "chars": 258,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a square to mark that pair of dice with a counter. Mark every pair that gives a total of 8.\n\nfirst die\nsecond die\nnot rolled\nMarked pair\nWhere the dice landed\nDice\nRoll\nClear\n\nPairs in all\n36\n\nMarked\n0\n\nNot rolled yet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "probability-lab-4",
+    "group": "Mathematics",
+    "title": "probability-lab\nwritten by Sonnet 5.5",
+    "chars": 253,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a square to mark that pair of dice with a counter. Mark every pair that makes doubles.\n\nfirst die\nsecond die\nnot rolled\nMarked pair\nWhere the dice landed\nDice\nRoll\nClear\n\nPairs in all\n16\n\nMarked\n0\n\nNot rolled yet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "stats-explorer-1",
+    "group": "Mathematics",
+    "title": "stats-explorer\nwritten by Sonnet 5.5",
+    "chars": 301,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Place the dots to make a data set with a mean of 6 and a range of 8.\n\n6 dots\nMean: 6\nRange: 8\n0\n2\n4\n6\n8\n10\n12\n14\n16\n18\n20\nDots placed: 0 of 6. Not all the dots on one value. Tap the line to add a dot, drag a dot to move it, tap a dot to take it off.\n\nClear the dots\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "stats-explorer-2",
+    "group": "Mathematics",
+    "title": "stats-explorer\nwritten by Sonnet 5.5",
+    "chars": 415,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "One more value is added. Predict what happens to each measure.\n\nThe change: a new value, 19, is added\n\n0\n2\n4\n6\n8\n10\n12\n14\n16\n18\n20\nEach dot is one value. The orange dashed dot is the new value.\n\nWhat happens to the mean?\n\nGoes up\nStays the same\nGoes down\n\nWhat happens to the median?\n\nGoes up\nStays the same\nGoes down\n\nWhat happens to the range?\n\nGoes up\nStays the same\nGoes down\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "stats-explorer-3",
+    "group": "Mathematics",
+    "title": "stats-explorer\nwritten by Sonnet 5.5",
+    "chars": 598,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Which average should the estate agent use, and why?\n\nEight houses on one street were sold this year. An estate agent wants one price to tell a new customer what a house on this street usually sells for.\n\n100\n200\n300\n400\n500\nOne dot for each value. The line shows the price (£000s).\n\nWhich average is best here?\n\nMean\nMedian\nMode\n\nWhich reason fits?\n\nIt uses every value, and is the amount each would get if the total were shared out equally.\nIt is the middle value, so one very high or very low value"
+  },
+  {
+    "id": "chart-builder-1",
+    "group": "Mathematics",
+    "title": "chart-builder\nwritten by Sonnet 5.5",
+    "chars": 210,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the top of each bar up to its value in the table, reading the scale on the axis.\n\nCats\n15\nDogs\n35\nFish\n25\nBirds\n10\n0\n10\n20\n30\n40\n50\npupils\nPets in Class 5\n0 of 4 raised.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "chart-builder-2",
+    "group": "Mathematics",
+    "title": "chart-builder\nwritten by Sonnet 5.5",
+    "chars": 195,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the end of each row along to show its number in the table, using the key.\n\nKey\n= 2 pupils\nBus\n12\nWalk\n8\nCar\n6\nBike\n4\nPictogram of the table\n0 of 4 raised.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "chart-builder-3",
+    "group": "Mathematics",
+    "title": "chart-builder\nwritten by Sonnet 5.5",
+    "chars": 310,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the plus and minus to choose how much each square is worth, so the chart is as tall as the paper allows and every bar ends exactly on a line.\n\nAna\n15\nBen\n35\nCai\n25\nDee\n40\n0\n20\n40\n60\n80\n100\ngoals\nBar chart of the table\nEach square is worth\n−\n10\n+\nEach square is worth 10.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "chart-builder-4",
+    "group": "Mathematics",
+    "title": "chart-builder\nwritten by Sonnet 5.5",
+    "chars": 257,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the plus and minus to move where the axis starts, so the bars show the numbers fairly.\n\nShop A\n36\nShop B\n39\nShop C\n37\n30\n32\n34\n36\n38\n40\npupils\nPupils in each shop queue\nThe axis starts at\n−\n30\n+\nThe axis starts at 30.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "chart-builder-5",
+    "group": "Mathematics",
+    "title": "chart-builder\nwritten by Sonnet 5.5",
+    "chars": 208,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag each point up to its value in the table, reading the scale on the axis.\n\nMon\n20\nTue\n50\nWed\n30\nThu\n60\nFri\n40\n0\n20\n40\n60\n80\n100\nvisitors\nVisitors each day\n0 of 5 raised.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "algorithm-tracer-1",
+    "group": "Computing",
+    "title": "algorithm-tracer\nwritten by Sonnet 5.5",
+    "chars": 890,
+    "overflow": 0,
+    "clipped": 1,
+    "shot": "scene-121-algorithm-tracer-1.png",
+    "text": "Complete the trace table for this linear search.\n\nLinear search\n\nTRACE TABLE\n\nThis algorithm looks through Data for Target and outputs its position, or \"Not found\".\n\n4\n1\n9\n2\n2\n3\n7\n4\n5\n5\nIndex\n–\nFound\n–\nOUTPUT\n–\n1\nDECLARE Data : ARRAY[1:5] OF INTEGER\n2\nDECLARE Target : INTEGER\n3\nDECLARE Index : INTEGER\n4\nDECLARE Found : BOOLEAN\n▶\n5\nFound ← FALSE\n▶\n6\nIndex ← 1\n7\nWHILE Index <= 5 AND Found = FALSE DO\n8\nIF Data[Index] = Target THEN\n9\nFound ← TRUE\n10\nELSE\n11\nIndex ← Index + 1\n12\nENDIF\n13\nENDWHILE\n14\n"
+  },
+  {
+    "id": "algorithm-tracer-2",
+    "group": "Computing",
+    "title": "algorithm-tracer\nwritten by Sonnet 5.5",
+    "chars": 615,
+    "overflow": 0,
+    "clipped": 1,
+    "shot": "scene-122-algorithm-tracer-2.png",
+    "text": "Predict what Data holds after this pass.\n\nOne pass of a bubble sort\n\nPREDICT THE OUTPUT\n\nThis algorithm makes one pass of a bubble sort over Data, swapping neighbours that are out of order.\n\n4\n1\n9\n2\n2\n3\n7\n4\n5\n5\n1\nDECLARE Data : ARRAY[1:5] OF INTEGER\n2\nDECLARE Temp : INTEGER\n3\nDECLARE Index : INTEGER\n4\nFOR Index ← 1 TO 4\n5\nIF Data[Index] > Data[Index + 1] THEN\n6\nTemp ← Data[Index]\n7\nData[Index] ← Data[Index + 1]\n8\nData[Index + 1] ← Temp\n9\nENDIF\n10\nNEXT Index\nData, positions 1 to 5\n\nType what Data"
+  },
+  {
+    "id": "algorithm-tracer-3",
+    "group": "Computing",
+    "title": "algorithm-tracer\nwritten by Sonnet 5.5",
+    "chars": 588,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "This algorithm gives the wrong answer. Tap the faulty line.\n\nCounting\n\nFIND THE FAULT\n\nThis algorithm counts the values in Data that are greater than Limit.\n\n4\n1\n9\n2\n5\n3\n7\n4\n2\n5\n1\nDECLARE Data : ARRAY[1:5] OF INTEGER\n2\nDECLARE Limit : INTEGER\n3\nDECLARE Count : INTEGER\n4\nDECLARE Index : INTEGER\n5\nCount ← 0\n6\nFOR Index ← 1 TO 5\n7\nIF Data[Index] >= Limit THEN\n8\nCount ← Count + 1\n9\nENDIF\n10\nNEXT Index\n11\nOUTPUT Count\nData, positions 1 to 5 · Limit = 5\n\nIt outputs 3. It should output 2.\n\nTap the line"
+  },
+  {
+    "id": "flowchart-1",
+    "group": "Computing",
+    "title": "flowchart\nwritten by Sonnet 5.5",
+    "chars": 296,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the controls under the chart to set the inputs, and watch the token run. Make it finish at “Pass”.\n\nStart\nInput mark\nmark ≥ 16?\nDistinction\nmark ≥ 10?\nPass\nResit\nYes\nNo\nYes\nNo\nToken\nPath taken\nMark out of 20\n−\n9\n+\n\nToken ends at\n…\n\nThe token ends at Resit.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "flowchart-2",
+    "group": "Computing",
+    "title": "flowchart\nwritten by Sonnet 5.5",
+    "chars": 361,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the controls under the key to describe a specimen, and watch the token run down the key. Make the key name it “Spider”.\n\nSpecimen\nhas a shell?\nSnail\n8 legs?\nSpider\nhas wings?\nAnt\n4 wings?\nBee\nHousefly\nYes\nNo\nYes\nNo\nNo\nYes\nYes\nNo\nToken\nPath taken\nShell\nNo\nYes\nLegs\n−\n6\n+\nWings\n−\n0\n+\n\nThe key says\n…\n\nThe token ends at Ant.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "flowchart-3",
+    "group": "Computing",
+    "title": "flowchart\nwritten by Sonnet 5.5",
+    "chars": 310,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Press the buttons under the chart to move the token from state to state. Get the machine into the state “open”.\n\nlocked\n1 right\n2 right\nopen\n2\n3\n1\n1, 3\n1, 2\n2, 3\nany\nToken\nCurrent state\nPress 1\nPress 2\nPress 3\nStart again\n\nNow in\nlocked\n\nPresses\n0\n\nThe machine is in locked.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "logic-gates-1",
+    "group": "Computing",
+    "title": "logic-gates\nwritten by Sonnet 5.5",
+    "chars": 269,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a switch to flip it on or off. Find a way to light the lamp.\n\nA\nB\nC\nAND\nNOT\nAND\nLamp\nWire carrying 1\nWire carrying 0\nA\t0\t0\t0\t0\t1\t1\t1\t1\nB\t0\t0\t1\t1\t0\t0\t1\t1\nC\t0\t1\t0\t1\t0\t1\t0\t1\nLamp\t0\t·\t·\t·\t·\t·\t·\t·\nA off, B off, C off. The lamp is off.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "logic-gates-2",
+    "group": "Computing",
+    "title": "logic-gates\nwritten by Sonnet 5.5",
+    "chars": 303,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the arrows to change the gate, and tap the switches to test each setting. Make your lamp match the wanted row for every setting.\n\nA\nB\nLamp\nWire carrying 1\nWire carrying 0\nGate\n‹\nAND\n›\nA\t0\t0\t1\t1\nB\t0\t1\t0\t1\nWanted\t1\t1\t1\t0\nYours\t0\t·\t·\t·\nA off, B off. The lamp is off.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "logic-gates-3",
+    "group": "Computing",
+    "title": "logic-gates\nwritten by Sonnet 5.5",
+    "chars": 394,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the arrows to change the gates, and tap the switches to test each setting. Make your lamp match the wanted row for every setting.\n\nA\nB\nC\nGate 1\nGate 2\nLamp\nWire carrying 1\nWire carrying 0\nGate 1\n‹\nAND\n›\nGate 2\n‹\nAND\n›\nA\t0\t0\t0\t0\t1\t1\t1\t1\nB\t0\t0\t1\t1\t0\t0\t1\t1\nC\t0\t1\t0\t1\t0\t1\t0\t1\nWanted\t0\t1\t0\t1\t0\t1\t1\t1\nYours\t0\t·\t·\t·\t·\t·\t·\t·\nA off, B off, C off. The lamp is off.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "data-representation-1",
+    "group": "Computing",
+    "title": "data-representation\nwritten by Sonnet 5.5",
+    "chars": 243,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the switches to flip them up and down until the total is 75.\n\n128\n0\n64\n0\n32\n0\n16\n0\n8\n0\n4\n0\n2\n0\n1\n0\nUp is 1. Each switch is worth double the one on its right.\n\nTotal\n0\n\nNo switch is up\n\nSwitches up: none.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "data-representation-2",
+    "group": "Computing",
+    "title": "data-representation\nwritten by Sonnet 5.5",
+    "chars": 243,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the switches to flip them up and down until the hex shows 4B.\n\n128\n0\n64\n0\n32\n0\n16\n0\n8\n0\n4\n0\n2\n0\n1\n0\n0\n0\nUp is 1. Each block of four switches makes one hex digit.\n\nHex\n00\n\n0 in decimal\n\nSwitches up: none.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "data-representation-3",
+    "group": "Computing",
+    "title": "data-representation\nwritten by Sonnet 5.5",
+    "chars": 260,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the switches to flip them up and down until the character is K.\n\n64\n0\n32\n0\n16\n0\n8\n0\n4\n0\n2\n0\n1\n0\nUp is 1. Seven switches make a code, and each code is a character.\n\nCode\n0\n\nNo switch is up\n\nCharacter\n–\n\nSwitches up: none.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "data-representation-4",
+    "group": "Computing",
+    "title": "data-representation\nwritten by Sonnet 5.5",
+    "chars": 325,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Step the bits per pixel up or down until the picture can keep all 10 of its colours, using as few bits as you can.\n\nOriginal\nStored\nPalette\nColour in use\nSpare code\nBits per pixel\n−\n1\n+\n\nFile size\n264 bits\n\n264 pixels × 1 bit\n\n1 bit per pixel: 2 codes, and 2 colours in the stored picture.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "data-representation-5",
+    "group": "Computing",
+    "title": "data-representation\nwritten by Sonnet 5.5",
+    "chars": 265,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Step the number of samples up or down until the wave rebuilt from the dots matches the real note, using as few samples as you can.\n\nReal note\nSample\nRebuilt from the samples\nSamples\n−\n4\n+\n4 samples. The rebuilt wave has 1 cycles.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "network-sim-1",
+    "group": "Computing",
+    "title": "network-sim\nwritten by Opus 5.5",
+    "chars": 329,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the cross on a cable to cut it, and tap again to mend it. Stop HELLO reaching the receiver with as few cuts as you can.\n\n5\nO\n3\nL\nsender\nreceiver\nrouter\nRoute in use\nNot in use\nPacket\nArrived\n1\nH\n2\nE\n3\nL\n4\nL\n5\nO\n\nRoutes in use\n3\n\nCables cut\n0\n\nHELLO is reaching the receiver along 3 routes.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "network-sim-2",
+    "group": "Computing",
+    "title": "network-sim\nwritten by Opus 5.5",
+    "chars": 335,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the cross on a cable to cut it, and tap again to mend it. Stop HELLO reaching the receiver with as few cuts as you can.\n\n5\nO\nsender\nreceiver\nswitch\ncomputer\nRoute in use\nNot in use\nPacket\nArrived\n1\nH\n2\nE\n3\nL\n4\nL\n5\nO\n\nRoutes in use\n1\n\nCables cut\n0\n\nHELLO is reaching the receiver along one route.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "network-sim-3",
+    "group": "Computing",
+    "title": "network-sim\nwritten by Opus 5.5",
+    "chars": 384,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the plus on a dotted line to lay a cable, and tap again to take it up. Make it so PACKET still arrives if any one cable breaks, with as few new cables as you can.\n\n4\nK\n5\nE\n6\nT\nsender\nreceiver\nrouter\nOnly way\nRoute\nCould lay\nPacket\nArrived\n1\nP\n2\nA\n3\nC\n4\nK\n5\nE\n6\nT\n\nRoutes in use\n1\n\nCables laid\n0\n\nPACKET is reaching the receiver along one route.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "map-reader-1",
+    "group": "Geography",
+    "title": "map-reader\nwritten by Sonnet 5.5",
+    "chars": 261,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-138-map-reader-1.png",
+    "text": "Put the cursor on the church.\n\nChurch\nSchool\nFarm\nStation\nMill\nPond\nShop\nQuarry\nWood\nStream\n20\n21\n22\n23\n24\n25\n26\n60\n61\n62\n63\n64\n65\n66\n22\n62\nRead along first, then up, to the square's bottom-left corner.\nAlong\n−\n22\n+\nUp\n−\n62\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "map-reader-2",
+    "group": "Geography",
+    "title": "map-reader\nwritten by Sonnet 5.5",
+    "chars": 315,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Move the cursor onto the grid square shown at the top of the card.\n\nChurch\nSchool\nFarm\nStation\nMill\nPond\nShop\nQuarry\nWood\nStream\n20\n21\n22\n23\n24\n25\n26\n60\n61\n62\n63\n64\n65\n66\n23\n63\nFind square 2262\nRead along first, then up, to the square's bottom-left corner.\nAlong\n−\n23\n+\nUp\n−\n63\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "map-reader-3",
+    "group": "Geography",
+    "title": "map-reader\nwritten by Sonnet 5.5",
+    "chars": 238,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Turn the line so that the ground along it is as steep as it can be somewhere.\n\n20\n60\n100\nA\nB\nGround along your line\n0\n60\n120\nA\nB\nBrown lines join ground of equal height, in metres.\nTurn the line\n−\n30°\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "map-reader-4",
+    "group": "Geography",
+    "title": "map-reader\nwritten by Sonnet 5.5",
+    "chars": 240,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Turn the line so that the ground along it is as gentle as it can be everywhere.\n\n20\n60\n100\nA\nB\nGround along your line\n0\n60\n120\nA\nB\nBrown lines join ground of equal height, in metres.\nTurn the line\n−\n30°\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "tectonics-1",
+    "group": "Geography",
+    "title": "tectonics\nwritten by Sonnet 5.5",
+    "chars": 309,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose how the two plates move, then step the time on, to make a deep ocean trench.\n\nSea\nOceanic crust\nContinent\nMantle\nEarthquake focus\nMagma\nA plate is crust on a slab of stiff mantle\nPull apart\nSlide past\nPush together\nTime passed\nReplay\n−\n0 of 4\n+\nThe plates are still.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "tectonics-2",
+    "group": "Geography",
+    "title": "tectonics\nwritten by Sonnet 5.5",
+    "chars": 320,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose how the two plates move, then step the time on, so that earthquakes strike but no volcano erupts.\n\nContinental crust\nMantle\nEarthquake focus\nMagma\nA plate is crust on a slab of stiff mantle\nPull apart\nSlide past\nPush together\nTime passed\nReplay\n−\n0 of 4\n+\nThe plates are still.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "tectonics-3",
+    "group": "Geography",
+    "title": "tectonics\nwritten by Sonnet 5.5",
+    "chars": 306,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose how the two plates move, then step the time on, to raise a range of fold mountains.\n\nContinental crust\nMantle\nEarthquake focus\nMagma\nA plate is crust on a slab of stiff mantle\nPull apart\nSlide past\nPush together\nTime passed\nReplay\n−\n0 of 4\n+\nThe plates are still.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "tectonics-4",
+    "group": "Geography",
+    "title": "tectonics\nwritten by Sonnet 5.5",
+    "chars": 330,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose how the two plates move, then step the time on, so that earthquakes start deep below the surface.\n\nSea\nOceanic crust\nContinent\nMantle\nEarthquake focus\nMagma\nA plate is crust on a slab of stiff mantle\nPull apart\nSlide past\nPush together\nTime passed\nReplay\n−\n0 of 4\n+\nThe plates are still.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "river-coast-1",
+    "group": "Geography",
+    "title": "river-coast\nwritten by Sonnet 5.5",
+    "chars": 398,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a numbered plot to move the house there, and press the plus on Years to run the river forward. Choose a plot where the house is still on dry land after 200 years.\n\n1\n2\n3\n4\n6\nFlow\nFast water\nSand\nHouse\nYears\n−\n0\n+\nReplay\nA river winds across a floodplain. At year 0 its bends have swung little. A house stands on plot 5. Six numbered plots can hold the house.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "river-coast-2",
+    "group": "Geography",
+    "title": "river-coast\nwritten by Sonnet 5.5",
+    "chars": 383,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a dotted line to build a groyne there, and tap it again to take it away. Keep the beach in front of the hotel thick with sand for the next 20 years.\n\nHotel\nWaves\nPebble\nGroyne\nSand\nYears\n−\n0\n+\nReplay\nA beach seen from above, with waves arriving at a slant from the left. No groynes are built. At year 0 the beach in front of the hotel is thin.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "climate-station-1",
+    "group": "Geography",
+    "title": "climate-station\nwritten by Sonnet 5.5",
+    "chars": 410,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the station around the globe, or use the arrows, until its graph matches the dashed graph.\n\nN\nS\nequator\nsunlight\nStation at 51.5° N\n-30\n-10\n10\n30\n0\n200\n400\n8 °C\n40 mm\nthermometer\nrain gauge\n-30\n-10\n10\n30\n0\n200\n400\n°C\nmm\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\nTemperature\nRainfall\nSun's patch\nTarget\nStation\n↓\n51.5° N\n↑\nMonth\n‹\nMarch\n›\nMarch: 8 degrees Celsius, 40 millimetres of rain.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "climate-station-2",
+    "group": "Geography",
+    "title": "climate-station\nwritten by Sonnet 5.5",
+    "chars": 389,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Here is the climate of London, UK. Use the month arrows, or tap the graph, to find its warmest month.\n\nN\nS\nequator\nsunlight\nLondon · 51.5° N\n0\n10\n20\n0\n25\n50\n75\n100\n5 °C\n55 mm\nthermometer\nrain gauge\n0\n10\n20\n0\n25\n50\n75\n100\n°C\nmm\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\nTemperature\nRainfall\nSun's patch\nMonth\n‹\nJanuary\n›\nJanuary: 5 degrees Celsius, 55 millimetres of rain.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "climate-station-3",
+    "group": "Geography",
+    "title": "climate-station\nwritten by Sonnet 5.5",
+    "chars": 400,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Here is the climate of Sydney, Australia. Use the month arrows, or tap the graph, to find its coldest month.\n\nN\nS\nequator\nsunlight\nSydney · 34° S\n0\n10\n20\n30\n0\n50\n100\n150\n23 °C\n100 mm\nthermometer\nrain gauge\n0\n10\n20\n30\n0\n50\n100\n150\n°C\nmm\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\nTemperature\nRainfall\nSun's patch\nMonth\n‹\nJanuary\n›\nJanuary: 23 degrees Celsius, 100 millimetres of rain.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "population-pyramid-1",
+    "group": "Geography",
+    "title": "population-pyramid\nwritten by Sonnet 5.5",
+    "chars": 430,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the birth rate and death rate sliders until the pyramid, 50 years on, fills the dashed outline. Press Play to watch the people age.\n\nMen\nWomen\n8\n8\n16\n16\n% of all people\n0–9\n10–19\n20–29\n30–39\n40–49\n50–59\n60–69\n70–79\n80+\nAlive at the start\nBorn since\nPyramid to fill\n\nYear\n4\n\nPeople\n11.1 million\n\nBirth rate\n40 per 1000\nDeath rate\n14 per 1000\nPause\n0 to 50 years\nYear 4: 11.1 million people.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "population-pyramid-2",
+    "group": "Geography",
+    "title": "population-pyramid\nwritten by Sonnet 5.5",
+    "chars": 430,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the birth rate and death rate sliders until the pyramid, 50 years on, fills the dashed outline. Press Play to watch the people age.\n\nMen\nWomen\n6\n6\n12\n12\n% of all people\n0–9\n10–19\n20–29\n30–39\n40–49\n50–59\n60–69\n70–79\n80+\nAlive at the start\nBorn since\nPyramid to fill\n\nYear\n6\n\nPeople\n10.0 million\n\nBirth rate\n12 per 1000\nDeath rate\n12 per 1000\nPause\n0 to 50 years\nYear 6: 10.0 million people.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "population-pyramid-3",
+    "group": "Geography",
+    "title": "population-pyramid\nwritten by Sonnet 5.5",
+    "chars": 434,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the birth rate and death rate sliders so the country has about the same number of people 50 years on as it has now. Press Play to watch the people age.\n\nMen\nWomen\n8\n8\n16\n16\n% of all people\n0–9\n10–19\n20–29\n30–39\n40–49\n50–59\n60–69\n70–79\n80+\nAlive at the start\nBorn since\n\nYear\n7\n\nPeople\n12.1 million\n\nBirth rate\n40 per 1000\nDeath rate\n14 per 1000\nPause\n0 to 50 years\nYear 7: 12.1 million people.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "stocks-flows-1",
+    "group": "Geography",
+    "title": "stocks-flows\nwritten by Sonnet 5.5",
+    "chars": 374,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the − and + buttons on Drain so that the water in the bath is still at its start line after 3 minutes.\n\n0\n50\n100\nTap\nDrain\nBath\nStart\nWhere it started\nA wider stream runs faster\nTap (fixed)\n30 L/min\nDrain\n−\n20 L/min\n+\nTime\n3 minutes\n\nWater in the bath after 3 minutes\n80 L\n\nWater in the bath after 3 minutes: 80 L. It started at 50 L.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "stocks-flows-2",
+    "group": "Geography",
+    "title": "stocks-flows\nwritten by Sonnet 5.5",
+    "chars": 405,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the − and + buttons on Emissions to bring the carbon in the air to the aim line after 75 years.\n\n0\n500\n1000\nEmissions\nUptake\nAir\nStart\nAim\nOverflows\nWhere it started\nAim\nA wider stream runs faster\nEmissions\n−\n20 Gt/yr\n+\nUptake (fixed)\n12 Gt/yr\nTime\n75 years\n\nCarbon in the air after 75 years\n1000 Gt\n\nCarbon in the air after 75 years: 1000 Gt. It started at 700 Gt.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "stocks-flows-3",
+    "group": "Geography",
+    "title": "stocks-flows\nwritten by Sonnet 5.5",
+    "chars": 402,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the − and + buttons on Outflow to bring the water in the lake to the aim line after 3 years.\n\n0\n50\n100\nRain and rivers\nOutflow\nLake\nStart\nAim\nWhere it started\nAim\nA wider stream runs faster\nRain and rivers (fixed)\n40 km³/yr\nOutflow\n−\n40 km³/yr\n+\nTime\n3 years\n\nWater in the lake after 3 years\n20 km³\n\nWater in the lake after 3 years: 20 km³. It started at 20 km³.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "timeline-1",
+    "group": "History and arguing",
+    "title": "timeline\nwritten by Sonnet 5.5",
+    "chars": 243,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-157-timeline-1.png",
+    "text": "Drag each event to when it happened.\n\n1100\n1200\n1300\n1400\nBattle of Agincourt\n1071\nBattle of Hastings\n1066\nBlack Death\n1384\nMagna Carta\n1151\n233 years\nDrag each marker along its line to the date it happened.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "timeline-2",
+    "group": "History and arguing",
+    "title": "timeline\nwritten by Sonnet 5.5",
+    "chars": 274,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Move the line to a year when Henry VIII and Francis I were both on the throne.\n\n1500\n1525\n1550\n1575\n1600\nHenry VIII\nElizabeth I\nFrancis I\n1495\nrunning in the line's year\nnot running\nDrag the line along the ruler. Bars it crosses light up.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "cause-chain-1",
+    "group": "History and arguing",
+    "title": "cause-chain\nwritten by Opus",
+    "chars": 240,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The interest rate rises. Link what follows, and say how each changes the next.\n\nTap a factor, then the factor it affects.\n\nInterest rate\nConsumer spending\nInflation\nBorrowing\nSTART\n\nYOUR LINKS\n\nNone yet.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "claim-evidence-1",
+    "group": "History and arguing",
+    "title": "claim-evidence\nwritten by Sonnet 5.5",
+    "chars": 615,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a card, then tap the pan it belongs on: the left pan for evidence that supports the claim, the right pan for evidence against it. Leave off any card that does not bear on the claim.\n\nClaimRationing was the best way to feed Britain in the war.\n\nSupports\nAgainst\nDots and block height show how strong a card is.\n1\nEvery family got the same weekly food amounts\n2\nRation books were printed in 1939\n3\nA black market sold extra food to the rich\n4\nRationed families ate more vegetables\nSupports\n0\nAgains"
+  },
+  {
+    "id": "supply-demand-1",
+    "group": "Economics and business",
+    "title": "supply-demand\nwritten by Opus",
+    "chars": 415,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-161-supply-demand-1.png",
+    "text": "What does this event do to the market? Shift the curve it moves.\n\nWhat happens in the market\n\nA rise in costs of production\n\nDrag the curve this moves sideways, or Tab to it and use the arrow keys.\n\nPrice ($)\nQuantity\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\nD\nS\nPrice $6\nQuantity 5\n\nNeither curve has moved. The curves cross at a price of $6 and a quantity of 5.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "supply-demand-2",
+    "group": "Economics and business",
+    "title": "supply-demand\nwritten by Opus",
+    "chars": 602,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The government sets this price. Set the line there, then say what happens and by how much.\n\nWhat happens in the market\n\nThe government sets a maximum price of $4.\n\nDrag the price line to $4, or Tab to it and use the arrow keys. Then say what happens there.\n\nPrice ($)\nQuantity\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\nD\nS\nMaximum price\n\nThe maximum price line is at $6. At $6 the demand curve is at a quantity of 5 and the supply curve at 5. The curves cross at $6.\n\nAt this price, is "
+  },
+  {
+    "id": "macro-board-1",
+    "group": "Economics and business",
+    "title": "macro-board\nwritten by Opus 5.5",
+    "chars": 409,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the minus or plus on Interest rate and watch the water settle. Bring it back to the full-capacity mark.\n\nmoney going round: $80bn\nInvestment\nGovernment\nExports\nSaving\nTax\nImports\nworkers\nprices\nfull capacity\nFirms have stopped investing.\nInterest rate\n−\n5%\n+\n\nUnemployment\n10%\n\nInflation\n2%\n\nInterest rate 5%. The water settles at $80bn. Unemployment 10%, inflation 2%.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "macro-board-2",
+    "group": "Economics and business",
+    "title": "macro-board\nwritten by Opus 5.5",
+    "chars": 456,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the minus or plus on Government spending and watch the water settle. Bring it back to the full-capacity mark.\n\nmoney going round: $125bn\nInvestment\nGovernment\nExports\nSaving\nTax\nImports\nworkers\nprices\nfull capacity\nPeople feel well off: they save less and spend more.\nGovernment spending\n−\n$20bn\n+\n\nUnemployment\n4%\n\nInflation\n8%\n\nGovernment spending $20bn. The water settles at $125bn. Unemployment 4%, inflation 8%.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "macro-board-3",
+    "group": "Economics and business",
+    "title": "macro-board\nwritten by Opus 5.5",
+    "chars": 480,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the minus or plus on Interest rate and watch the water settle. Bring it to the prices-steady mark, and see what happens to the workers.\n\nmoney going round: $83bn\nInvestment\nGovernment\nExports\nSaving\nTax\nImports\nworkers\nprices\nfull capacity\nprices steady\nThe oil we import has doubled in price, so costs are up.\nInterest rate\n−\n5%\n+\n\nUnemployment\n9%\n\nInflation\n4%\n\nInterest rate 5%. The water settles at $83bn. Unemployment 9%, inflation 4%.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "business-finance-1",
+    "group": "Economics and business",
+    "title": "business-finance\nwritten by Opus",
+    "chars": 489,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the marker along the output axis to where the business breaks even.\n\n0\n100\n200\n300\n400\n500\n600\n700\n800\n0\n2,500\n5,000\n7,500\n10,000\n12,500\n15,000\n17,500\n20,000\nCosts and revenue ($)\nOutput (units)\nTR\nTC\nFC\nTR total revenue: $25 per unit\nTC total costs: $4,000 + $15 per unit\nFC fixed costs: $4,000\n\nMarker at 0 units\nDrag it along the output axis, or use the arrow keys.\n\nMarker at 0 units: the total costs line is above the total revenue line here.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "business-finance-2",
+    "group": "Economics and business",
+    "title": "business-finance\nwritten by Opus",
+    "chars": 544,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The business plans to make 600 units. Read the chart, then write its margin of safety.\n\n0\n100\n200\n300\n400\n500\n600\n700\n800\n0\n500\n1,000\n1,500\n2,000\n2,500\n3,000\n3,500\n4,000\nCosts and revenue ($)\nOutput (units)\nTR\nTC\nFC\nPlanned\nTR total revenue: $5 per unit\nTC total costs: $800 + $3 per unit\nFC fixed costs: $800\nPlanned output: 600 units\n\nMarker at 0 units\nDrag it, or use the arrow keys, to read the chart.\n\nMarker at 0 units: the total costs line is above the total revenue line here.\n\nMARGIN OF SAFE"
+  },
+  {
+    "id": "business-finance-3",
+    "group": "Economics and business",
+    "title": "business-finance\nwritten by Opus",
+    "chars": 464,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Change the price until the business breaks even at its target of 400 units.\n\n0\n100\n200\n300\n400\n500\n600\n700\n800\n0\n2,000\n4,000\n6,000\n8,000\n10,000\nCosts and revenue ($)\nOutput (units)\nTC\nTR\nFC\nTarget\nTR total revenue: $9 per unit\nTC total costs: $2,000 + $7 per unit\nFC fixed costs: $2,000\nTarget output: 400 units\nPRICE\n−\n+\n$9\n\nWith a price of $9: at the target of 400 units, the total costs line is above the total revenue line.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "ledger-1",
+    "group": "Economics and business",
+    "title": "ledger\nwritten by Opus",
+    "chars": 674,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Post each of Amira's transactions to the ledger.\n\nThe business's ledger. Amira owns the business, but its books record the business only, kept apart from Amira's own money.\n\n1\nAmira puts $500 of personal savings into the business, in cash.\nDebit: — · \n,\nCredit: —\n2\nThe business buys goods for resale for $200, on credit from Ali.\nDebit: — · \n,\nCredit: —\n3\nThe business sells goods for $80, paid in cash.\nDebit: — · \n,\nCredit: —\n\nPosting transaction 1: tap the Dr side of the account to debit and the"
+  },
+  {
+    "id": "ledger-2",
+    "group": "Economics and business",
+    "title": "ledger\nwritten by Opus",
+    "chars": 911,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Balance each of Ben's accounts and enter the balances in the trial balance.\n\nThe business's ledger. Ben owns the business, but its books record the business only, kept apart from Ben's own money.\n\nBank\n\nBank, debit side:\nDr\n1 Capital\n600\n4 Lee\n90\nBank, credit side:\nCr\n2 Equipment\n250\n5 Rent\n40\n\nCapital\n\nCapital, debit side:\nDr\nCapital, credit side:\nCr\n1 Bank\n600\n\nEquipment\n\nEquipment, debit side:\nDr\n2 Bank\n250\nEquipment, credit side:\nCr\n\nLee\n\nLee, debit side:\nDr\n3 Sales\n140\nLee, credit side:\nCr\n"
+  },
+  {
+    "id": "ledger-3",
+    "group": "Economics and business",
+    "title": "ledger\nwritten by Opus",
+    "chars": 790,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "One of Sara's transactions has been posted the wrong way round. Which one?\n\nThe business's ledger. Sara owns the business, but its books record the business only, kept apart from Sara's own money.\n\nOne transaction is posted the wrong way round, its debit and credit swapped. Tap it.\n\n1\nSara puts $300 of personal savings into the business, in cash.\n2\nThe business buys goods for resale for $120, paying in cash.\n3\nThe business pays wages of $50 in cash.\n\nCapital\n\nCapital, debit side:\nDr\nCapital, cre"
+  },
+  {
+    "id": "fair-test-1",
+    "group": "Science skills",
+    "title": "fair-test\nwritten by Sonnet 5.5",
+    "chars": 432,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-172-fair-test-1.png",
+    "text": "Tap the buttons to set up lane B as a fair test of whether the height of the ramp changes how far the car rolls. Lane A is already set up.\n\nLane A\nLane B\n0\n20\n40\n60\n80\n100\ncm\n\nLane A stays as it is. Cars are let go, not pushed. Triangles on the ruler mark where each stopped.\n\nLet go\nRamp height\n2 books\n4 books\nCar load\nempty\n2 blocks\nRamp surface\nsmooth card\nsandpaper\nFloor surface\nwood\ncarpet\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "fair-test-2",
+    "group": "Science skills",
+    "title": "fair-test\nwritten by Sonnet 5.5",
+    "chars": 448,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Lane B is set up to test whether the floor the car rolls along changes how far the car rolls, but the test is not fair yet. Tap the buttons to fix lane B.\n\nLane A\nLane B\n0\n20\n40\n60\n80\n100\ncm\n\nLane A stays as it is. Cars are let go, not pushed. Triangles on the ruler mark where each stopped.\n\nLet go\nRamp height\n2 books\n4 books\nCar load\nempty\n2 blocks\nRamp surface\nsmooth card\nsandpaper\nFloor surface\nwood\ncarpet\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "fair-test-3",
+    "group": "Science skills",
+    "title": "fair-test\nwritten by Sonnet 5.5",
+    "chars": 337,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The lanes differ in the surface of the ramp. Tap Roll both cars to let both cars go, and keep rolling until you are sure which lane sends its car further.\n\nLane A\nLane B\n0\n20\n40\n60\n80\n100\ncm\n\nEach dot marks where a car stopped. Cars are let go, not pushed.\n\nRuns\n0\n\nRoll both cars\nClear\n0 runs rolled.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "music-staff-1",
+    "group": "Arts",
+    "title": "music-staff\nwritten by Opus 5.5",
+    "chars": 239,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-175-music-staff-1.png",
+    "text": "Slide each note up or down until it sits on the letter under it, then press Play. What can you hear?\n\ntreble clef\nG\nC\nC\nG\nG\nA\nA\nG\nSlide a note to hear it. The clef curls round the line for G.\nPlay\nNote 1\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "music-staff-2",
+    "group": "Arts",
+    "title": "music-staff\nwritten by Opus 5.5",
+    "chars": 228,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide each note up or down so the notes spell CABBAGE, then press Play to hear your word.\n\ntreble clef\nG\nC\nA\nB\nB\nA\nG\nE\nSlide a note to hear it. The clef curls round the line for G.\nPlay\nNote 1\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "music-staff-3",
+    "group": "Arts",
+    "title": "music-staff\nwritten by Opus 5.5",
+    "chars": 276,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a beat to start a new note there: each note rings until the next one starts. Write the notes listed, then press Play.\n\ntreble clef\n4 beats\nin a bar\nbeats\n1\n2\n3\n4\nTap a beat to start a new note there.\n\nWrite\nminim\ncrotchet\ncrotchet\n\nPlay\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "music-staff-4",
+    "group": "Arts",
+    "title": "music-staff\nwritten by Opus 5.5",
+    "chars": 285,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Press plus or minus to move the metronome's weight so that this bar lasts 2 seconds. Press Play to watch it run.\n\nmetronome\ntreble clef\n4 beats in a bar\nThe lower the weight, the faster the arm swings.\nPlay\nBeats a minute\n−\n60\n+\n\nOne beat lasts\n1 s\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "art-studio-1",
+    "group": "Arts",
+    "title": "art-studio\nwritten by Opus 5.5",
+    "chars": 327,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a paint to add a dab, and watch it swirl into the mix on the palette. Mix the colour of the jug, until the bare patch disappears into the painting.\n\nwhite\nyellow\nred\nblue\nblack\nyour mix\nThe bare patch on the jug shows your mix.\nIn the mix\nNothing yet\nTake back\nWipe\nThe palette is clean.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "art-studio-2",
+    "group": "Arts",
+    "title": "art-studio\nwritten by Opus 5.5",
+    "chars": 279,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the cloth to press the block and print the motif, and tap one of your prints to lift it. Carry the pattern on until the cloth is full.\n\nink\nblock\nEach press leaves one print on a chalk cross.\n\nYour prints\n0\n\n0 prints of yours on the cloth.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "art-studio-3",
+    "group": "Arts",
+    "title": "art-studio\nwritten by Opus 5.5",
+    "chars": 345,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the cloth to press the block and print the motif, and tap one of your prints to lift it. Use the button to flip the block when you need to. Carry the pattern on until the cloth is full.\n\nink\nblock\nEach press leaves one print on a chalk cross.\n\nYour prints\n0\n\nFlip the block\n0 prints of yours on the cloth.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "sets-logic-1",
+    "group": "Others",
+    "title": "sets-logic\nwritten by Sonnet 5.5",
+    "chars": 302,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "scene-182-sets-logic-1.png",
+    "text": "Tap a region to shade it yellow, and tap again to unshade it. Shade every region for A ∪ B: in A or B, or both (union).\n\nA ∪ B\nin A or B, or both (union)\nℰ universal set\nA: play football\nB: play tennis\nA only\nBoth\nB only\nNeither\nIn A? In B? Each region answers both.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "sets-logic-2",
+    "group": "Others",
+    "title": "sets-logic\nwritten by Sonnet 5.5",
+    "chars": 302,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a region to shade it yellow, and tap again to unshade it. Shade every region for (A ∪ B)′: not in A or B, neither.\n\n(A ∪ B)′\nnot in A or B: neither\nℰ universal set\nA: even numbers\nB: multiples of 3\nA only\nBoth\nB only\nNeither\nIn A? In B? Each region answers both.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "sets-logic-3",
+    "group": "Others",
+    "title": "sets-logic\nwritten by Sonnet 5.5",
+    "chars": 401,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the − and + buttons to fill in A only, B only and neither. In 30 students, A has 12, B has 9, and 4 are in both. Count the overlap once.\n\nA total\n12\n\nB total\n9\n\nBoth\n4\n\nℰ total\n30\n\nℰ universal set\nA: play football\nB: play tennis\nA only\n0\nBoth\n4\nB only\n0\nNeither\n0\nA total = its own part + both.\nA only\n−\n0\n+\nB only\n−\n0\n+\nNeither\n−\n0\n+\nIn A or B (overlap once)\n4\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "electrolysis-1",
+    "group": "Others",
+    "title": "electrolysis\nwritten by Sonnet 5.5",
+    "chars": 309,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Make hydrogen at the left electrode.\n\nNaCl(aq), concentrated\nNa⁺\nCl⁻\nH⁺\nOH⁻\nNa⁺\nCl⁻\nH⁺\nOH⁻\n6 V\nDC\n+\n−\nleft\ncarbon\nright\ncarbon\npositive ion\nnegative ion\nConnect both leads to run the cell\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "electrolysis-2",
+    "group": "Others",
+    "title": "electrolysis\nwritten by Sonnet 5.5",
+    "chars": 301,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Make copper at the right electrode.\n\nCuSO₄(aq)\nCu²⁺\nSO₄²⁻\nH⁺\nOH⁻\nCu²⁺\nSO₄²⁻\nH⁺\nOH⁻\n6 V\nDC\n+\n−\nleft\ncarbon\nright\ncarbon\npositive ion\nnegative ion\nConnect both leads to run the cell\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "electrolysis-3",
+    "group": "Others",
+    "title": "electrolysis\nwritten by Sonnet 5.5",
+    "chars": 338,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Purify the copper by coating the pure electrode on the left.\n\nCuSO₄(aq)\nimpure copper\npure copper\nCu²⁺\nSO₄²⁻\nH⁺\nOH⁻\nCu²⁺\nSO₄²⁻\nH⁺\nOH⁻\n6 V\nDC\n+\n−\nleft\nright\npositive ion\nnegative ion\nConnect both leads to run the cell\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "electrolysis-4",
+    "group": "Others",
+    "title": "electrolysis\nwritten by Sonnet 5.5",
+    "chars": 309,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the red and black plugs onto the electrode terminals, or tap a plug to move it. Make aluminium at the right electrode.\n\nAl₂O₃ in molten cryolite\nAl³⁺\nO²⁻\nO²⁻\nAl³⁺\nO²⁻\nO²⁻\n6 V\nDC\n+\n−\nleft\ncarbon\nright\ncarbon\npositive ion\nnegative ion\nConnect both leads to run the cell\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "circle-theorems-1",
+    "group": "Others",
+    "title": "circle-theorems\nwritten by Sonnet 5.5",
+    "chars": 454,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag C off the highlighted arc AB. Compare the live angles at O and C. You can also use the step buttons.\n\n120°\nO\n120°\nA\nB\nC\nMove C round the circle: the angle at O stays the same.\n\nAngle at O\n120°\n\nAngle at C\n120°\n\nMove C\n↺\n↻\n\nCircle with centre O. Fixed radii OA and OB make 120 degrees. The minor arc AB is highlighted. Point C can move around the circle; the angle ACB is 120 degrees. C is on the highlighted arc.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "circle-theorems-2",
+    "group": "Others",
+    "title": "circle-theorems\nwritten by Sonnet 5.5",
+    "chars": 397,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag B around the circle until AB passes through the centre O. Watch the angle at C. You can also use the step buttons.\n\n90°\nO\n45°\nA\nC\nB\nA and C stay fixed\nMove B: make AB pass through O.\n\nAngle at O\n90°\n\nAngle at C\n45°\n\nMove B\n↺\n↻\n\nCircle with fixed points A and C and movable B. OA and OB make 90 degrees; angle ACB is 45 degrees. AB does not pass through O.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "circle-theorems-3",
+    "group": "Others",
+    "title": "circle-theorems\nwritten by Sonnet 5.5",
+    "chars": 444,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the blue handle to turn the line until it touches the circle only at P. Watch the angle at P. You can also use the step buttons.\n\n70°\nO\nP\nQ\nradius\nThe line turns about P\nTurn the line: watch Q move towards P.\n\nAngle at P\n70°\n\nCircle crossings\n2\n\nTurn line\n↺\n↻\n\nCircle with radius OP. A line through P turns around it. The angle between the line and radius is 70 degrees, with 2 crossings of the circle.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "nerve-impulses-1",
+    "group": "Others",
+    "title": "nerve-impulses\nwritten by Sonnet 5.5",
+    "chars": 324,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "An impulse has reached the sending neurone. Tap vesicles to release neurotransmitter and start a new impulse in the receiving neurone.\n\nsending neurone\nelectrical impulse\nvesicles\nsynaptic gap\nreceiving neurone\nreceptors\nNeurotransmitter\nNext neurone quiet\nThe receiving neurone is quiet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "nerve-impulses-2",
+    "group": "Others",
+    "title": "nerve-impulses\nwritten by Sonnet 5.5",
+    "chars": 308,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap receptors to occupy them with the drug. Stop the new impulse in the receiving neurone.\n\nsending neurone\nelectrical impulse\nsynaptic gap\nreceiving neurone\nreceptors\nNeurotransmitter\nBlocking drug\nNew impulse\nA new electrical impulse is visible in the receiving neurone.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "loci-constructions-1",
+    "group": "Others",
+    "title": "loci-constructions\nwritten by Sonnet 5.5",
+    "chars": 289,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the pencil around the paper. Blue ink appears only where PA = PB. Trace the whole path. Arrow keys and the direction buttons also move it.\n\nPA 5.1 cm\nPB 12.1 cm\nA\nB\nPA 5.1 cm, PB 12.1 cm: not equal. It inks only where PA = PB.\nPath inked\n←\n↑\n↓\n→\n0%\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "loci-constructions-2",
+    "group": "Others",
+    "title": "loci-constructions\nwritten by Sonnet 5.5",
+    "chars": 279,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the pencil around the paper. Blue ink appears only where its distance from AB is 3 cm. Trace the whole path. Arrow keys and the direction buttons also move it.\n\n6 cm\nA\nB\n6 cm from AB: too far. It inks only near 3 cm.\nPath inked\n←\n↑\n↓\n→\n0%\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "loci-constructions-3",
+    "group": "Others",
+    "title": "loci-constructions\nwritten by Sonnet 5.5",
+    "chars": 260,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Place equal-radius arcs from A and B, then tap their crossing to construct the perpendicular bisector. Leave the arcs visible.\n\nA\nB\nTap a point, set the radius, place an arc; then tap a crossing.\nCompass A\n−\n8 cm\n+\nPlace arc\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "immune-response-1",
+    "group": "Others",
+    "title": "immune-response\nwritten by Sonnet 5.5",
+    "chars": 318,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the Y-shaped antibody onto the bacterium whose antigen fits its tips. Watch what the phagocyte does.\n\nfluid around the cells\nsquare antigen\ntriangle antigen\nround antigen\nbacteria\nlymphocyte\nphagocyte\nantibody\nOnly a complementary antigen holds the antibody.\nTagged bacteria\n0\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "immune-response-2",
+    "group": "Others",
+    "title": "immune-response\nwritten by Sonnet 5.5",
+    "chars": 318,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the Y-shaped antibody onto the bacterium whose antigen fits its tips. Watch what the phagocyte does.\n\nfluid around the cells\ntriangle antigen\nsquare antigen\nround antigen\nbacteria\nlymphocyte\nphagocyte\nantibody\nOnly a complementary antigen holds the antibody.\nTagged bacteria\n0\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "immune-response-3",
+    "group": "Others",
+    "title": "immune-response\nwritten by Sonnet 5.5",
+    "chars": 334,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the Y-shaped antibody onto every bacterium whose antigen fits its tips, one at a time. Clear them with the phagocyte.\n\nfluid around the cells\nround antigen\ntriangle antigen\nround antigen\nbacteria\nlymphocyte\nphagocyte\nantibody\nOnly a complementary antigen holds the antibody.\nTagged bacteria\n0\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "reactivity-series-1",
+    "group": "Others",
+    "title": "reactivity-series\nwritten by Sonnet 5.5",
+    "chars": 277,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the zinc strip into the copper(II) sulfate, or tap it. Watch what happens, then choose the observation that matches.\n\nZinc strip\ncopper(II)\nsulfate\nCuSO₄(aq)\n100\n50\nml\nDip the strip and watch what happens.\nThe strip is above the liquid.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "reactivity-series-2",
+    "group": "Others",
+    "title": "reactivity-series\nwritten by Sonnet 5.5",
+    "chars": 269,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the copper strip into the zinc sulfate, or tap it. Watch what happens, then choose the observation that matches.\n\nCopper strip\nzinc\nsulfate\nZnSO₄(aq)\n100\n50\nml\nDip the strip and watch what happens.\nThe strip is above the liquid.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "reactivity-series-3",
+    "group": "Others",
+    "title": "reactivity-series\nwritten by Sonnet 5.5",
+    "chars": 273,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the copper strip into the silver nitrate, or tap it. Watch what happens, then choose the observation that matches.\n\nCopper strip\nsilver\nnitrate\nAgNO₃(aq)\n100\n50\nml\nDip the strip and watch what happens.\nThe strip is above the liquid.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "reactivity-series-4",
+    "group": "Others",
+    "title": "reactivity-series\nwritten by Sonnet 5.5",
+    "chars": 312,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the emery paper to rub the aluminium strip, then drag it into the dilute hydrochloric acid, or tap it. Make gas bubbles appear.\n\nAluminium strip\nDilute\nhydrochloric acid\nHCl(aq)\n100\n50\nml\nEmery paper\nRub the dull surface, then dip the strip.\nThe strip is above the liquid.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "simultaneous-equations-1",
+    "group": "Others",
+    "title": "simultaneous-equations\nwritten by Sonnet 5.5",
+    "chars": 278,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the ring to the point that satisfies both x + y = 5 and x - y = 1. You can also tap a grid point.\n\nx\ny\n−5\n−5\n−4\n−4\n−3\n−3\n−2\n−2\n−1\n−1\n1\n1\n2\n2\n3\n3\n4\n4\n5\n5\n0\n\nx + y = 5\n\nx − y = 1\n\nEach line is every point that fits its equation.\nPoint 0, 0\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "simultaneous-equations-2",
+    "group": "Others",
+    "title": "simultaneous-equations\nwritten by Sonnet 5.5",
+    "chars": 347,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the − and + multiplier controls to combine 2x + y = 7 and x - y = 2. Make either the x or y term disappear.\n\nx\ny\n−5\n−5\n−4\n−4\n−3\n−3\n−2\n−2\n−1\n−1\n1\n1\n2\n2\n3\n3\n4\n4\n5\n5\n0\n\n2x + y = 7\n\nx − y = 2\n\nCombine the equations. Watch the orange line.\nFirst ×\n−\n1\n+\nSecond ×\n−\n−1\n+\n\nx + 2y = 5\n\nCombined equation: x + 2y = 5\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "simultaneous-equations-3",
+    "group": "Others",
+    "title": "simultaneous-equations\nwritten by Sonnet 5.5",
+    "chars": 269,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Look at 2x + y = 4 and 4x + 2y = 10 on the grid, then choose how many points satisfy both.\n\nx\ny\n−5\n−5\n−4\n−4\n−3\n−3\n−2\n−2\n−1\n−1\n1\n1\n2\n2\n3\n3\n4\n4\n5\n5\n0\n\n2x + y = 4\n\n4x + 2y = 10\n\nHow many points satisfy both?\nNo solutions\nInfinitely many\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "natural-selection-1",
+    "group": "Others",
+    "title": "natural-selection\nwritten by Sonnet 5.5",
+    "chars": 227,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "On soot-dark bark, be the bird. Tap 4 moths to eat them, then let the survivors reproduce. Eat the four that are easiest to spot.\n\nSoot-dark bark\n6 pale · 4 dark · 0 eaten\nBird may eat 4 more\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "natural-selection-2",
+    "group": "Others",
+    "title": "natural-selection\nwritten by Sonnet 5.5",
+    "chars": 248,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "On pale lichen-covered bark, be the bird. Tap 4 moths to eat them, then let the survivors reproduce. Eat the four that are easiest to spot.\n\nPale, lichen-covered bark\n6 pale · 4 dark · 0 eaten\nBird may eat 4 more\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "natural-selection-3",
+    "group": "Others",
+    "title": "natural-selection\nwritten by Sonnet 5.5",
+    "chars": 213,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the antibiotic dose, then let the survivors reproduce. Watch what the next generation is made of.\n\nResistant\nSusceptible\nAntibiotic\nUntreated population\nGive antibiotic dose\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "organic-chemistry-1",
+    "group": "Others",
+    "title": "organic-chemistry\nwritten by Sonnet 5.5",
+    "chars": 328,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Build ethene. Select a carbon and tap + carbon to join another, then tap the bond to change single/double.\n\nDisplayed formula\nC has 4 bonds\nC\nH\nH\nH\nH\nTap C to select · tap a bond to change it\nUnused carbon bonds carry H automatically.\nCarbon 1 selected\n−\n1\n+\nBond orders\nsingle ↔ double\nReset\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "organic-chemistry-2",
+    "group": "Others",
+    "title": "organic-chemistry\nwritten by Sonnet 5.5",
+    "chars": 328,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the bromine water molecule onto C=C, or tap it then tap the double bond. Make the addition product and watch what happens.\n\nAlkene + reagent\nC=C double bond\nbromine water\nC\nC\nH\nH\nH\nH\nBr\nBr\ndrag me onto C=C\nOr tap the reagent to add it: no careful aim needed.\nBromine water\norange\nAdd Br₂\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "organic-chemistry-3",
+    "group": "Others",
+    "title": "organic-chemistry\nwritten by Sonnet 5.5",
+    "chars": 385,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Make one chain from all three ethene monomers. Tap each C=C to open it, then tap the glowing join between neighbouring monomers.\n\nThree monomers\nC\nC\nH\nH\nH\nH\nmonomer 1\nC\nC\nH\nH\nH\nH\nmonomer 2\nC\nC\nH\nH\nH\nH\nmonomer 3\njoin\njoin\nTap each C=C, then tap each join.\nAddition joins the whole monomer into one long chain.\nDouble bonds opened\n0 / 3\nJoin all three\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "nuclear-fission-1",
+    "group": "Others",
+    "title": "nuclear-fission\nwritten by Sonnet 5.5",
+    "chars": 396,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the control rods down, or use the + and − buttons, until each generation has the same number of fissions.\n\nCutaway reactor core\nUranium-235\nEarlier split\nPrevious\nfissions\nGrey block: graphite moderator\nGold burst: energy released\nBlue: neutrons\nRods absorb neutrons; the moderator slows them.\nControl rod depth\n−\n0\n+\n\nPrevious fissions\n3\n\nNew fissions\n9\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "nuclear-fission-2",
+    "group": "Others",
+    "title": "nuclear-fission\nwritten by Sonnet 5.5",
+    "chars": 266,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the steel press plates together, or use the + and − buttons, until each pair of nuclei joins.\n\nDeuterium fuel\n15 million °C\nSteel press plates\nPositive nuclei repel. Squeeze the hot fuel to make them join.\nPress closing\n−\n0\n+\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "nuclear-fission-3",
+    "group": "Others",
+    "title": "nuclear-fission\nwritten by Sonnet 5.5",
+    "chars": 371,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the control rods down, or use the + and − buttons, until no new fissions follow.\n\nCutaway reactor core\nUranium-235\nEarlier split\nPrevious\nfissions\nGrey block: graphite moderator\nGold burst: energy released\nBlue: neutrons\nRods absorb neutrons; the moderator slows them.\nControl rod depth\n−\n0\n+\n\nPrevious fissions\n3\n\nNew fissions\n9\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "international-trade-1",
+    "group": "Others",
+    "title": "international-trade\nwritten by Sonnet 5.5",
+    "chars": 486,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus to move workers between the two goods. Fill the order of 42 tables and 9 chairs exactly, with nobody idle.\n\nAvenia\nTables · 6 each\n18 tables\nChairs · 4 each\n12 chairs\nBordia\nTables · 2 each\n6 tables\nChairs · 3 each\n9 chairs\nOne figure is one worker. Output is per day.\nAvenia on tables\n−\n3\n+\nBordia on tables\n−\n3\n+\nOrder, both countries\n42 tables · 9 chairs\n\nCurrent combined output: 24 tables and 21 chairs. The order is 42 and 9.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "international-trade-2",
+    "group": "Others",
+    "title": "international-trade\nwritten by Sonnet 5.5",
+    "chars": 560,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus to move workers between the two goods. Fill the order of 48 tonnes of wheat and 30 tonnes of vegetables exactly, with nobody idle.\n\nAvenia\nWheat · 8 each\n24 tonnes\nVegetables · 6 each\n18 tonnes\nBordia\nWheat · 3 each\n9 tonnes\nVegetables · 5 each\n15 tonnes\nOne figure is one worker. Output is per day.\nAvenia on tonnes of wheat\n−\n3\n+\nBordia on tonnes of wheat\n−\n3\n+\nOrder, both countries\n48 tonnes · 30 tonnes\n\nCurrent combined output: 33 tonnes of wheat and 33 tonnes of vegetables. "
+  },
+  {
+    "id": "international-trade-3",
+    "group": "Others",
+    "title": "international-trade\nwritten by Sonnet 5.5",
+    "chars": 346,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus on the tariff per bicycle. Make imports half their free-trade level.\n\nImports\nCustoms\nHome factory\n$0 each\nPrice $40\n1 crate = 5 bicycles\nThe gate stays open. A tariff is a tax on imports.\nTariff per bicycle\n−\n$0\n+\n\nHome price\n$40\n\nHome-made\n60 units\n\nImports\n40 units\n\nGovernment revenue\n$0\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "international-trade-4",
+    "group": "Others",
+    "title": "international-trade\nwritten by Sonnet 5.5",
+    "chars": 362,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus on the tariff per bicycle. Find the rate that gives the government the most revenue.\n\nImports\nCustoms\nHome factory\n$0 each\nPrice $40\n1 crate = 5 bicycles\nThe gate stays open. A tariff is a tax on imports.\nTariff per bicycle\n−\n$0\n+\n\nHome price\n$40\n\nHome-made\n60 units\n\nImports\n40 units\n\nGovernment revenue\n$0\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "cell-division-1",
+    "group": "Others",
+    "title": "cell-division\nwritten by Sonnet 5.5",
+    "chars": 300,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag every copied chromosome onto the equator, then press “Divide the cell”.\n\nequator\nleft pole\nright pole\nmodel: two chromosome pairs\nBlue homologue\nOchre homologue\nX = copied chromosome\nCell division\nDivide the cell\nMove every copied chromosome onto the equator.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "cell-division-2",
+    "group": "Others",
+    "title": "cell-division\nwritten by Sonnet 5.5",
+    "chars": 372,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag each copied chromosome left or right. Give each gamete one chromosome of each length, with different colour combinations, then press “Divide twice”.\n\nleft pole\nright pole\nmodel: two chromosome pairs\nBlue homologue\nOchre homologue\nX = copied chromosome\nFirst, then second division\nDivide twice\nMove each copied chromosome to a pole.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-transport-1",
+    "group": "Others",
+    "title": "plant-transport\nwritten by Sonnet 5.5",
+    "chars": 361,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + or − to change the wind speed. Make the water uptake as close to 1.00 mm/min as you can.\n\nfan\n0\n2\n4\nmm\nwater vapour\nxylem\nwater\nair bubble\nThe bubble measures water uptake.\nWind speed\n−\n0 m/s\n+\n\nWater uptake\n0.55 mm/min\n\nFrom room\n0 steps\n\nAim 1.00 ± 0.10 mm/min · Room: 0 m/s\n\nWater uptake 0.55 millimetres per minute.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-transport-2",
+    "group": "Others",
+    "title": "plant-transport\nwritten by Sonnet 5.5",
+    "chars": 374,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + or − to change the light intensity. Make the water uptake as close to 0.95 mm/min as you can.\n\nlamp\n0\n2\n4\nmm\nwater vapour\nxylem\nwater\nair bubble\nThe bubble measures water uptake.\nLight intensity\n−\n250 lx\n+\n\nWater uptake\n0.45 mm/min\n\nFrom room\n0 steps\n\nAim 0.95 ± 0.10 mm/min · Room: 250 lx\n\nWater uptake 0.45 millimetres per minute.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-transport-3",
+    "group": "Others",
+    "title": "plant-transport\nwritten by Sonnet 5.5",
+    "chars": 404,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + or − to change the temperature. Reach at least 1.20 mm/min of water uptake with as few steps from room conditions as you can.\n\nheater\n0\n2\n4\nmm\nwater vapour\nxylem\nwater\nair bubble\nThe bubble measures water uptake.\nTemperature\n−\n20 °C\n+\n\nWater uptake\n0.65 mm/min\n\nFrom room\n0 steps\n\nAim at least 1.20 mm/min · Room: 20 °C\n\nWater uptake 0.65 millimetres per minute.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-transport-4",
+    "group": "Others",
+    "title": "plant-transport\nwritten by Sonnet 5.5",
+    "chars": 398,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap + or − to change the humidity. Reach at least 1.20 mm/min of water uptake with as few steps from room conditions as you can.\n\nhumidity\n0\n2\n4\nmm\nwater vapour\nxylem\nwater\nair bubble\nThe bubble measures water uptake.\nHumidity\n−\n60 %\n+\n\nWater uptake\n0.75 mm/min\n\nFrom room\n0 steps\n\nAim at least 1.20 mm/min · Room: 60 %\n\nWater uptake 0.75 millimetres per minute.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "homeostasis-1",
+    "group": "Others",
+    "title": "homeostasis\nwritten by Sonnet 5.5",
+    "chars": 381,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "A meal has raised the blood glucose. Choose what the pancreas releases to bring it back into the normal band.\n\nblood\npancreas\nliver\nliver store: 2\nglucose\nBlood glucose\n0\n2\n4\n6\n8\n10\n12\n10.0\nmmol/L\nBring the blue marker into the green normal band.\nRelease insulin\nRelease glucagon\n\nGiven so far: 0 insulin, 0 glucagon\n\nBlood glucose 10.0 mmol/L.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "homeostasis-2",
+    "group": "Others",
+    "title": "homeostasis\nwritten by Sonnet 5.5",
+    "chars": 382,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Exercise has lowered the blood glucose. Choose what the pancreas releases to bring it back into the normal band.\n\nblood\npancreas\nliver\nliver store: 9\nglucose\nBlood glucose\n0\n2\n4\n6\n8\n10\n12\n3.0\nmmol/L\nBring the blue marker into the green normal band.\nRelease insulin\nRelease glucagon\n\nGiven so far: 0 insulin, 0 glucagon\n\nBlood glucose 3.0 mmol/L.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "homeostasis-3",
+    "group": "Others",
+    "title": "homeostasis\nwritten by Sonnet 5.5",
+    "chars": 385,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "This person has type 1 diabetes and has just eaten. Bring the blood glucose back into the normal band.\n\nblood\npancreas: no insulin\nliver\nliver store: 2\nglucose\nBlood glucose\n0\n2\n4\n6\n8\n10\n12\n10.0\nmmol/L\nBring the blue marker into the green normal band.\nInject insulin\nRelease glucagon\n\nGiven so far: 0 insulin, 0 glucagon\n\nBlood glucose 10.0 mmol/L.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "homeostasis-4",
+    "group": "Others",
+    "title": "homeostasis\nwritten by Sonnet 5.5",
+    "chars": 396,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "A hot room has raised the core temperature. Choose the body’s responses to bring it back into the normal band.\n\nheat lost\nskin\nsweat gland\nblood vessel\nmuscle\nCore temperature\n34\n35\n36\n37\n38\n39\n40\n39.0\n°C\nBring the blue marker into the green normal band.\nSkin blood vessels\nNarrower\nNormal\nWider\nSweating\n−\nnone\n+\nShivering\n−\nnone\n+\n\nCore temperature 39.0 °C.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "homeostasis-5",
+    "group": "Others",
+    "title": "homeostasis\nwritten by Sonnet 5.5",
+    "chars": 398,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "A cold room has lowered the core temperature. Choose the body’s responses to bring it back into the normal band.\n\nheat lost\nskin\nsweat gland\nblood vessel\nmuscle\nCore temperature\n34\n35\n36\n37\n38\n39\n40\n35.0\n°C\nBring the blue marker into the green normal band.\nSkin blood vessels\nNarrower\nNormal\nWider\nSweating\n−\nnone\n+\nShivering\n−\nnone\n+\n\nCore temperature 35.0 °C.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "periodic-groups-1",
+    "group": "Others",
+    "title": "periodic-groups\nwritten by Sonnet 5.5",
+    "chars": 265,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drop the sample in and watch each stage. Then name the unknown alkali metal from what you see.\n\nUnknown sample\nGroup I metal\nCold water\n?\nWatch glass\nGlass trough\nDrop the sample in. Watch what it does.\nTest the sample\nDrop it in\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "periodic-groups-2",
+    "group": "Others",
+    "title": "periodic-groups\nwritten by Sonnet 5.5",
+    "chars": 265,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drop the sample in and watch each stage. Then name the unknown alkali metal from what you see.\n\nUnknown sample\nGroup I metal\nCold water\n?\nWatch glass\nGlass trough\nDrop the sample in. Watch what it does.\nTest the sample\nDrop it in\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "periodic-groups-3",
+    "group": "Others",
+    "title": "periodic-groups\nwritten by Sonnet 5.5",
+    "chars": 378,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose a halogen water, add drops to the water control and then to the potassium bromide. Compare the wells and name the halogen in the original halide.\n\nChlorine water\nWater control\nPotassium bromide\nCompare dilution\nHalide test\nTwo drops each\nTest plain water first, then the halide.\nHalogen water\n‹\nChlorine\n›\nFirst: control\nAdd to control\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "periodic-groups-4",
+    "group": "Others",
+    "title": "periodic-groups\nwritten by Sonnet 5.5",
+    "chars": 370,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose a halogen water, add drops to the water control and then to the sodium iodide. Compare the wells and name the halogen in the original halide.\n\nChlorine water\nWater control\nSodium iodide\nCompare dilution\nHalide test\nTwo drops each\nTest plain water first, then the halide.\nHalogen water\n‹\nChlorine\n›\nFirst: control\nAdd to control\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "chemical-tests-1",
+    "group": "Others",
+    "title": "chemical-tests\nwritten by Sonnet 5.5",
+    "chars": 479,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose a reagent, then tap Add a drop until excess. Use fresh portions if you need them, watch what happens, and select the ion present.\n\nSodium\nhydroxide\nunknown\nsolution\nNothing added yet: watch for a change.\nReagent\n−\nSodium hydroxide\n+\nAdd a drop\nNot added\nIon present\nChoose after testing\nAluminium ions\nBromide ions\nCalcium ions\nCarbonate ions\nChloride ions\nCopper(II) ions\nIodide ions\nIron(II) ions\nIron(III) ions\nSulfate ions\nZinc ions\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "chemical-tests-2",
+    "group": "Others",
+    "title": "chemical-tests\nwritten by Sonnet 5.5",
+    "chars": 314,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the wire loop into the blue flame, or tap it. Watch the flame, then select the metal ion present.\n\nBunsen burner\nunknown\nsample\nPut the wire loop into the flame and watch.\nIon present\nChoose after testing\nCalcium ions\nCopper(II) ions\nLithium ions\nPotassium ions\nSodium ions\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "chemical-tests-3",
+    "group": "Others",
+    "title": "chemical-tests\nwritten by Sonnet 5.5",
+    "chars": 339,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Choose a test tool, tap to use it, then tap again to see the result. Watch, then select the gas present.\n\nunknown gas\nsplint\nChoose a test tool and bring it to the gas.\nTest tool\n−\nGlowing splint\n+\nUse glowing splint\nready\nGas present\nChoose after testing\nAmmonia\nCarbon dioxide\nChlorine\nHydrogen\nOxygen\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "motor-effect-1",
+    "group": "Others",
+    "title": "motor-effect\nwritten by Sonnet 5.5",
+    "chars": 379,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the current, supply and magnet controls to make the copper wire swing left at 2 A.\n\nd.c. supply\n+\n−\nN\nN pole\n(behind)\nfield\nS\nS pole\n(in front)\ncopper rod\nThe rod hangs in the field between the poles. It moves when current flows.\n\nGoal\nSwing left · 2 A\n\nCurrent\n−\n0 A\n+\nSupply\nReverse supply\nMagnet poles\nSwap N and S\nThe wire hangs still.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "motor-effect-2",
+    "group": "Others",
+    "title": "motor-effect\nwritten by Sonnet 5.5",
+    "chars": 381,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the current, supply and magnet controls to make the copper wire swing right at 3 A.\n\nd.c. supply\n+\n−\nN\nN pole\n(behind)\nfield\nS\nS pole\n(in front)\ncopper rod\nThe rod hangs in the field between the poles. It moves when current flows.\n\nGoal\nSwing right · 3 A\n\nCurrent\n−\n0 A\n+\nSupply\nReverse supply\nMagnet poles\nSwap N and S\nThe wire hangs still.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "motor-effect-3",
+    "group": "Others",
+    "title": "motor-effect\nwritten by Sonnet 5.5",
+    "chars": 331,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Try the contacts, then press Turn 90° to move the coil. Make the coil complete one full turn.\n\nN\nS\nslip rings\nd.c. supply\nforce\ncoil current\nCurrent flows: the forces push the right side up and the left side down.\n\nCoil turned\n0° of 360°\n\nContacts\nSlip rings\nSplit ring\nCoil\nTurn 90°\nStart · 0°.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "em-spectrum-1",
+    "group": "Others",
+    "title": "em-spectrum\nwritten by Sonnet 5.5",
+    "chars": 415,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the tuner, or use its + and − buttons, to find ultraviolet.\n\nYour goal\nFind ultraviolet\none wavelength\nvacuum\nradio receiver\nlong waves\nshort waves\nspectrum tuner\nSlide the tuner: watch the wave and receiver change.\nTune the spectrum\n−\n1 / 7\n+\n\nWavelength\n100 m\n\nFrequency\n3 MHz\n\nSpeed in vacuum: 3.0 × 10⁸ m/s — unchanged\n\nSetting 1 of 7. Wavelength 100 m; frequency 3 MHz.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "em-spectrum-2",
+    "group": "Others",
+    "title": "em-spectrum\nwritten by Sonnet 5.5",
+    "chars": 530,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the tuner, or use its + and − buttons, to make the hidden security mark appear.\n\nYour goal\nMake the hidden security mark appear\none wavelength\nvacuum\nbanknote checker\nlong waves\nshort waves\nspectrum tuner\nSlide the tuner: watch the wave and receiver change.\nTune the spectrum\n−\n1 / 7\n+\n\nWavelength\n100 m\n\nFrequency\n3 MHz\n\nSpeed in vacuum: 3.0 × 10⁸ m/s — unchanged\n\nNo response from the banknote checker\n\nSetting 1 of 7. Wavelength 100 m; frequency 3 MHz. The radio is playing a broadcast.\nGood\n"
+  },
+  {
+    "id": "em-spectrum-3",
+    "group": "Others",
+    "title": "em-spectrum\nwritten by Sonnet 5.5",
+    "chars": 576,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the tuner, or use its + and − buttons, to switch on the television with its remote.\n\nYour goal\nSwitch on the television with its remote\none wavelength\nvacuum\ntelevision and remote\nlong waves\nshort waves\nspectrum tuner\nSlide the tuner: watch the wave and receiver change.\nTune the spectrum\n−\n7 / 7\n+\n\nWavelength\n1 pm\n\nFrequency\n3.0 × 10²⁰ Hz\n\nSpeed in vacuum: 3.0 × 10⁸ m/s — unchanged\n\nNo response from the television and remote\n\nSetting 7 of 7. Wavelength 1 pm; frequency 3.0 × 10²⁰ Hz. The ste"
+  },
+  {
+    "id": "bearings-1",
+    "group": "Others",
+    "title": "bearings\nwritten by Sonnet 5.5",
+    "chars": 224,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the blue handle to set the course from A to B to 045°. The arrow keys turn it too.\n\nN\nE\nS\nW\nA\nB\nSet the course A → B\nCourse from A\n−\n225°\n+\n\nClockwise from north\nthree-figure bearing\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "bearings-2",
+    "group": "Others",
+    "title": "bearings\nwritten by Sonnet 5.5",
+    "chars": 308,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The outward course from A to B is 050°. Drag the blue handle at B to point the return course back to A. The arrow keys turn it too.\n\nN\nN\nA\nB\noutward A → B: 050°\nTurn the return course at B back to A\nReturn course from B\n−\n050°\n+\n\nClockwise from north\nthree-figure bearing\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "similarity-1",
+    "group": "Others",
+    "title": "similarity\nwritten by Sonnet 5.5",
+    "chars": 399,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the blue corner until the blue triangle is similar to the grey one and its base is 8 cm. You can also use the length factor buttons.\n\nParallel sides · equal angles\nOriginal\n10 cm\n12 cm\nSame angles. Every side grows by the same factor.\nLength factor\n−\n× 1\n+\nBase now\n4 cm / 8 cm\nUse the left and right arrow keys on the corner handle to resize the blue shape.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "similarity-2",
+    "group": "Others",
+    "title": "similarity\nwritten by Sonnet 5.5",
+    "chars": 381,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the blue corner until the larger square has area 36 cm². You can also use the length factor buttons.\n\nOriginal square\n9 cm²\nGrow to the dashed square\nTarget area: 36 cm²\nGrow the blue square to the dashed outline.\nLength factor\n−\n× 1\n+\nArea now\n9 cm² / 36 cm²\nUse the left and right arrow keys on the corner handle to resize the blue shape.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "similarity-3",
+    "group": "Others",
+    "title": "similarity\nwritten by Sonnet 5.5",
+    "chars": 379,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the blue corner until the larger cube has volume 64 cm³. You can also use the length factor buttons.\n\nOriginal cube\n8 cm³\nGrow to the dashed cube\nTarget volume: 64 cm³\nGrow the blue cube to the dashed outline.\nLength factor\n−\n× 1\n+\nVolume now\n8 cm³ / 64 cm³\nUse the left and right arrow keys on the corner handle to resize the blue shape.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "cpu-cycle-1",
+    "group": "Others",
+    "title": "cpu-cycle\nwritten by Sonnet 5.5",
+    "chars": 632,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "You are the control unit. Tap the part that must send next and watch each transfer. Run the ADD program through fetch, decode and execute until it stops.\n\nRAM: instructions and data together\n0\nADD 4\n1\nHLT\n2\n0\n3\n0\n4\n4\ncontrol bus\naddress bus\ndata bus\nCPU\nCU\ncontrol unit\nALU\narithmetic logic unit\nPC\n0\nprogram counter\nMAR\n—\nmemory address\nregister\nMDR\n—\nmemory data\nregister\nCIR\n—\ncurrent instruction\nregister\nACC\n7\naccumulator\nReady to fetch\nYou are the control unit: choose what sends next.\n\nLatest "
+  },
+  {
+    "id": "cpu-cycle-2",
+    "group": "Others",
+    "title": "cpu-cycle\nwritten by Sonnet 5.5",
+    "chars": 637,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "You are the control unit. Tap the part that must send next and watch each transfer. Run the STORE program through fetch, decode and execute until it stops.\n\nRAM: instructions and data together\n0\nSTORE 4\n1\nHLT\n2\n0\n3\n0\n4\n0\ncontrol bus\naddress bus\ndata bus\nCPU\nCU\ncontrol unit\nALU\narithmetic logic unit\nPC\n0\nprogram counter\nMAR\n—\nmemory address\nregister\nMDR\n—\nmemory data\nregister\nCIR\n—\ncurrent instruction\nregister\nACC\n12\naccumulator\nReady to fetch\nYou are the control unit: choose what sends next.\n\nLa"
+  },
+  {
+    "id": "price-elasticity-1",
+    "group": "Others",
+    "title": "price-elasticity\nwritten by Sonnet 5.5",
+    "chars": 362,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus on Price to move the cinema price tag. Find the price that earns the most total revenue.\n\nCinema tickets\nHigher price, fewer shoppers\n$6\nP x Q\n2 shoppers\n$6\nshoppers\ntotal revenue\n$12\nprice x shoppers\nMove the price: shoppers and revenue answer.\nPrice per shopper\n−\n6dollars\n+\n\nShoppers\n2\n\nTotal revenue\n$12\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "price-elasticity-2",
+    "group": "Others",
+    "title": "price-elasticity\nwritten by Sonnet 5.5",
+    "chars": 362,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus on Price to move the petrol price tag. Find the price that earns the most total revenue.\n\nPetrol station\nHigher price, fewer shoppers\n$6\nP x Q\n6 shoppers\n$6\nshoppers\ntotal revenue\n$36\nprice x shoppers\nMove the price: shoppers and revenue answer.\nPrice per shopper\n−\n6dollars\n+\n\nShoppers\n6\n\nTotal revenue\n$36\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "price-elasticity-3",
+    "group": "Others",
+    "title": "price-elasticity\nwritten by Sonnet 5.5",
+    "chars": 435,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus on Stored boxes and Spare machines. Supply exactly 10 boxes to fill the order.\n\nSmall box factory\nPrice $5 to $8: a bigger order\nstored boxes\nspare machines: +2 each\norder\n10 boxes\nready to send\n4 boxes already made\n4 supplied\nstock + machines\nRelease stock and switch on machines to fill the order.\nStored boxes\n−\n0boxes\n+\nSpare machines\n−\n0on\n+\n\nSupplied\n4 boxes\n\nOrder\n10 boxes\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "food-tests-1",
+    "group": "Others",
+    "title": "food-tests\nwritten by Sonnet 5.5",
+    "chars": 416,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the reagent selector and action button to test potato extract for starch. Follow each stage, then choose Present or Not detected.\n\nIodine\npotato extract\ndropper bottle\nNext: add reagent\nAppearance\npale food extract\nPick up a reagent\nIodine\nBenedict's\nBiuret\nEthanol\nDCPIP\nAdd Iodine\nConclusion\nPresent\nNot detected\nThe Iodine tube is pale food extract. 0 of 5 tests completed.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "food-tests-2",
+    "group": "Others",
+    "title": "food-tests\nwritten by Sonnet 5.5",
+    "chars": 428,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the reagent selector and action button to test glucose solution for reducing sugar. Follow each stage, then choose Present or Not detected.\n\nIodine\nglucose solution\ndropper bottle\nNext: add reagent\nAppearance\npale food extract\nPick up a reagent\nIodine\nBenedict's\nBiuret\nEthanol\nDCPIP\nAdd Iodine\nConclusion\nPresent\nNot detected\nThe Iodine tube is pale food extract. 0 of 5 tests completed.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "food-tests-3",
+    "group": "Others",
+    "title": "food-tests\nwritten by Sonnet 5.5",
+    "chars": 477,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Run all five tests on Food A using the reagent selector and action button. Finish each stage, then tick every nutrient the results show.\n\nIodine\nFood A\ndropper bottle\nNext: add reagent\nAppearance\npale food extract\nPick up a reagent\nIodine\nBenedict's\nBiuret\nEthanol\nDCPIP\nAdd Iodine\n\nResults: tick each nutrient found\ntests done 0 of 5\n\nstarch\nreducing sugar\nprotein\nfat\nvitamin C\nThe Iodine tube is pale food extract. 0 of 5 tests completed.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "standard-form-1",
+    "group": "Others",
+    "title": "standard-form\nwritten by Sonnet 5.5",
+    "chars": 422,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide the digit tape, or use the arrow buttons, to write 384000 in standard form.\n\nPlace value\n10⁶\n10⁵\n10⁴\n10³\n10²\n10\n1\n1/10\n10⁻²\n10⁻³\n3\n8\n4\n0\n0\n0\ndecimal point stays fixed\ndigit tape\nslide\nThe digits move past the fixed decimal point.\n384000\n=\n384000\n×\n100\n384000 × 10^0\nequals 384000 times ten to the power 0\nMove digits\n←\nstart\n→\n\nStandard form: blue number at least 1 and under 10.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "standard-form-2",
+    "group": "Others",
+    "title": "standard-form\nwritten by Sonnet 5.5",
+    "chars": 421,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide the digit tape, or use the arrow buttons, to write 0.0032 in standard form.\n\nPlace value\n10⁵\n10⁴\n10³\n10²\n10\n1\n1/10\n10⁻²\n10⁻³\n10⁻⁴\n0\n0\n0\n3\n2\ndecimal point stays fixed\ndigit tape\nslide\nThe digits move past the fixed decimal point.\n0.0032\n=\n0.0032\n×\n100\n0.0032 × 10^0\nequals 0.0032 times ten to the power 0\nMove digits\n←\nstart\n→\n\nStandard form: blue number at least 1 and under 10.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "standard-form-3",
+    "group": "Others",
+    "title": "standard-form\nwritten by Sonnet 5.5",
+    "chars": 389,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide the digit tape, or use the arrow buttons, to write 3.84 × 10^5 as an ordinary number.\n\nPlace value\n10⁷\n10⁶\n10⁵\n10⁴\n10³\n10²\n10\n1\n1/10\n10⁻²\n3\n8\n4\ndecimal point stays fixed\ndigit tape\nslide\nThe digits move past the fixed decimal point.\n3.84\n×\n105\n3.84 × 10^5\n=\n3.84\nequals 3.84\nMove digits\n←\nstart\n→\n\nUse the power to choose how far the digits move.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "standard-form-4",
+    "group": "Others",
+    "title": "standard-form\nwritten by Sonnet 5.5",
+    "chars": 388,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Slide the digit tape, or use the arrow buttons, to write 9.1 × 10^-3 as an ordinary number.\n\nPlace value\n10⁴\n10³\n10²\n10\n1\n1/10\n10⁻²\n10⁻³\n10⁻⁴\n10⁻⁵\n9\n1\ndecimal point stays fixed\ndigit tape\nslide\nThe digits move past the fixed decimal point.\n9.1\n×\n10-3\n9.1 × 10^-3\n=\n9.1\nequals 9.1\nMove digits\n←\nstart\n→\n\nUse the power to choose how far the digits move.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "prime-factors-1",
+    "group": "Others",
+    "title": "prime-factors\nwritten by Sonnet 5.5",
+    "chars": 254,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a composite tile, choose a factor with − and +, then press Split. Break 360 into primes.\n\nprime leaves: 0\nstill to split: 1\n360\nGold tiles are prime. Blue tiles can split.\nFactor of 360\n−\n2\n+\nSplit 360 into 2 × 180\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "prime-factors-2",
+    "group": "Others",
+    "title": "prime-factors\nwritten by Sonnet 5.5",
+    "chars": 249,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a composite tile, choose a factor with − and +, then press Split. Break 84 into primes.\n\nprime leaves: 0\nstill to split: 1\n84\nGold tiles are prime. Blue tiles can split.\nFactor of 84\n−\n2\n+\nSplit 84 into 2 × 42\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "prime-factors-3",
+    "group": "Others",
+    "title": "prime-factors\nwritten by Sonnet 5.5",
+    "chars": 296,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a prime in the 84 row, then an equal prime in the 180 row. Pair all the shared primes to find the HCF.\n\nshared pairs\n84\n180\nmatching primes move here\n2\n2\n3\n7\n2\n2\n3\n3\n5\nTap equal primes in each row. Tap the middle to undo.\n\nShared pairs\n0\n\nShared product\n1\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "prime-factors-4",
+    "group": "Others",
+    "title": "prime-factors\nwritten by Sonnet 5.5",
+    "chars": 304,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a prime in the 84 row, then an equal prime in the 180 row. Pair all the shared primes to find the LCM.\n\nshared pairs\n84\n180\nmatching primes move here\n2\n2\n3\n7\n2\n2\n3\n3\n5\nTap equal primes in each row. Tap the middle to undo.\n\nShared pairs\n0\n\nPrimes, pairs once\n15120\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "telling-time-1",
+    "group": "Others",
+    "title": "telling-time\nwritten by Sonnet 5.5",
+    "chars": 273,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the orange grip on the minute hand to set 3:30 pm. Use − or + for one minute at a time.\n\nSet 3:30 pm\n\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\nshort hour hand · long minute hand · orange grip\nMinute hand\n−\n1 minute\n+\nClock shows (12-hour)\n2:45 pm\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "telling-time-2",
+    "group": "Others",
+    "title": "telling-time\nwritten by Sonnet 5.5",
+    "chars": 267,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the orange grip on the minute hand to set 15:45. Use − or + for one minute at a time.\n\nSet 15:45\n\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\nshort hour hand · long minute hand · orange grip\nMinute hand\n−\n1 minute\n+\nClock shows (24-hour)\n15:00\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "telling-time-3",
+    "group": "Others",
+    "title": "telling-time\nwritten by Sonnet 5.5",
+    "chars": 286,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the orange grip on the minute hand forward from 09:45 to 11:20. Watch the time passed.\n\nFrom 09:45 to 11:20\n\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\nshort hour hand · long minute hand · orange grip\nMinute hand\n−\n1 minute\n+\nClock shows\n09:45\nTime passed\n0h\n0m\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "shadows-1",
+    "group": "Others",
+    "title": "shadows\nwritten by Sonnet 5.5",
+    "chars": 342,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the torch by its white grip, or use the distance buttons, to make the rabbit’s shadow 24 cm tall.\n\nShadow bench\nfront\ngoal\n10\n15\n20\n25\n30\ntorch to rabbit (cm)\nrabbit\nscreen\ntorch\n\nShadow height\n16.0cm\n\nGoal\n24cm\n\nTorch distance\n−\n30 cm\n+\nThe puppet blocks the light; its outline appears on the screen.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "shadows-2",
+    "group": "Others",
+    "title": "shadows\nwritten by Sonnet 5.5",
+    "chars": 342,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the torch by its white grip, or use the distance buttons, to make the rabbit’s shadow 20 cm tall.\n\nShadow bench\nfront\ngoal\n10\n15\n20\n25\n30\ntorch to rabbit (cm)\nrabbit\nscreen\ntorch\n\nShadow height\n16.0cm\n\nGoal\n20cm\n\nTorch distance\n−\n30 cm\n+\nThe puppet blocks the light; its outline appears on the screen.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "shadows-3",
+    "group": "Others",
+    "title": "shadows\nwritten by Sonnet 5.5",
+    "chars": 279,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the Sun along its path, or use the time buttons, to make the stick’s shadow as short as you can.\n\nShadow stick\nwest\neast\nstick\nshadow\nSun\n\nShadow length\n121cm\n\nTime of day\n−\n8:30 am\n+\nMove the Sun: watch the shadow’s length and direction.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "dissolving-1",
+    "group": "Others",
+    "title": "dissolving\nwritten by Sonnet 5.5",
+    "chars": 309,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the spoon sideways to stir, or use Stir once. Keep going until no solid is left, and watch the total mass.\n\nStirring test\n20 g\nwater\n20 °C\nGrains of sugar in 20 g of water\nSpoon\nStir once\n\nSolid left\n10 g\n\nTotal mass\n30 g\n\nDrag the spoon sideways, or press Stir once.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "dissolving-2",
+    "group": "Others",
+    "title": "dissolving\nwritten by Sonnet 5.5",
+    "chars": 303,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the spoon sideways to stir, or use Stir once. Stir four times, then watch what settles at the bottom.\n\nStirring test\n20 g\nwater\n20 °C\nGrains of sand in 20 g of water\nSpoon\nStir once\n\nSolid left\n10 g\n\nTotal mass\n30 g\n\nDrag the spoon sideways, or press Stir once.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "dissolving-3",
+    "group": "Others",
+    "title": "dissolving\nwritten by Sonnet 5.5",
+    "chars": 363,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Add 10 g spoonfuls until some sugar stays at the bottom of the cold water. Then use the temperature buttons to warm the water until no solid is left.\n\nSugar and water\n20 g\nwater\n20 °C\nsugar\n20 g of water · each spoonful is 10 g of sugar\nSugar\nAdd 10 g spoonful\nWater temperature\n−\n20 °C\n+\n\nSugar added\n0 g\n\nSolid at bottom\n0 g\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "punctuation-1",
+    "group": "Others",
+    "title": "punctuation\nwritten by Sonnet 5.5",
+    "chars": 422,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the comma into the sentence, or tap it and then tap the gap. Make the sentence invite Grandma to eat.\n\nLet’s eat Grandma.\n\nMia\nGrandma\nWho is eating, and who is being eaten?\nGrandma is on the serving dish. She sounds like the food.\n,\ncomma\n\nDrag a mark into a gap, or tap a mark then a gap.\nTap a placed mark to remove it.\n\nGrandma is on the serving dish. She sounds like the food.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "punctuation-2",
+    "group": "Others",
+    "title": "punctuation\nwritten by Sonnet 5.5",
+    "chars": 413,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the apostrophe into the gap, or tap it and then tap the gap. Show that the bones belong to two dogs.\n\nThe dogs bones are buried here.\n\ntwo dogs\nTwo dogs. The bones belong to them.\nThe owner word and the bone are not linked yet.\n’\napostrophe\n\nDrag a mark into a gap, or tap a mark then a gap.\nTap a placed mark to remove it.\n\nThe owner word and the bone are not linked yet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "punctuation-3",
+    "group": "Others",
+    "title": "punctuation\nwritten by Sonnet 5.5",
+    "chars": 473,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the marks into the four gaps, or tap a mark and then a gap. Punctuate Maya’s exact words as direct speech.\n\nMaya said Where is my book\n\nWhere is my book\nMaya’s exact words\nMaya\nThe bubble holds Maya’s exact words.\nMaya’s exact words are not enclosed yet.\n,\ncomma\n‘\nopen speech\n?\nquestion mark\n’\nclose speech\n\nDrag a mark into a gap, or tap a mark then a gap.\nTap a placed mark to remove it.\n\nMaya’s exact words are not enclosed yet.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "punctuation-4",
+    "group": "Others",
+    "title": "punctuation\nwritten by Sonnet 5.5",
+    "chars": 461,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "This is two complete thoughts joined by a comma. Drag the full stop to where the first thought ends, or tap it and then that gap.\n\nThe rain stopped, we went outside.\n\nThe rain stopped,\nwe went outside.\nBoth sides are complete thoughts.\nOne comma joins the two complete thoughts.\n,\ncomma\n.\nfull stop\n\nDrag a mark into a gap, or tap a mark then a gap.\nTap a placed mark to remove it.\n\nOne comma joins the two complete thoughts.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-growth-1",
+    "group": "Others",
+    "title": "plant-growth\nwritten by Sonnet 5.5",
+    "chars": 383,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Care for this bean for the next 7 days. Drag the watering can to the cotton wool, pull the blind cord to change the light, and set the air temperature. Make the bean sprout.\n\nAim: make the bean sprout\nAir\n22°C\nBlind closed\ncotton wool\nAfter 7 days: a dry, unsprouted bean on cotton wool.\n\nWater\nNone\n\nLight\nDark\n\nAir temperature\n4°C cold\n22°C warm\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-growth-2",
+    "group": "Others",
+    "title": "plant-growth\nwritten by Sonnet 5.5",
+    "chars": 383,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Care for this plant for the next 3 weeks. Drag the watering can to the soil, pull the blind cord to change the light, and set the air temperature. Make it upright, green and growing well.\n\nAim: green, upright growth\nAir\n22°C\nBlind closed\nsoil\nAfter 3 weeks: a drooping plant in dry soil.\n\nWater\nNone\n\nLight\nDark\n\nAir temperature\n4°C cold\n22°C warm\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-growth-3",
+    "group": "Others",
+    "title": "plant-growth\nwritten by Sonnet 5.5",
+    "chars": 371,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Care for this plant for the next 3 weeks. Drag one feed bottle to the soil and see how the plant responds. Choose the feed that returns it to healthy green growth.\n\nAim: green, upright growth\nAir\n22°C\nBlind open\nsoil\nNitrate\nMagnesium\nAfter 3 weeks: short growth and yellow older leaves.\n\nWater\nAdded\n\nLight\nLight\n\nFeed used: none yet\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "plant-growth-4",
+    "group": "Others",
+    "title": "plant-growth\nwritten by Sonnet 5.5",
+    "chars": 374,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Care for this plant for the next 3 weeks. Drag one feed bottle to the soil and see how the plant responds. Choose the feed that returns it to healthy green growth.\n\nAim: green, upright growth\nAir\n22°C\nBlind open\nsoil\nNitrate\nMagnesium\nAfter 3 weeks: yellow patches between green leaf veins.\n\nWater\nAdded\n\nLight\nLight\n\nFeed used: none yet\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "word-classes-1",
+    "group": "Others",
+    "title": "word-classes\nwritten by Sonnet 5.5",
+    "chars": 314,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a tile to swap it in for the amber word. Pick a word that does the same job, so the sentence still works.\n\nSwap the amber word, then read the sentence back.\n\nMia took a \nwalk\n to the shop.\n\nSame job in the sentence, and it still works.\nWord tiles\nhappy\nquickly\nrun\nswim\nthey\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "word-classes-2",
+    "group": "Others",
+    "title": "word-classes\nwritten by Sonnet 5.5",
+    "chars": 325,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a tile to swap it in for the amber word. Pick a word that does the same job, so the sentence still works.\n\nSwap the amber word, then read the sentence back.\n\nHe answered the question \npolitely\n.\n\nSame job in the sentence, and it still works.\nWord tiles\ncalmly\nloudly\ntall\nteacher\nunder\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "word-classes-3",
+    "group": "Others",
+    "title": "word-classes\nwritten by Sonnet 5.5",
+    "chars": 309,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a socket, then tap a tile to fill it. Fill every socket with a word that does the job named under it.\n\nA pronoun stands in for a noun.\n\n \npronoun\n \nverb\n \npreposition\nthe\n \nnoun\n.\n\nA word's class is its job, not its meaning.\nWord tiles\nclimbed\nhappy\nquickly\nshe\ntree\nup\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "multiplication-arrays-1",
+    "group": "Others",
+    "title": "multiplication-arrays\nwritten by Sonnet 5.5",
+    "chars": 322,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the round handle on the tray's corner, or use the Rows and In each row buttons, to make 4 rows with 3 cookies in each row. The Turn button gives the tray a quarter turn.\n\n1\n1\nDrag the round handle to resize the tray.\nRows\n−\n1\n+\nIn each row\n−\n1\n+\nTurn\n\n1 row of 1, 1 cookie in all.\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "multiplication-arrays-2",
+    "group": "Others",
+    "title": "multiplication-arrays\nwritten by Sonnet 5.5",
+    "chars": 303,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a plate to give it one cookie from the pile, or press Deal a round to give every plate one. Share 13 cookies equally between 4 plates.\n\n0\n0\n0\n0\nCookies left in the pile\n13\nTap a plate to deal it one cookie. The small minus takes one back.\nDeal a round\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "flower-reproduction-1",
+    "group": "Others",
+    "title": "flower-reproduction\nwritten by Sonnet 5.5",
+    "chars": 306,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the bee to the part of the flower that makes pollen, then drag it to the part that must catch it.\n\npetal\nanther\nfilament\nstigma\nstyle\novary\novule\nsepal\nA flower cut in half. A bee is hovering beside it.\nPollen on the bee\nNone\nGrains left on the flower\n0\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "flower-reproduction-2",
+    "group": "Others",
+    "title": "flower-reproduction\nwritten by Sonnet 5.5",
+    "chars": 268,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the tip of each pollen grain's tube down into the flower, to the place where a seed will start.\n\npetal\npollen grain\nstigma\nstyle\novary\novule\nA flower cut in half, with pollen grains sitting on top.\nTubes in ovules\n0\nStart again\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "order-of-operations-1",
+    "group": "Others",
+    "title": "order-of-operations\nwritten by Sonnet 5.5",
+    "chars": 304,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the calculation you would work out next, and keep going until one number is left.\n\n2\n+\n3\n×\n4\nTap the calculation to work out next. Each step writes a new line.\n\nSteps done\n0 of 2\n\nAnswer\nNot yet\n\nUndo\nStart again\nWorking: 2 + 3 × 4. 0 of 2 calculations worked out.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "order-of-operations-2",
+    "group": "Others",
+    "title": "order-of-operations\nwritten by Sonnet 5.5",
+    "chars": 298,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap the calculation to do next, one step at a time, until one number is left.\n\n12\n÷\n2\n×\n3\nTap the calculation to work out next. Each step writes a new line.\n\nSteps done\n0 of 2\n\nAnswer\nNot yet\n\nUndo\nStart again\nWorking: 12 ÷ 2 × 3. 0 of 2 calculations worked out.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "order-of-operations-3",
+    "group": "Others",
+    "title": "order-of-operations\nwritten by Sonnet 5.5",
+    "chars": 302,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap an operation to put brackets round it. Make the sum come to 14.\n\n3\n+\n4\n×\n2\nTap an operation to put brackets round it and its two numbers. Tap again to take them off.\n\nTarget\n14\n\nYour sum comes to\n11\n\nTake brackets off\n3 + 4 × 2. It comes to 11. The target is 14.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "rocks-weathering-1",
+    "group": "Others",
+    "title": "rocks-weathering\nwritten by Sonnet 5.5",
+    "chars": 378,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the magma up or down through the ground until the rock it cools into looks like the target, then check.\n\nLava on the surface\ncools very fast\nJust under the surface\ncools fast\n1 km down\ncools slowly\n5 km down\ncools very slowly\n15 km down\ncools slowest\nMagma\nYour rock\nTarget rock\nSlide the magma and compare the crystals in the two rocks.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "rocks-weathering-2",
+    "group": "Others",
+    "title": "rocks-weathering\nwritten by Sonnet 5.5",
+    "chars": 348,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap Add acid on each rock to test it, then tap Wears away on the rocks that acid rain would slowly eat into.\n\nLimestone\n\nNot tested\n\nAdd acid\nWears away\n\nGranite\n\nNot tested\n\nAdd acid\nWears away\n\nMarble\n\nNot tested\n\nAdd acid\nWears away\n\nBasalt\n\nNot tested\n\nAdd acid\nWears away\nAcid on a rock: watch what happens.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "day-night-1",
+    "group": "Others",
+    "title": "day-night\nwritten by Sonnet 5.5",
+    "chars": 291,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the Earth round the way its arrow points, or tap the turn buttons. Stop when you see the Sun rise.\n\nMake it\nsunrise\nfor you\n\nSun\nsunlight\nday\nnight\neast\nwest\nyour sky\nSeen from above the North Pole\nthe way it spins\nyou\n\nHours turned\n0\n\n1 hour\n6 hours\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "day-night-2",
+    "group": "Others",
+    "title": "day-night\nwritten by Sonnet 5.5",
+    "chars": 294,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the Earth round the way its arrow points, or tap the turn buttons. Stop when it is midnight for you.\n\nMake it\nmidnight\nfor you\n\nSun\nsunlight\nday\nnight\neast\nwest\nyour sky\nSeen from above the North Pole\nthe way it spins\nyou\n\nHours turned\n0\n\n1 hour\n6 hours\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "day-night-3",
+    "group": "Others",
+    "title": "day-night\nwritten by Sonnet 5.5",
+    "chars": 391,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Your curtains are closed, so use the globe. Drag the Earth round the way its arrow points, or tap the turn buttons, and stop when you think it is sunset for you.\n\nMake it\nsunset\nfor you, with your curtains closed\n\nSun\nsunlight\nday\nnight\neast\nwest\nyour sky\ncurtains closed\nSeen from above the North Pole\nthe way it spins\nyou\n\nHours turned\n0\n\n1 hour\n6 hours\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "skeleton-muscles-1",
+    "group": "Others",
+    "title": "skeleton-muscles\nwritten by Sonnet 5.5",
+    "chars": 408,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a muscle to contract it, and tap it again to relax it. Straighten the arm at the elbow.\n\nbiceps\ntriceps\ntendon\nball and socket joint\nhinge joint\nligament\ngoal\nThe biceps is contracted, pulling on the forearm.\nBiceps\nRelaxed\nContracted\nTriceps\nRelaxed\nContracted\n\nGoal\nStraighten the arm\n\nElbow\nBent\n\nThe biceps is contracted, pulling on the forearm. The elbow is bent.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "skeleton-muscles-2",
+    "group": "Others",
+    "title": "skeleton-muscles\nwritten by Sonnet 5.5",
+    "chars": 406,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a muscle to contract it, and tap it again to relax it. Bend the arm at the elbow.\n\nbiceps\ntriceps\ntendon\nball and socket joint\nhinge joint\nligament\ngoal\nThe triceps is contracted, pulling on the forearm.\nBiceps\nRelaxed\nContracted\nTriceps\nRelaxed\nContracted\n\nGoal\nBend the arm\n\nElbow\nStraight\n\nThe triceps is contracted, pulling on the forearm. The elbow is straight.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "skeleton-muscles-3",
+    "group": "Others",
+    "title": "skeleton-muscles\nwritten by Sonnet 5.5",
+    "chars": 448,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a muscle to contract it, and tap it again to relax it. Bend the arm, then straighten it again.\n\nbiceps\ntriceps\ntendon\nball and socket joint\nhinge joint\nligament\ngoal\nBoth muscles are relaxed: nothing is pulling on the forearm.\nBiceps\nRelaxed\nContracted\nTriceps\nRelaxed\nContracted\n\nGoal\nBend, then straighten\n\nElbow\nStraight\n\nBoth muscles are relaxed: nothing is pulling on the forearm. The elbow is straight.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "symmetry-1",
+    "group": "Others",
+    "title": "symmetry\nwritten by Sonnet 5.5",
+    "chars": 289,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap two dots to fold the rectangle along the line between them. Draw every line of symmetry, or say it has none.\n\nRectangle cut from card. Tap two dots to fold it along the line between them.\n\nLines of symmetry drawn\n0\n\nIt has none\n0 pencil lines drawn.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "symmetry-2",
+    "group": "Others",
+    "title": "symmetry\nwritten by Sonnet 5.5",
+    "chars": 297,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap two dots to fold the parallelogram along the line between them. Draw every line of symmetry, or say it has none.\n\nParallelogram cut from card. Tap two dots to fold it along the line between them.\n\nLines of symmetry drawn\n0\n\nIt has none\n0 pencil lines drawn.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "symmetry-3",
+    "group": "Others",
+    "title": "symmetry\nwritten by Sonnet 5.5",
+    "chars": 432,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Turn the tracing paper one full turn, by its tab or the turn buttons. Each time it fits the shape exactly, mark the card under the red dot.\n\nstart\ntracing paper\nParallelogram under tracing paper. Turn it one full turn, and mark under the red dot each time it fits.\nTurned\n0°\n\nMarks made\n0\n\nMark under the red dot\nTurned 0 degrees. The traced outline lies exactly on the card’s edge. 0 marks made.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "money-change-1",
+    "group": "Others",
+    "title": "money-change\nwritten by Sonnet 5.5",
+    "chars": 446,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a coin in the till to count it out, and tap a coin on the counter to put it back. The book costs £3.40 and the customer pays with a £5 note. Count on from the price to give the right change.\n\ntill\n1p\n2p\n5p\n10p\n20p\n50p\n£1\n£2\nbook\n£3.40\nprice\n£5\npaid\n£3.40\nTap a coin in the till to count it out from the price. Tap a coin on the counter to put it back.\n\nCounted up to\n£3.40\n\nPaid\n£5.00\n\nCounted up to £3.40.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "money-change-2",
+    "group": "Others",
+    "title": "money-change\nwritten by Sonnet 5.5",
+    "chars": 486,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap a coin in the till to count it out, and tap a coin on the counter to put it back. The ball costs $6.35 and the customer pays with a $10 note. Count on from the price to give the right change, with the fewest coins you can.\n\ntill\n1c\n5c\n10c\n25c\n50c\n$1\n$2\nball\n$6.35\nprice\n$10\npaid\n$6.35\nTap a coin in the till to count it out from the price. Tap a coin on the counter to put it back.\n\nCounted up to\n$6.35\n\nCoins\n0\n\nPaid\n$10.00\n\nCounted up to $6.35.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "money-change-3",
+    "group": "Others",
+    "title": "money-change\nwritten by Sonnet 5.5",
+    "chars": 412,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap one of your coins to put it on the counter, and tap a coin on the counter to take it back. The apple costs £1.05. Pay exactly that, with the fewest coins you can.\n\nyour coins\n1p\n2p\n5p\n10p\n20p\n50p\n£1\n£2\napple\n£1.05\nprice\n0p\nTap one of your coins to put it on the counter. Tap a coin on the counter to take it back.\n\nCounted up to\n0p\n\nCoins\n0\n\nPrice\n£1.05\n\nCounted up to 0p.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "figurative-language-1",
+    "group": "Others",
+    "title": "figurative-language\nwritten by Sonnet 5.5",
+    "chars": 451,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap what a mirror is like to carry it into the reader's picture, and tap again to take it out. Carry across only what the writer meant.\n\nThe lake was like a mirror.\n\nAim:\nmake the picture the writer meant.\n\nWhat a reader pictures\nWhat is a mirror like? Tap to carry it into the picture.\nhas a frame round it\nshows what is in front\ncracks if you drop it\nis flat and still\nA reader pictures a lake with small ripples.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "figurative-language-2",
+    "group": "Others",
+    "title": "figurative-language\nwritten by Sonnet 5.5",
+    "chars": 444,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap what a dancer does to carry it into the reader's picture, and tap again to take it out. Carry across only what the writer meant.\n\nThe leaves danced in the wind.\n\nAim:\nmake the picture the writer meant.\n\nWhat a reader pictures\nWhat does a dancer do? Tap to carry it into the picture.\nwears dancing shoes\nspins and twirls\nleaps lightly\nholds a partner’s hand\nA reader pictures leaves falling to the ground.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "figurative-language-3",
+    "group": "Others",
+    "title": "figurative-language\nwritten by Sonnet 5.5",
+    "chars": 509,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap an ending to finish the sentence, and tap another to change it. Make the reader see snow so deep and soft that it covers everything, using a comparison.\n\nThe snow was white.\n\nAim:\nmake the reader see snow so deep and soft that it covers everything, using a comparison.\n\nWhat a reader pictures\nTap an ending to finish the sentence.\na dusting of icing sugar\nvery, very white\na thick blanket\nwhite, and I like snow\nA reader pictures a town with a little snow on the roofs.\nGood\nNeeds changes\nRedo\nSt"
+  },
+  {
+    "id": "life-cycles-1",
+    "group": "Others",
+    "title": "life-cycles\nwritten by Sonnet 5.5",
+    "chars": 337,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the time slider, or tap + and −, and watch it grow. Stop when it eats leaves.\n\nGoal\nStop when it eats leaves.\n\negg\nparent\nflowers\nmilkweed\nOne monarch butterfly on a milkweed plant. Not to scale.\nTime\n−\n+\nDay 0\nDay 0. A butterfly has just laid one tiny egg on a milkweed leaf, and is flying away.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "life-cycles-2",
+    "group": "Others",
+    "title": "life-cycles\nwritten by Sonnet 5.5",
+    "chars": 396,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the time slider, or tap + and −, and watch it grow. Stop when the tadpole has changed into its next stage.\n\nGoal\nStop when the tadpole has changed into its next stage.\n\nlily pad\npond weed\nstone\npond\nOne common frog in a garden pond. Not to scale.\nTime\n−\n+\nWeek 3\nWeek 3. A tiny animal with a tail clings to the pond weed, with feathery frills on its head.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "life-cycles-3",
+    "group": "Others",
+    "title": "life-cycles\nwritten by Sonnet 5.5",
+    "chars": 289,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the time slider, or tap + and −, and watch it grow. Stop when it grows its first root.\n\nGoal\nStop when it grows its first root.\n\nsoil\nseed\nOne sunflower, with the soil cut away. Not to scale.\nTime\n−\n+\nDay 0\nDay 0. One striped seed lies in the soil.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "eye-1",
+    "group": "Others",
+    "title": "eye\nwritten by Sonnet 5.5",
+    "chars": 539,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Now look up at a tree far away. Pick a button for the ciliary muscle so the light from the tree meets on the retina.\n\nciliary muscle\nsuspensory ligaments\niris\nlens\ncornea\nretina\nfovea\nblind spot\noptic nerve\nThe ciliary muscle is contracted: the ligaments are slack and the lens is fat.\nCiliary muscle\nRelaxed\nContracted\n\nGoal\nSee the far tree sharply\n\nLight meets\nIn front of the retina\n\nThe ciliary muscle is contracted: the ligaments are slack and the lens is fat. Light meets: In front of the reti"
+  },
+  {
+    "id": "eye-2",
+    "group": "Others",
+    "title": "eye\nwritten by Sonnet 5.5",
+    "chars": 457,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "The lights go down. Set the two iris muscles with their buttons, the way the reflex would, so you can still see.\n\niris\nradial muscle\npupil\ncircular muscle\nThe circular muscle is contracted, squeezing the pupil narrow.\nCircular muscle\nRelaxed\nContracted\nRadial muscle\nRelaxed\nContracted\n\nGoal\nDim room: let in enough light to see\n\nPupil\nNarrow\n\nThe circular muscle is contracted, squeezing the pupil narrow. Pupil: Narrow.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "pendulum-1",
+    "group": "Others",
+    "title": "pendulum\nwritten by Sonnet 5.5",
+    "chars": 789,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "This pendulum swings a little too fast. Make it swing more slowly: change one thing, then press Release to time it.\n\ncm\n25\n50\n75\n100\n5°\nstring\nwooden bob, 50 g\n0\n0\ns\n10 swings\ncomplete swings\none swing = 14.2 ÷ 10 = 1.42 s\nstring\nbob\npull\n10 swings\nA wooden bob (50 g) hangs on a 50 cm string, to be pulled back 5° and let go. Press Release to time ten swings.\nString\n25 cm\n50 cm\n75 cm\n1 m\nBob\nWooden, 50 g\nSteel, 500 g\nPull back\n5°\n10°\nRelease\n\nGoal\nSwing more slowly\n\nOne swing\n—\n\nA pendulum with a"
+  },
+  {
+    "id": "tree-diagrams-1",
+    "group": "Others",
+    "title": "tree-diagrams\nwritten by Sonnet 5.5",
+    "chars": 646,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Take out red, then red. Decide what to do with the first counter so that two reds have a chance of 9/25.\n\nfirst draw\nsecond draw\nchance of these draws\n0\n1\n3\n5\n2\n5\n3 red, 2 blue\nThe bag holds 3 red and 2 blue counters. Take one out.\nTake out\nRed\nBlue\nBag\nPut it back\nStart again\n\nGoal\nRed then red, with a chance of 9/25\nYou decide if the first goes back.\n\nChance of these draws\nNothing taken yet\n\nA bag with 3 red and 2 blue counters in it, and a probability tree for two draws. No counter has been t"
+  },
+  {
+    "id": "transformers-1",
+    "group": "Others",
+    "title": "transformers\nwritten by Sonnet 5.5",
+    "chars": 620,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Wind turns onto the secondary coil until the 6 V lamp glows at its proper brightness.\n\nA\n12 V a.c.\n12 V battery\n6 V\nV\nlaminated iron core\nprimary\n6 turns\nsecondary\n1 turn\nmagnetic field\nThe lamp gets 2 V, less than the 6 V it is made for, so it glows dimly.\nSecondary\n−\n1 turn\n+\n\nGoal\nLight the 6 V lamp at its proper brightness\n\nLamp voltage\n2 V\n\nA transformer with 6 turns on the primary coil and 1 on the secondary, driven by a 12 V a.c. supply. The voltmeter across the 6 V lamp reads 2 V. The la"
+  },
+  {
+    "id": "encryption-1",
+    "group": "Others",
+    "title": "encryption\nwritten by Sonnet 5.5",
+    "chars": 747,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "You and Bo agreed on key 3. Turn the wheel to lock your note, then send it past Eve.\n\nEve\nBo\n3\nBo's key\nM\nE\nE\nT\nA\nT\nT\nE\nN\nciphertext\nplaintext\nM\nE\nE\nT\nA\nT\nT\nE\nN\nA\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nQ\nR\nS\nT\nU\nV\nW\nX\nY\nZ\nA\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nQ\nR\nS\nT\nU\nV\nW\nX\nY\nZ\nkey\n0\nplain letters\ncipher letters\nThe ring is not turned, so every letter stays itself and the slip says the note as it is.\nRing\n◀ Turn back\nTurn on ▶\nSend the note\n\nGoal\nLock your note with Bo's key and send it\n\nStart again\n\nYour key"
+  },
+  {
+    "id": "rusting-1",
+    "group": "Others",
+    "title": "rusting\nwritten by Sonnet 5.5",
+    "chars": 574,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the buttons to set up a tube where this nail will rust, then leave it for a week.\n\nDay 0 of 7\ndry air\nnail\nstopper\ncotton wool\ndrying agent\nThe nail sits on cotton wool over a drying agent, which soaks up water from the air. The stopper keeps damp room air out.\nWater\nNone\nTap water\nAir\nKept out\nLet in\nLeave for a week\nNew nail\n\nGoal\nMake the nail rust\n\nRust\nNot left yet\n\nA nail in dry air. The nail sits on cotton wool over a drying agent, which soaks up water from the air. The stopper keeps "
+  },
+  {
+    "id": "energy-resources-1",
+    "group": "Others",
+    "title": "energy-resources\nwritten by Sonnet 5.5",
+    "chars": 806,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Keep every home lit at noon and in the evening, with no more than 6 units of CO2. Build with the + buttons, then tap each time of day to watch.\n\nwind turbines\nsolar panels\ncoal power stations\nNoon, still and clear. Nothing is built yet, so the town has no power. Each station makes up to 3 homes' worth.\nWind turbines\n−\n0\n+\nSolar panels\n−\n0\n+\nCoal stations\n−\n0\n+\nTime of day\nNoon\nEvening\n\nGoal\nLight every home at noon and in the evening, with no more than 6 units of CO2\n\nHomes lit\n0 of 6\n\nCO2 today"
+  },
+  {
+    "id": "respiration-1",
+    "group": "Others",
+    "title": "respiration\nwritten by Sonnet 5.5",
+    "chars": 375,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Use the pace buttons and Next 5 seconds. Make lactic acid, then get its reading back to 0.\n\nResting — 0 s\none muscle cell\nno lactic acid yet\nblood\nblue discs: oxygen\nmuscle needs 2\nExercise the muscle, then let it recover.\nExercise pace\n−\nRest\n+\nLactic acid\n0\n\nBreathing\nCalm\n\nNext 5 seconds\nRest, 0 seconds. Lactic acid 0. Breathing Calm.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "respiration-2",
+    "group": "Others",
+    "title": "respiration\nwritten by Sonnet 5.5",
+    "chars": 438,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap Add glucose, then Wait 1 minute. Watch the bubbles and limewater. Get clear evidence that the yeast is respiring.\n\nReady to investigate\noil keeps\noxygen out\nyeast mixture\nwarm water\nlimewater: clear\nWatch the bubbles reach the limewater.\nGlucose\n0 spoons\nAdd glucose\nTime with glucose\n0 min\nWait 1 minute\nGoal: show yeast respiring\nAdd glucose to begin\n0 glucose spoons, 0 minutes. Limewater clear.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "opportunity-cost-1",
+    "group": "Others",
+    "title": "opportunity-cost\nwritten by Sonnet 5.5",
+    "chars": 338,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "You choose Café shift. Tap the next-best activity you give up, or drag it into the Give up tray.\n\nOne free afternoon · your choice\n\nCafé shift\n\nYour next-best alternative\nGive up tray\none activity here\nTap an activity, or drag it to the tray.\nCinema\nwith friends\nFootball\nin the park\nStudy\nfor the test\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "opportunity-cost-2",
+    "group": "Others",
+    "title": "opportunity-cost\nwritten by Sonnet 5.5",
+    "chars": 332,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "You choose Study. Tap the next-best activity you give up, or drag it into the Give up tray.\n\nOne free Saturday · your choice\n\nStudy\n\nYour next-best alternative\nGive up tray\none activity here\nTap an activity, or drag it to the tray.\nCafé shift\n4 pm to 7 pm\nCinema\nwith friends\nFootball\nin the park\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "opportunity-cost-3",
+    "group": "Others",
+    "title": "opportunity-cost\nwritten by Sonnet 5.5",
+    "chars": 419,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus to move workers between the crops. Fill the order: 30 tonnes of wheat and 30 tonnes of vegetables.\n\nWheat field\nVegetable field\nFixed land\n6 workers\nProduction possibilities\nWheat\nVeg\ntonnes\nOrder\n30 t wheat · 30 t veg\nWheat\n0 tonnes\nVegetables\n42 tonnes\nMove one worker: one crop grows, the other shrinks.\nWorkers growing wheat\n−\n0\n+\n\nWorkers growing vegetables\n6\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "opportunity-cost-4",
+    "group": "Others",
+    "title": "opportunity-cost\nwritten by Sonnet 5.5",
+    "chars": 419,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Tap minus or plus to move workers between the crops. Fill the order: 36 tonnes of wheat and 22 tonnes of vegetables.\n\nWheat field\nVegetable field\nFixed land\n6 workers\nProduction possibilities\nWheat\nVeg\ntonnes\nOrder\n36 t wheat · 22 t veg\nWheat\n0 tonnes\nVegetables\n42 tonnes\nMove one worker: one crop grows, the other shrinks.\nWorkers growing wheat\n−\n0\n+\n\nWorkers growing vegetables\n6\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "specific-heat-1",
+    "group": "Others",
+    "title": "specific-heat\nwritten by Sonnet 5.5",
+    "chars": 389,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag each energy slider until both thermometers reach 40 °C. Use − or + for small steps.\n\nTemperature (°C)\n40\n80\n120\n160\n40\n80\n120\n160\nAl\nWater\nAluminium\n1 kg\n1 kg\nWater\n20 °C\nAluminium\n20 °C\nEnergy to water\n−\n0 kJ\n+\nEnergy to aluminium\n−\n0 kJ\n+\n\nGoal: both at 40 °C. Heat each sample separately.\n\nWater 20 degrees Celsius. Aluminium 20 degrees Celsius.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "specific-heat-2",
+    "group": "Others",
+    "title": "specific-heat\nwritten by Sonnet 5.5",
+    "chars": 389,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag each energy slider until both thermometers reach 30 °C. Use − or + for small steps.\n\nTemperature (°C)\n40\n80\n120\n160\n40\n80\n120\n160\nAl\nWater\nAluminium\n2 kg\n2 kg\nWater\n20 °C\nAluminium\n20 °C\nEnergy to water\n−\n0 kJ\n+\nEnergy to aluminium\n−\n0 kJ\n+\n\nGoal: both at 30 °C. Heat each sample separately.\n\nWater 20 degrees Celsius. Aluminium 20 degrees Celsius.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "specific-heat-3",
+    "group": "Others",
+    "title": "specific-heat\nwritten by Sonnet 5.5",
+    "chars": 391,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the energy slider until the water reaches 40 °C. Both samples get the same energy; use − or + for small steps.\n\nTemperature (°C)\n40\n80\n120\n160\n40\n80\n120\n160\nAl\nWater\nAluminium\n1 kg\n1 kg\nWater\n20 °C\nAluminium\n20 °C\nEnergy to each sample\n−\n0 kJ\n+\n\nGoal: water at 40 °C. Both get the same energy.\n\nWater 20 degrees Celsius. Aluminium 20 degrees Celsius.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "specific-heat-4",
+    "group": "Others",
+    "title": "specific-heat\nwritten by Sonnet 5.5",
+    "chars": 399,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag the energy slider until the aluminium reaches 60 °C. Both samples get the same energy; use − or + for small steps.\n\nTemperature (°C)\n40\n80\n120\n160\n40\n80\n120\n160\nAl\nWater\nAluminium\n2 kg\n2 kg\nWater\n20 °C\nAluminium\n20 °C\nEnergy to each sample\n−\n0 kJ\n+\n\nGoal: aluminium at 60 °C. Both get the same energy.\n\nWater 20 degrees Celsius. Aluminium 20 degrees Celsius.\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "story-structure-1",
+    "group": "Others",
+    "title": "story-structure\nwritten by Sonnet 5.5",
+    "chars": 434,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag each event up or down to change the reader’s tension. Shape a story mountain: start calmly, build to one highest climax, then let the resolution and ending settle. Or tap an event and use its + and − buttons.\n\nReader’s tension\nlow to high\nKite by sea\nWind to\nrocks\nMia turns\nkite\nMia catches\nCalm walk\nhome\nDrag an event, or tap it and use + / −. The line bends with it.\nOpening tension\n−\n1\n+\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "story-structure-2",
+    "group": "Others",
+    "title": "story-structure\nwritten by Sonnet 5.5",
+    "chars": 428,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag each event up or down to change the reader’s tension. Shape a story mountain: start calmly, build to one highest climax, then let the resolution and ending settle. Or tap an event and use its + and − buttons.\n\nReader’s tension\nlow to high\nNia builds\nRobot rolls\nNia stops it\nPlant is\nsafe\nRobot helps\nDrag an event, or tap it and use + / −. The line bends with it.\nOpening tension\n−\n1\n+\n\nGood\nNeeds changes\nRedo\nStart again"
+  },
+  {
+    "id": "story-structure-3",
+    "group": "Others",
+    "title": "story-structure\nwritten by Sonnet 5.5",
+    "chars": 421,
+    "overflow": 0,
+    "clipped": 0,
+    "shot": "",
+    "text": "Drag each event up or down to change the reader’s tension. Mend the story mountain: build to one highest climax, then let the resolution and ending settle. Or tap an event and use its + and − buttons.\n\nReader’s tension\nlow to high\nSam checks\nLamp fails\nSam turns\ncrank\nBoat sees\nlight\nBoat sails\non\nDrag an event, or tap it and use + / −. The line bends with it.\nOpening tension\n−\n1\n+\n\nGood\nNeeds changes\nRedo\nStart again"
+  }
+]

@@ -200,7 +200,7 @@ export default function WelcomeFlow() {
               <div className="relative mx-auto mb-5 grid h-28 w-28 place-items-center">
                 {burstOk && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src="/art/celebration.png" alt="" aria-hidden onError={() => setBurstOk(false)} className="pointer-events-none absolute inset-0 h-full w-full object-contain" />
+                  <img src="/art/celebration.svg" alt="" aria-hidden onError={() => setBurstOk(false)} className="pointer-events-none absolute inset-0 h-full w-full object-contain" />
                 )}
                 {!burstOk &&
                   [0, 1, 2, 3, 4, 5].map((i) => (

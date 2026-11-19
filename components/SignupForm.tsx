@@ -265,12 +265,12 @@ export default function SignupForm({
           >
             <optgroup label={COUNTRY_GROUP_LABELS.international}>
               {internationalCountries.map((c) => (
-                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                <option key={c.code} value={c.code}>{c.name}</option>
               ))}
             </optgroup>
             <optgroup label={COUNTRY_GROUP_LABELS.africa}>
               {africanCountries.map((c) => (
-                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                <option key={c.code} value={c.code}>{c.name}</option>
               ))}
             </optgroup>
           </select>
@@ -343,7 +343,8 @@ export default function SignupForm({
             onChange={e => setPassword(e.target.value)} placeholder="Min. 6 characters" required
             className={`${inputBase} pr-11`} />
           <button type="button" onClick={() => setShowPassword(v => !v)}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-gray-300">
+            aria-label={showPassword ? 'Hide password' : 'Show password'} title={showPassword ? 'Hide password' : 'Show password'}
+            className="absolute right-1 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-gray-300">
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </Field>
@@ -353,7 +354,8 @@ export default function SignupForm({
             onChange={e => setConfirmPassword(e.target.value)} placeholder="••••••••" required
             className={`${inputBase} pr-11`} />
           <button type="button" onClick={() => setShowConfirmPassword(v => !v)}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-gray-300">
+            aria-label={showConfirmPassword ? 'Hide password confirmation' : 'Show password confirmation'} title={showConfirmPassword ? 'Hide password confirmation' : 'Show password confirmation'}
+            className="absolute right-1 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-gray-300">
             {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </Field>

@@ -1,0 +1,68 @@
+{
+  "dashboardStatus": 200,
+  "openStatus": 200,
+  "refreshStatus": 200,
+  "dashboard": {
+    "href": "http://localhost:3000/dashboard",
+    "welcome": true,
+    "marketing": false,
+    "sessionName": "Sumba Mabumba Branis"
+  },
+  "opened": {
+    "href": "http://localhost:3000/settings",
+    "settings": true,
+    "welcome": true,
+    "marketing": false,
+    "appError": false,
+    "sessionName": "Sumba Mabumba Branis",
+    "present": true,
+    "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba SETTINGS Profile & security Update your profile and password. Your student ID stays your primary identifier. PROFILE PHOTO Your photo Upload a new image or remove it to use the default. Change photo Remove Saved to your account — it follows you to any device you sign in on. PROFILE DETAILS Update your profile Your name, class and subjects. These decide what the dashboard "
+  },
+  "refreshed": {
+    "href": "http://localhost:3000/settings",
+    "settings": true,
+    "welcome": true,
+    "marketing": false,
+    "appError": false,
+    "portalText": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed ",
+    "sessionName": "Sumba Mabumba Branis",
+    "present": true,
+    "sumba": true,
+    "text": "Skip to main content StudySquare MENU Home Practice LearnSpace Gap Maps Progress Classes Settings Welcome back, Sumba 1 Sumba SETTINGS Profile & security Update your profile and password. Your student ID stays your primary identifier. PROFILE PHOTO Your photo Upload a new image or remove it to use the default. Change photo Remove Saved to your account — it follows you to any device you sign in on. PROFILE DETAILS Update your profile Your name, class and subjects. These decide what the dashboard "
+  },
+  "writes": [
+    {
+      "method": "POST",
+      "status": 200,
+      "url": "http://localhost:3000/api/user/onboarding"
+    }
+  ],
+  "trail": [
+    {
+      "event": "navigate",
+      "url": "http://localhost:3000/dashboard"
+    },
+    {
+      "event": "navigate",
+      "url": "http://localhost:3000/dashboard"
+    },
+    {
+      "event": "navigate",
+      "url": "http://localhost:3000/settings"
+    },
+    {
+      "event": "navigate",
+      "url": "http://localhost:3000/settings"
+    },
+    {
+      "event": "navigate",
+      "url": "http://localhost:3000/settings"
+    },
+    {
+      "event": "navigate",
+      "url": "http://localhost:3000/settings"
+    }
+  ],
+  "evidence": null,
+  "failed": false
+}

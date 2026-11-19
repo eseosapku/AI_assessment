@@ -1,0 +1,452 @@
+{
+  "pages": [
+    {
+      "name": "01-studylab",
+      "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-studylab/01-studylab.png",
+      "bottom": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-studylab/01-studylab-bottom.png",
+      "href": "http://localhost:3000/studylab",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "marketing": false,
+      "session": {
+        "hasUser": true,
+        "role": "student",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "spinners": [],
+      "alerts": [],
+      "dialogs": [
+        {
+          "label": "tour-title",
+          "text": "START A LESSON 1 / 3 Name what confused you The narrower the better. \"Photosynthesis\" gets you a tour of the topic; \"why leaves are green\" gets you an answer. The tutor lays out explanations, diagrams and worked examples, then quizzes you at checkpoints to see if it landed. Ready in about a minute. Skip the tour Next"
+        },
+        {
+          "label": "tour-title",
+          "text": "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you. Skip the tour Next"
+        }
+      ],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 8px; } p { margin-top: 0; margin-bottom: 16px; } abbr[title], abbr[data-original-title] { text-decoration: underline; -webkit-text-decoration: underline dotted; text-decoration: underline dotted; cursor: help; border-bottom: 0; -webkit-text-decoration-sk",
+      "overflowX": 0,
+      "offenders": [],
+      "canvases": [],
+      "nodes": [],
+      "rendererBox": null,
+      "buttons": [
+        "Skip to main content",
+        "StudySquare",
+        "Home",
+        "Practice",
+        "LearnSpace",
+        "Gap Maps",
+        "Progress",
+        "Classes",
+        "Settings",
+        "Toggle theme",
+        "Toggle theme",
+        "7",
+        "Sumba",
+        "Say hello to Kana",
+        "Build my lesson",
+        "Homework help",
+        "Continue",
+        "Study",
+        "Study",
+        "Study",
+        "Study",
+        "Study",
+        "Open your gap map",
+        "In progress 101",
+        "Completed 12",
+        "Mastering Relationships between different features (human and physical aspects) Geography S2 SB Nov 18",
+        "The Concept of Sonder and Loneliness Nov 16",
+        "Mastering 1.4 Respiration Cambridge Lower Secondary Science 8 Learners Book Nov 16",
+        "How water moves across a membrane in osmosis Biology Nov 4",
+        "Completing the square Mathematics Nov 4",
+        "Mastering Experimental evidence of semi-conservative DNA replication Biology S5 SB Not started Nov 4",
+        "How water moves across a membrane in osmosis Biology Nov 2",
+        "Why catalysts speed up reactions Chemistry Nov 2",
+        "The gradient of a curve and stationary points Mathematics Nov 2",
+        "Why a second bulb can make the first one dim Physics Nov 2",
+        "Reading distance-time graphs Physics Nov 2",
+        "Reading distance-time graphs Physics Not started Nov 2",
+        "Show 24 more",
+        "Skip the tour",
+        "Next"
+      ],
+      "lessonControls": {
+        "next": true,
+        "cards": 12,
+        "shelf": true,
+        "loadFailed": false
+      },
+      "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n7\nSumba\nWhat do you want to learn?\nBuild my lesson\nHomework help\n\nThe narrower the better: “why leaves are green” gets you an answer, “photosynthesis” a tour. Kana shows you around in your first lesson.\n\nMastering 1.1 Photosynthesis\n\nCambridge Lower Secondary Science 9 Learners Book\n\nStep 1 of 4: What is photosynthesis and why does it matter?\n\nContinue\nYour gaps\n\n193 to close, 29 developing, 55 mastered\n\nLaptop and Portable Devices Cleaning Procedures\n\nStudy\n\nArray of elements in data structure\n\nStudy\n\nComputer Network Concept and Technology\n\nStudy\n\nDifferent area where database can be applied\n\nStudy\n\nDatabase Design Steps\n\nStudy\nOpen your gap map\nIn progress 101\nCompleted 12\nMastering Relationships between different features (human and physical aspects)\nGeography S2 SB\nNov 18\nThe Concept of Sonder and Loneliness\nNov 16\nMastering 1.4 Respiration\nCambridge Lower Secondary Science 8 Learners Book\nNov 16\nHow water moves across a membrane in osmosis\nBiology\nNov 4\nCompleting the square\nMathematics\nNov 4\nMastering Experimental evidence of semi-conservative DNA replication\nBiology S5 SB\nNot started\nNov 4\nHow water moves across a membrane in osmosis\nBiology\nNov 2\nWhy catalysts speed up reactions\nChemistry\nNov 2\nThe gradient of a curve and stationary points\nMathematics\nNov 2\nWhy a second bulb can make the first one dim\nPhysics\nNov 2\nReading distance-time graphs\nPhysics\nNov 2\nReading distance-time graphs\nPhysics\nNot started\nNov 2\nShow 24 more\nSTART A LESSON\n1 / 3\nName what confused you\n\nThe narrower the better. \"Photosynthesis\" gets you a tour of the topic; \"why leaves are green\" gets you an answer. The tutor lays out explanations, diagrams and worked examples, then quizzes you at checkpoints to see if it landed.\n\nReady in about a minute.\n\nSkip the tour\nNext\nWHEN YOU GET STUCK\n1 / 3\nAsk for a lesson, not an answer\n\nName what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you.\n\nSkip the tour\nNext",
+      "console": [],
+      "network": []
+    },
+    {
+      "name": "02-lesson",
+      "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-studylab/02-lesson.png",
+      "bottom": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-studylab/02-lesson-bottom.png",
+      "href": "http://localhost:3000/studylab/cf39837f-54f2-435d-89fc-ac9b192b7fa0",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "marketing": false,
+      "session": {
+        "hasUser": true,
+        "role": "student",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "spinners": [],
+      "alerts": [],
+      "dialogs": [],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 8px; } p { margin-top: 0; margin-bottom: 16px; } abbr[title], abbr[data-original-title] { text-decoration: underline; -webkit-text-decoration: underline dotted; text-decoration: underline dotted; cursor: help; border-bottom: 0; -webkit-text-decoration-sk",
+      "overflowX": 0,
+      "offenders": [],
+      "canvases": [
+        {
+          "tag": "DIV",
+          "cls": "ss-lesson ss-trail ss-board-plain flex h-screen w-full flex-col overflow-hidden",
+          "left": 0,
+          "top": 0,
+          "right": 1440,
+          "bottom": 900,
+          "w": 1440,
+          "h": 900,
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "sh": 900,
+          "sw": 1440,
+          "ch": 900,
+          "cw": 1440
+        },
+        {
+          "tag": "DIV",
+          "cls": "react-flow ss-trail-canvas light",
+          "left": 0,
+          "top": 0,
+          "right": 1440,
+          "bottom": 900,
+          "w": 1440,
+          "h": 900,
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "sh": 1035,
+          "sw": 3188,
+          "ch": 900,
+          "cw": 1440
+        },
+        {
+          "tag": "DIV",
+          "cls": "react-flow__renderer",
+          "left": 0,
+          "top": 0,
+          "right": 1440,
+          "bottom": 900,
+          "w": 1440,
+          "h": 900,
+          "overflow": "visible",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "sh": 1035,
+          "sw": 3188,
+          "ch": 900,
+          "cw": 1440
+        }
+      ],
+      "nodes": [
+        {
+          "left": 58,
+          "top": -376,
+          "right": 59,
+          "bottom": -375,
+          "w": 1,
+          "h": 1,
+          "text": "StudySquare LearnSpace Cambridge Lower Secondary Science 9 Learners Book Masteri"
+        },
+        {
+          "left": 400,
+          "top": 356,
+          "right": 1040,
+          "bottom": 689,
+          "w": 640,
+          "h": 333,
+          "text": "CHECK · CHOOSE ONE Which statement best describes photosynthesis? Green plants u"
+        },
+        {
+          "left": 106,
+          "top": 156,
+          "right": 376,
+          "bottom": 512,
+          "w": 270,
+          "h": 357,
+          "text": "Move the light slider and watch both bars. Set the glucose production to 4 units"
+        },
+        {
+          "left": 106,
+          "top": 536,
+          "right": 376,
+          "bottom": 658,
+          "w": 270,
+          "h": 122,
+          "text": "Photosynthesis: making food using light Photosynthesis is the process by which g"
+        },
+        {
+          "left": 106,
+          "top": 682,
+          "right": 376,
+          "bottom": 1026,
+          "w": 270,
+          "h": 344,
+          "text": "Move the light slider and watch both bars. Set the glucose production to 6 units"
+        }
+      ],
+      "rendererBox": {
+        "left": 0,
+        "top": 0,
+        "right": 1440,
+        "bottom": 900,
+        "w": 1440,
+        "h": 900
+      },
+      "buttons": [
+        "Turn sound off",
+        "Close the chat",
+        "Say hello to Kana",
+        "Attach an image of your work",
+        "Send",
+        "Close the chat",
+        "Green plants use light energy to make glucose and release oxygen.",
+        "Green plants use glucose to make light energy.",
+        "Green plants absorb food from the soil and release carbon dioxide.",
+        "Green plants use oxygen to break down glucose only in darkness.",
+        "Go to the Check button",
+        "Open Move the light slider and watch both bars. Set the glucose p…",
+        "glucose",
+        "Go deeper",
+        "Open Photosynthesis: making food using light",
+        "Open Move the light slider and watch both bars. Set the glucose p…",
+        "Say hello to Kana",
+        "Check",
+        "Ask Kana",
+        "Ask Kana",
+        "Back to all LearnSpaces",
+        "What is photosynthesis and why does it matter?",
+        "Board",
+        "Open Move the light slider and watch both bars. Set the glucose p… (What is photosynthesis and why does it matter?)",
+        "Open Photosynthesis: making food using light (What is photosynthesis and why does it matter?)",
+        "Open Move the light slider and watch both bars. Set the glucose p… (What is photosynthesis and why does it matter?)",
+        "Got it"
+      ],
+      "lessonControls": {
+        "next": false,
+        "cards": 0,
+        "shelf": false,
+        "loadFailed": false
+      },
+      "text": "StudySquare LearnSpace\nCambridge Lower Secondary Science 9 Learners Book\nMastering 1.1 Photosynthesis\n\n4 stations · about 16 minutes\n\n1\n2\n3\n4\nWhat is photosynthesis and why does it matter?\nThe photosynthesis equation and where it happens\nTesting a leaf for starch\nExplain photosynthesis in your own words\nCHECK · CHOOSE ONE\n\nWhich statement best describes photosynthesis?\n\nGreen plants use light energy to make glucose and release oxygen.\nGreen plants use glucose to make light energy.\nGreen plants absorb food from the soil and release carbon dioxide.\nGreen plants use oxygen to break down glucose only in darkness.\nGo to the Check button\n\nMove the light slider and watch both bars. Set the glucose production to 4 units.\n\nAim for: Glucose production = 4\n\nGlucose production\n4 units\nOxygen production\n3 units\nLIGHT INTENSITY\n50 %\nSolved\n\nWHAT YOU JUST FOUND\n\nGreen plants use light energy to make glucose, releasing oxygen as they do so. This process is called photosynthesis; the glucose provides food for the plant and, through food chains, for other organisms.\n\nPhotosynthesis: making food using light\n\nPhotosynthesis is the process by which green plants use light energy to make glucose, releasing oxygen as well. This matters because plants use the glucose for growth and energy, while other organisms depend on plants for food and on the oxygen released for respiration.\nGo deeper\n\nMove the light slider and watch both bars. Set the glucose production to 6 units.\n\nAim for: Glucose production = 6\n\nGlucose production\n6 units\nOxygen production\n3 units\nLIGHT INTENSITY\n60 %\nSolved\n\nWHAT YOU JUST FOUND\n\nAt 60% light intensity, the plant produces 6 units of glucose and 3 units of oxygen. More light allows more photosynthesis, so both outputs rise together.\n\nCheck what plants make and why it matters.\nCheck what plants make and why it matters.\nCheck\nWhat is photosynthesis and why does it matter?\nBoard\nOpen Move the light slider and watch both bars. Set the glucose p… (What is photosynthesis and why does it matter?)\nOpen Photosynthesis: making food using light (What is photosynthesis and why does it matter?)\nOpen Move the light slider and watch both bars. Set the glucose p… (What is photosynthesis and why does it matter?)\nFinished cards collect here. Tap one to look back at it.\n\nFinished cards collect here. Tap one to look back at it.\n\nGot it",
+      "console": [],
+      "network": [
+        {
+          "status": 404,
+          "url": "http://localhost:3000/brand/studysquare-mark.svg"
+        }
+      ]
+    },
+    {
+      "name": "03-gap-map",
+      "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-studylab/03-gap-map.png",
+      "bottom": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-studylab/03-gap-map-bottom.png",
+      "href": "http://localhost:3000/studylab/gap-map",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "marketing": false,
+      "session": {
+        "hasUser": true,
+        "role": "student",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "spinners": [],
+      "alerts": [],
+      "dialogs": [
+        {
+          "label": "tour-title",
+          "text": "THE WHOLE PICTURE 1 / 3 Your chapters as tiles Every chapter of your subjects is a tile, in book order. Tiles sticking up have gaps, and Kana points you to the lowest one. Skip the tour Next"
+        },
+        {
+          "label": "tour-title",
+          "text": "WHEN YOU GET STUCK 1 / 3 Ask for a lesson, not an answer Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you. Skip the tour Next"
+        }
+      ],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 8px; } p { margin-top: 0; margin-bottom: 16px; } abbr[title], abbr[data-original-title] { text-decoration: underline; -webkit-text-decoration: underline dotted; text-decoration: underline dotted; cursor: help; border-bottom: 0; -webkit-text-decoration-sk",
+      "overflowX": 0,
+      "offenders": [],
+      "canvases": [
+        {
+          "tag": "DIV",
+          "cls": "min-h-0 flex-1 px-4 py-4 sm:px-7 sm:py-5",
+          "left": 296,
+          "top": 110,
+          "right": 1377,
+          "bottom": 2182,
+          "w": 1081,
+          "h": 2072,
+          "overflow": "visible",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "sh": 2072,
+          "sw": 1081,
+          "ch": 2072,
+          "cw": 1081
+        },
+        {
+          "tag": "DIV",
+          "cls": "ss-rack",
+          "left": 324,
+          "top": 136,
+          "right": 1349,
+          "bottom": 2148,
+          "w": 1025,
+          "h": 2012,
+          "overflow": "visible",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "sh": 2012,
+          "sw": 1025,
+          "ch": 2012,
+          "cw": 1025
+        }
+      ],
+      "nodes": [],
+      "rendererBox": null,
+      "buttons": [
+        "Skip to main content",
+        "StudySquare",
+        "Home",
+        "Practice",
+        "LearnSpace",
+        "Gap Maps",
+        "Progress",
+        "Classes",
+        "Settings",
+        "Toggle theme",
+        "Toggle theme",
+        "7",
+        "Sumba",
+        "Let's fix it",
+        "Open Economics, Cambridge A Level, 6 gaps",
+        "Close Economics, Cambridge A Level",
+        "2 gaps The fundamental economic problem",
+        "4 gaps What do economists mean by elasticity?",
+        "What is economics?",
+        "The factors of production",
+        "What are economic systems?",
+        "The production possibility curve",
+        "Excludability and rivalry",
+        "The price mechanism and markets",
+        "Price elasticity of supply",
+        "Market equilibrium and disequilibrium",
+        "The significance of consumer surplus",
+        "What is market failure?",
+        "The impact and incidence of specific indirect taxes",
+        "Income and wealth",
+        "National income statistics",
+        "The circular flow of income",
+        "Aggregate demand",
+        "Economic growth",
+        "Unemployment",
+        "What is price stability?",
+        "Price stability",
+        "Fiscal policy and the budget",
+        "What is monetary policy?",
+        "Supply-side policy objectives"
+      ],
+      "lessonControls": {
+        "next": false,
+        "cards": 0,
+        "shelf": false,
+        "loadFailed": false
+      },
+      "text": "Skip to main content\nStudySquare\nMENU\nHome\nPractice\nLearnSpace\nGap Maps\nProgress\nClasses\nSettings\nWelcome back,\nSumba\n7\nSumba\nGap Map\nTiles sticking up have gaps, and you have 195. Let's start with The fundamental economic problem, it's your lowest.\nLet's fix it\nEconomics\n\nCambridge A Level\n\n6 of 214 tried\n6 gaps\n2 gaps\nThe fundamental economic problem\n4 gaps\nWhat do economists mean by elasticity?\nWhat is economics?\nThe factors of production\nWhat are economic systems?\nThe production possibility curve\nExcludability and rivalry\nThe price mechanism and markets\nPrice elasticity of supply\nMarket equilibrium and disequilibrium\nThe significance of consumer surplus\nWhat is market failure?\nThe impact and incidence of specific indirect taxes\nIncome and wealth\nNational income statistics\nThe circular flow of income\nAggregate demand\nEconomic growth\nUnemployment\nWhat is price stability?\nPrice stability\nFiscal policy and the budget\nWhat is monetary policy?\nSupply-side policy objectives\nAbsolute and comparative advantage\nProtectionism\nWhat is a country’s balance of payments?\nThe exchange rate\nGovernment policy objective of stability of the current account\nUtility and diminishing marginal utility\nIndifference curves\nIntroduction to efficiency\nExternalities\nIntroduction to production\nMarket structures and their characteristics\nScience\n\nCambridge Lower Secondary 9\n\n15 of 23 tried\n15 gaps\n4 gaps\n1 Photosynthesis and the carbon cycle\n3 gaps\n2 Properties of materials\n5 gaps\n3 Forces and energy\n3 gaps\n5 Reactivity\n4 Maintaining life\nScience\n\nCambridge Lower Secondary 8\n\n14 of 40 tried\n14 gaps\n1 gap\n1 Respiration\n6 gaps\n3 Forces and energy\n2 gaps\n5 Materials and cycles on Earth\n2 gaps\n6 Light\nGap\n7 Diet and growth\n1 gap\n8 Chemical reactions\nGap\n9 Magnetism\n2 Properties of materials\n4 Ecosystems\nScience Skills\nGlossary and index\nChemistry\n\nS2\n\n18 of 76 tried\n12 gaps\n1 gap\nChemical Bonding\n2 gaps\nEffective Ways of Waste Management\n1 gap\nPreparation and Classification of Oxides\n4 gaps\nElectrolytes and Non-electrolytes\n3 gaps\nProperties of Organic Compounds and Uses of Alkanes\n1 gap\nPreparation of Salts and Identification of Ions\nTrends in Properties of Elements in the Periodic Table\nWater Pollution\nCategories of Chemical Reactions\nThe Mole Concept and Gas Laws\nPhysics\n\nCambridge AS & A Level\n\n13 of 225 tried\n11 gaps\n2 gaps\nKinematics – describing motion\n3 gaps\nAccelerated motion\n2 gaps\nKirchhoff's laws\n1 gap\nStationary waves\n1 gap\nCommunications systems\n2 gaps\nThermal physics\nDynamics – explaining motion\nForces – vectors and moments\nWork, energy and power\nMomentum\n–\nMatter and materials\nElectric fields\nElectric current, potential difference and resistance\nResistance and resistivity\nPractical circuits\nWaves\nSuperposition of waves\nRadioactivity\nP1: Practical skills at AS level\nCircular motion\nGravitational fields\nOscillations\nIdeal gases\nCoulomb's law\nCapacitance\nElectronics\nMagnetic fields and electromagnetism\nCharged particles\nElectromagnetic induction\nAlternating currents\nQuantum physics\nNuclear physics\nMedical imaging\nP2: Planning, analysis and evaluation\nGeography\n\nS2\n\n14 of 96 tried\n9 gaps\n1 gap\nInterpretation of Photographs and Video Images\n3 gaps\nAgricultural Systems in Rwanda\n1 gap\nFishing and Fish Farming in Rwanda\n3 gaps\nClimate and Climate Change in Rwanda\n1 gap\nMining and Quarrying in Rwanda\nMap Work Interpretation\nTypes of Photographs\nTectonic Processes\nExternal Landform Processes\nRelief in Rwanda\n✓\nWeathering and Rocks\n✓\nSoils in Rwanda\nVegetation in",
+      "console": [],
+      "network": []
+    },
+    {
+      "name": "04-demo",
+      "file": "c:/Users/hp/Desktop/update/AI_assessment/qa-artifacts/logged-in-studylab/04-demo.png",
+      "bottom": null,
+      "href": "http://localhost:3000/studylab/demo",
+      "title": "StudySquare — AI study & assessments | A Brain Ink product",
+      "marketing": false,
+      "session": {
+        "hasUser": true,
+        "role": "student",
+        "profileComplete": true,
+        "genderSet": true,
+        "subjectCount": 5
+      },
+      "spinners": [],
+      "alerts": [],
+      "dialogs": [],
+      "overlay": ":host { all: initial; /* the direction property is not reset by 'all' */ direction: ltr; } /*! * Bootstrap Reboot v4.4.1 (https://getbootstrap.com/) * Copyright 2011-2019 The Bootstrap Authors * Copyright 2011-2019 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */ *, *::before, *::after { box-sizing: border-box; } :host { font-family: sans-serif; line-height: 1.15; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); } article, aside, figcaption, figure, footer, header, hgroup, main, nav, section { display: block; } :host { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--color-font); text-align: left; } :host:not(button) { background-color: #fff; } [tabindex='-1']:focus:not(:focus-visible) { outline: 0 !important; } hr { box-sizing: content-box; height: 0; overflow: visible; } h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 8px; } p { margin-top: 0; margin-bottom: 16px; } abbr[title], abbr[data-original-title] { text-decoration: underline; -webkit-text-decoration: underline dotted; text-decoration: underline dotted; cursor: help; border-bottom: 0; -webkit-text-decoration-sk",
+      "overflowX": 0,
+      "offenders": [],
+      "canvases": [],
+      "nodes": [],
+      "rendererBox": null,
+      "buttons": [
+        "Back to StudyLab"
+      ],
+      "lessonControls": {
+        "next": false,
+        "cards": 0,
+        "shelf": false,
+        "loadFailed": false
+      },
+      "text": "Invalid LearnSpace id\n\nBack to StudyLab",
+      "console": [],
+      "network": [
+        {
+          "status": 400,
+          "url": "http://localhost:3000/api/studylab/demo"
+        },
+        {
+          "status": 400,
+          "url": "http://localhost:3000/api/studylab/demo"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "server": 200
+    },
+    {
+      "login": "ok",
+      "role": "student",
+      "profileComplete": true,
+      "genderSet": true
+    },
+    {
+      "stored": {
+        "hasUser": true,
+        "role": "student",
+        "profileComplete": true
+      }
+    },
+    {
+      "click": {
+        "ok": true,
+        "label": "Continue",
+        "kind": "next"
+      }
+    },
+    {
+      "lessonTab": "http://localhost:3000/studylab/cf39837f-54f2-435d-89fc-ac9b192b7fa0"
+    }
+  ]
+}
