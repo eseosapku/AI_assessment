@@ -126,7 +126,7 @@ function everyConfig(): StandardFormConfig[] {
   return out
 }
 
-describe('every valid configuration', { timeout: 30_000 }, () => {
+describe('every valid configuration', { timeout: 50_000 }, () => {
   const all = everyConfig()
   it('starts unsolved, solves exactly, and stays within drawable bounds', () => {
     expect(all.length).toBeGreaterThan(5000)

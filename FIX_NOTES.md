@@ -69,5 +69,5 @@ The baseline did not call production, submit forms, write a database, send email
 
 - TypeScript passed after all fixes.
 - The final issue cluster's 16 test files / 17 tests passed; earlier issue tests passed in their clusters.
-- The full Vitest run passed 8,411 tests. It retained only the two documented baseline source-control-byte failures after newly detected type-scale, palette, and fixture regressions were corrected.
+- Final sweep after the later file updates: all 533 Vitest files and all 8,416 tests passed with a 50,000 ms timeout. The standard-form group had its own explicit 30,000 ms override; that test-only limit was raised to 50,000 ms, and its focused 17/17 run passed before the full green run.
 - Production build passed: Next.js compiled, TypeScript completed, and 103 static pages were generated.
